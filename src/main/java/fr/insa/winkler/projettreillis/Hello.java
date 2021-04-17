@@ -14,5 +14,6 @@ public class Hello {
         System.out.println("Hello");
         int b=2;
         int c=2;
+        int d=1;
     }
 }
