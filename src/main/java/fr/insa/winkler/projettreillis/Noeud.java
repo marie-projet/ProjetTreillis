@@ -14,4 +14,12 @@ public class Noeud {
     private int type;
     private double abscisse;
     private double ordonnée;
+    
+    //definition du constructeur 
+    public Noeud (int identifiant, int type, double abs, double ord){
+        this.identifiant= identifiant;
+        this.type = type;
+        this.abscisse= abs;
+        this.ordonnée= ord;
+    }
 }
