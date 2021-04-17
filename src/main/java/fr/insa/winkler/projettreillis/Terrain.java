@@ -5,12 +5,12 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import java.awt.Point;
+
 /**
  *
  * @author mariewinkler
  */
-public class Salut {
-    public static void main (String args[]){
-        System.out.println("Salut");
-    }
+public class Terrain {
+    private Point[][] listeSommets;
 }

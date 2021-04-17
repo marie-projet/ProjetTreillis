@@ -9,9 +9,10 @@ package fr.insa.winkler.projettreillis;
  *
  * @author mariewinkler
  */
-public class Hello {
-    public static void main (String args[]){
-        System.out.println("Hello");
-        int b=2;
-    }
+public class Barre {
+    private int identifiant;
+    private Noeud noeudDebut;
+    private Noeud noeudfin;
+    private String section;
+    
 }
