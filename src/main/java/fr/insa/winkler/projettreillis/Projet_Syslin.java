@@ -25,7 +25,6 @@ public class Projet_Syslin {
         Matrice.test5(4, 4);
         Matrice.resolution();
         Matrice m=new Matrice(3,3);
-        int a=2;
 }
     
     
