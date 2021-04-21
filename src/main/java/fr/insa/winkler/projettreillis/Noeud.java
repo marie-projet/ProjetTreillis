@@ -22,4 +22,37 @@ public class Noeud {
         this.abscisse= abs;
         this.ordonnée= ord;
     }
+
+    public int getIdentifiant() {
+        return identifiant;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public double getAbscisse() {
+        return abscisse;
+    }
+
+    public double getOrdonnée() {
+        return ordonnée;
+    }
+
+    public void setIdentifiant(int identifiant) {
+        this.identifiant = identifiant;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setAbscisse(double abscisse) {
+        this.abscisse = abscisse;
+    }
+
+    public void setOrdonnée(double ordonnée) {
+        this.ordonnée = ordonnée;
+    }
+    
 }
