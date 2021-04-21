@@ -13,4 +13,17 @@ import java.awt.Point;
  */
 public class Terrain {
     private Point[][] listeSommets;
+    
+public Terrain (Point[] [] listeSommets){
+    this.listeSommets = listeSommets;
+}
+
+    public Point[][] getListeSommets() {
+        return listeSommets;
+    }
+
+    public void setListeSommets(Point[][] listeSommets) {
+        this.listeSommets = listeSommets;
+    }
+
 }
