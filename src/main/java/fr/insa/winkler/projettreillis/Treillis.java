@@ -14,12 +14,14 @@ public class Treillis {
     private Noeud[][] listeNoeuds;
     private Barre[][] listeBarres;
     private Terrain terrain;
+    private CatalogueBarres catalogue;
     
-public Treillis (int identifiant, Noeud [][] listeNoeuds, Barre [][] listeBarres, Terrain terrain){
+public Treillis (int identifiant, Noeud [][] listeNoeuds, Barre [][] listeBarres, Terrain terrain,CatalogueBarres catalogue){
     this.identifiant = identifiant;
     this.listeNoeuds = listeNoeuds;
     this.listeBarres = listeBarres;
     this.terrain = terrain; 
+    this.catalogue=catalogue;
 }
 
     public int getIdentifiant() {
@@ -38,6 +40,11 @@ public Treillis (int identifiant, Noeud [][] listeNoeuds, Barre [][] listeBarres
         return terrain;
     }
 
+    public CatalogueBarres getCatalogue() {
+        return catalogue;
+    }
+    
+
     public void setIdentifiant(int identifiant) {
         this.identifiant = identifiant;
     }
@@ -53,5 +60,10 @@ public Treillis (int identifiant, Noeud [][] listeNoeuds, Barre [][] listeBarres
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }
+
+    public void setCatalogue(CatalogueBarres catalogue) {
+        this.catalogue = catalogue;
+    }
+    
 
 }

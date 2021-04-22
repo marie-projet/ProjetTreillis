@@ -13,14 +13,14 @@ public class Barre {
     private int identifiant;
     private Noeud noeudDebut;
     private Noeud noeudFin;
-    private String section;
+    private TypeBarre type;
     
     //definition du constructeur 
-public Barre (int identifiant, Noeud noeudDeb, Noeud noeudFin, String section){
+public Barre (int identifiant, Noeud noeudDeb, Noeud noeudFin, TypeBarre type){
     this.identifiant = identifiant;
     this.noeudDebut = noeudDeb;
     this.noeudFin = noeudFin;
-    this.section = section; 
+    this.type=type;
 }
 
 public int getIdentifiant (){
@@ -43,12 +43,16 @@ public Noeud getNoeudFin() {
     public void setNoeudFin(Noeud noeudFin) {
         this.noeudFin = noeudFin;
     }
-    
- public String getSection() {
-        return section;
+
+    public TypeBarre getType() {
+        return type;
     }
 
-    public void setSection(String section) {
-        this.section = section;
+    public void setType(TypeBarre type) {
+        this.type = type;
     }
+    
+
+
+
 } 

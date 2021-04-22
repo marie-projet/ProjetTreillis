@@ -9,24 +9,20 @@ package fr.insa.winkler.projettreillis;
  *
  * @author mariewinkler
  */
-public abstract class Appui {
+public abstract class Appui extends Noeud{
     
-    private int identificateur;
+    
     private TriangleTerrain terrain;
     private int point1;
     private int point2;
     private double position;
     
     public Appui (int identificateur, TriangleTerrain terrain, int point1, int point2, double position) {
-        this.identificateur=identificateur;
+        super(identificateur);
         this.terrain= terrain;
         this.point1=point1;
         this.point2=point2;
         this.position=position;
-}
-
-    public int getIdentificateur() {
-        return identificateur;
     }
 
     public TriangleTerrain getTerrain() {
@@ -43,10 +39,6 @@ public abstract class Appui {
 
     public double getPosition() {
         return position;
-    }
-
-    public void setIdentificateur(int identificateur) {
-        this.identificateur = identificateur;
     }
 
     public void setTerrain(TriangleTerrain terrain) {

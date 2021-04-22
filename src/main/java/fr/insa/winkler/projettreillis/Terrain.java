@@ -6,6 +6,8 @@
 package fr.insa.winkler.projettreillis;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,12 +18,14 @@ public class Terrain {
     private double xmax;
     private double ymin; 
     private double ymax;
+    private List<TriangleTerrain> triangles;
     
 public Terrain (double xmin, double xmax, double ymin, double ymax){
     this.xmin = xmin;
     this.xmax = xmax;
     this.ymin = ymin;
     this.ymax = ymax;
+    this.triangles= new ArrayList();
 }
 
     public int getXmin() {
