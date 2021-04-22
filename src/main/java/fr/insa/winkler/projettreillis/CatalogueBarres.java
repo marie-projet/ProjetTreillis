@@ -5,32 +5,35 @@
  */
 package fr.insa.winkler.projettreillis;
 import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author elodieherrmann
  */
 public class CatalogueBarres {
-    private List<TypeBarre> contient;
+    private List<TypeBarre> liste;
     
-public CatalogueBarre(){
-    this.contient = new ArrayList<TypeBarre>();
+public CatalogueBarres(){
+    this.liste = new ArrayList<TypeBarre>();
 }
+
 public void add(TypeBarre TB){
-    if(TB.getCatalogueBarres() != this){
-    if (TB.getCatalogueBarres() != null){
+    if(this.liste.contains(TB)==true){
     throw new Error ("Ce type de barre existe déjà");
 }
-    this.contient.add(TB);
-    TB.setCatalogueBarres(this);
+    this.liste.add(TB);
 }
-}
+
 public void remove(TypeBarre TB){
-    if(TB.getCatalogueBarre() != this){
+    if(this.liste.contains(TB)==false){
         throw new Error ("Ce type de barre n'est pas dans le catalogue");
     }
-public void removeAll (List<TypeBarre> lTB){
-    for (TypeBarre TB : lTB){
-    this.remove(TB);
+    this.liste.remove(TB);
 }
+
+public void removeAll (){
+    for (int i=0; i<this.liste.size(); i++){
+        this.liste.remove(liste.get(i));
+    }
 }
 }
