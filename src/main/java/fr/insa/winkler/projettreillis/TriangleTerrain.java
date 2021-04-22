@@ -11,12 +11,12 @@ package fr.insa.winkler.projettreillis;
  */
 public class TriangleTerrain {
     private int identificateur;
-    private point PT1;
-    private point PT2;
-    private point PT3;
-    private point P;
+    private Point PT1;
+    private Point PT2;
+    private Point PT3;
+    private Point P;
     
-public TriangleTerrain (int identificateur, point PT1, point PT2, point PT3, point P){
+public TriangleTerrain (int identificateur, Point PT1, Point PT2, Point PT3, Point P){
     this.identificateur = identificateur; 
     this.PT1 = PT1;
     this.PT2 = PT2;
@@ -28,19 +28,19 @@ public TriangleTerrain (int identificateur, point PT1, point PT2, point PT3, poi
         return identificateur;
     }
 
-    public point getPT1() {
+    public Point getPT1() {
         return PT1;
     }
 
-    public point getPT2() {
+    public Point getPT2() {
         return PT2;
     }
 
-    public point getPT3() {
+    public Point getPT3() {
         return PT3;
     }
 
-    public point getP() {
+    public Point getP() {
         return P;
     }
 
@@ -48,19 +48,19 @@ public TriangleTerrain (int identificateur, point PT1, point PT2, point PT3, poi
         this.identificateur = identificateur;
     }
 
-    public void setPT1(point PT1) {
+    public void setPT1(Point PT1) {
         this.PT1 = PT1;
     }
 
-    public void setPT2(point PT2) {
+    public void setPT2(Point PT2) {
         this.PT2 = PT2;
     }
 
-    public void setPT3(point PT3) {
+    public void setPT3(Point PT3) {
         this.PT3 = PT3;
     }
 
-    public void setP(point P) {
+    public void setP(Point P) {
         this.P = P;
     }
 }
