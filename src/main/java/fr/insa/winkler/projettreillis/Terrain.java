@@ -28,35 +28,35 @@ public Terrain (double xmin, double xmax, double ymin, double ymax){
     this.triangles= new ArrayList();
 }
 
-    public int getXmin() {
+    public double getXmin() {
         return xmin;
     }
 
-    public int getXmax() {
+    public double getXmax() {
         return xmax;
     }
 
-    public int getYmin() {
+    public double getYmin() {
         return ymin;
     }
 
-    public int getYmax() {
+    public double getYmax() {
         return ymax;
     }
 
-    public void setXmin(int xmin) {
+    public void setXmin(double xmin) {
         this.xmin = xmin;
     }
 
-    public void setXmax(int xmax) {
+    public void setXmax(double xmax) {
         this.xmax = xmax;
     }
 
-    public void setYmin(int ymin) {
+    public void setYmin(double ymin) {
         this.ymin = ymin;
     }
 
-    public void setYmax(int ymax) {
+    public void setYmax(double ymax) {
         this.ymax = ymax;
     }
 
