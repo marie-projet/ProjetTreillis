@@ -12,23 +12,49 @@ import java.awt.Point;
  * @author mariewinkler
  */
 public class Terrain {
-    private Point[][] listeSommets;
+    private double xmin;
+    private double xmax;
+    private double ymin; 
+    private double ymax;
     
-public Terrain (Point[] [] listeSommets){
-    this.listeSommets = listeSommets;
+public Terrain (double xmin, double xmax, double ymin, double ymax){
+    this.xmin = xmin;
+    this.xmax = xmax;
+    this.ymin = ymin;
+    this.ymax = ymax;
 }
 
-    public Point[][] getListeSommets() {
-        return listeSommets;
+    public int getXmin() {
+        return xmin;
     }
 
-    public void setListeSommets(Point[][] listeSommets) {
-        this.listeSommets = listeSommets;
+    public int getXmax() {
+        return xmax;
     }
 
-    @Override
-    public String toString() {
-        return "Terrain{" + "listeSommets=" + listeSommets + '}';
+    public int getYmin() {
+        return ymin;
     }
 
+    public int getYmax() {
+        return ymax;
+    }
+
+    public void setXmin(int xmin) {
+        this.xmin = xmin;
+    }
+
+    public void setXmax(int xmax) {
+        this.xmax = xmax;
+    }
+
+    public void setYmin(int ymin) {
+        this.ymin = ymin;
+    }
+
+    public void setYmax(int ymax) {
+        this.ymax = ymax;
+    }
+
+   
 }
