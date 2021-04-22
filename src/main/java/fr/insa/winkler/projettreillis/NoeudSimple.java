@@ -5,6 +5,8 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import java.awt.Point;
+
 /**
  *
  * @author mariewinkler
