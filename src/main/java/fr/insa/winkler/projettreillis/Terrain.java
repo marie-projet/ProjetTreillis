@@ -26,4 +26,9 @@ public Terrain (Point[] [] listeSommets){
         this.listeSommets = listeSommets;
     }
 
+    @Override
+    public String toString() {
+        return "Terrain{" + "listeSommets=" + listeSommets + '}';
+    }
+
 }
