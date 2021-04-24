@@ -13,13 +13,13 @@ import java.awt.event.* ;
  */
  
 // Profil Fenetre 1 *****************
-class Fenetre1 extends JFrame implements ActionListener
-{ public Fenetre1 ()
-  { setTitle ("Fenetre1") ;
+class CreationTreillis extends JFrame implements ActionListener
+{ public CreationTreillis ()
+  { setTitle ("Creation Treillis") ;
     setSize (300, 200) ;
     monBouton0 = new JButton ("Annuler") ;
-    monBouton1 = new JButton ("Fenetre1") ;
-    monBouton2 = new JButton ("Fenetre2") ;
+    monBouton1 = new JButton ("Barre") ;
+    monBouton2 = new JButton ("Noeud") ;
     Container contenu = getContentPane() ; // Pointeur de la fenêtre courante
     contenu.setLayout(new FlowLayout()) ; // Gestionnaire de mise en forme
     contenu.add(monBouton0);
@@ -34,13 +34,13 @@ class Fenetre1 extends JFrame implements ActionListener
   { if (ev.getSource() == monBouton1)
 	  {
       System.out.println ("action sur bouton numero 1") ;
-	  Fenetre1 fen1 = new Fenetre1() ;
+	  CreationBarre fen1 = new CreationBarre() ;
       fen1.setVisible(true) ;
 	  }
     if (ev.getSource() == monBouton2)
 			  {
        System.out.println ("action sur bouton numero 2") ;
-	  Fenetre2 fen2 = new Fenetre2() ;
+	  CreationNoeud fen2 = new CreationNoeud() ;
       fen2.setVisible(true) ;
 	  }
     if (ev.getSource()== monBouton0){
@@ -54,13 +54,13 @@ class Fenetre1 extends JFrame implements ActionListener
 //  Fin Profil Fenetre1
 
 // Profil Fenetre 2 *****************
-class Fenetre2 extends JFrame implements ActionListener
-{ public Fenetre2 ()
-  { setTitle ("Fenetre2") ;
+class CreationNoeud extends JFrame implements ActionListener
+{ public CreationNoeud ()
+  { setTitle ("Création noeud") ;
     setSize (600, 300) ;
 	setLocation (350, 0) ;
-    monBouton1 = new JButton ("Bouton A") ;
-    monBouton2 = new JButton ("Bouton B") ;
+    monBouton1 = new JButton ("Noeud simple") ;
+    monBouton2 = new JButton ("Noeud appui") ;
     Container contenu = getContentPane() ;
     contenu.setLayout(new FlowLayout()) ;
     contenu.add(monBouton1) ;
@@ -79,11 +79,28 @@ class Fenetre2 extends JFrame implements ActionListener
 }
 //  Fin Profil Fenetre2
 
-
-public class Boutons{
- public static void main (String args[]){ 
-      Fenetre1 fen = new Fenetre1() ;
-    fen.setVisible(true) ;
+class CreationBarre extends JFrame implements ActionListener
+{ public CreationBarre ()
+  { setTitle ("Création Barre") ;
+    setSize (600, 300) ;
+	setLocation (350, 0) ;
+    monBouton3 = new JButton ("type de Barre") ;
+    Container contenu = getContentPane() ;
+    contenu.setLayout(new FlowLayout()) ;
+    contenu.add(monBouton3) ;
+    monBouton3.addActionListener(this);
   }
+  
+  public void actionPerformed (ActionEvent ev)
+  { if (ev.getSource() == monBouton3)
+      System.out.println ("action sur bouton C") ;
+  }
+  private JButton monBouton3 ;
+}
 
+public class Boutons {
+ public static void main (String args[]){ 
+      CreationTreillis fen = new CreationTreillis() ;
+    fen.setVisible(true) ;
+ }
 }
