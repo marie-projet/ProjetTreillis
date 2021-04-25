@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class MainPane extends BorderPane{
     
+    // définir le squelette de l'interface
 
        
 }
