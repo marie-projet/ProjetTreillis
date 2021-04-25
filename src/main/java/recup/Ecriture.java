@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.insa.winkler.projettreillis;
+package recup;
 
 /**
  *
  * @author mariewinkler
  */
 
+import fr.insa.winkler.projettreillis.*;
 import java.io.*;
 
 public class Ecriture {

@@ -13,6 +13,7 @@ package fr.insa.winkler.projettreillis;
 
 import java.text.DecimalFormat;
 import Jama.*;
+import recup.Lire;
 public class Matrice {
     //----------------partie1.1
 

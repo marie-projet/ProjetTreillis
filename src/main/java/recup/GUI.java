@@ -1,4 +1,4 @@
-package fr.insa.winkler.projettreillis;
+package recup;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,6 +10,7 @@ package fr.insa.winkler.projettreillis;
  *
  * @author mariewinkler
  */
+import fr.insa.winkler.projettreillis.*;
 import javax.swing.*;
 public class GUI {
 
