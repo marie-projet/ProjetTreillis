@@ -211,13 +211,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
                     forces[i][0]=Lire.d();
                     System.out.println("Quelle force Py s'exerce sur le noeud "+ i+" ?");
                     forces[i][1]=Lire.d();
-                    for(int n=0; n<this.getListeNoeuds().size(); n++){
-                        if(i!=n){
-                            alpha[i][n]=getAngle(this.listeNoeuds.get(i).getPos(),(this.listeNoeuds.get(n).getPos()));
-                        }
-                    }
-                    
-                 if(this.listeNoeuds.get(i) instanceof AppuiSimple){
+                    if(this.listeNoeuds.get(i) instanceof AppuiSimple){
                      AppuiSimple ap= (AppuiSimple) this.listeNoeuds.get(i);
                      int debut=ap.getPoint1();
                      int fin= ap.getPoint2();
@@ -231,20 +225,46 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
                         beta[i][1]=getAngle(ap.getTerrain().getPT3(),ap.getTerrain().getPT1())+Math.PI/2;
                      }
                  }
-                   
-                        
-                    
-                }
-            
             }
-    
-
-            
+                    for(int n=0; n<this.getListeBarres().size(); n++){
+                        Barre barre=this.getListeBarres().get(n);
+                        Noeud debut = barre.getNoeudDebut();
+                        Noeud fin = barre.getNoeudFin();
+                        alpha[n][1]=getAngle(debut.getPos(),fin.getPos());
+                        alpha[n][2]=getAngle(fin.getPos(),debut.getPos());
+                    }
+                }
+          
 public static double getAngle(Point a, Point c) {
-		double x=a.getX()-c.getX();
-                double y=a.getY()-c.getY();
-                return Math.atan2(x,y);
-	}
+    
+double x;
+double y;
+double angle=0;
+    if(a.getX()>c.getX()){
+	 x=a.getX()-c.getX();
+        if (a.getY()>c.getY()){
+            y=a.getY()-c.getY();
+            angle= -1*(Math.PI-Math.atan2(y, x));
+        }
+        if (c.getY()>=a.getY()){
+            y=c.getY()-a.getY();
+            angle= Math.PI-Math.atan2(y, x);
+        }
+    }
+    if(c.getX()>=a.getY()){
+	 x=c.getX()-a.getX();
+        if (c.getY()>=a.getY()){
+            y=c.getY()-a.getY();
+            angle= Math.atan2(y, x);
+        }
+        if (a.getY()>c.getY()){
+            y=a.getY()-c.getY();
+            angle= -1*Math.atan2(y, x);
+        }
+    }
+    return angle;
+}
+               
 
     }
    
