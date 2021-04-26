@@ -5,12 +5,19 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import java.awt.Point;
+
 /**
  *
  * @author mariewinkler
  */
 public abstract class Noeud {
     private int identifiant;
+    private Point pos;
+
+    public Point getPos() {
+        return pos;
+    }
   
     
     //definition du constructeur 

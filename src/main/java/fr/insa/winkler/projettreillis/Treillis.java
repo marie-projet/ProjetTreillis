@@ -5,10 +5,12 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import recup.Lire;
 
 /**
  *
@@ -62,7 +64,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         this.catalogue = catalogue;
     }
     
-    /**
+
     public void ajouterNoeud(Figure f) {
         if (f.getGroupe() != this) {
             if (f.getGroupe() != null) {
@@ -181,9 +183,71 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         }
     }
 
-    public void calculForces{
+
+    public void calculForces(){
+        int ns=this.getListeNoeuds().size();
+        int nb=this.getListeBarres().size();
+        int nas=0;
+        int nap=0;
+        for(int i=0; i<this.listeNoeuds.size(); i++){
+            if(this.listeNoeuds.get(i) instanceof AppuiSimple){
+                nas=nas+1;
+            }
+        }
+          for(int i=0; i<this.listeNoeuds.size(); i++){
+              if(this.listeNoeuds.get(i) instanceof AppuiDouble){
+                  nap=nap+1;
+              }
+          }
+          if(2*ns!=nb+nas+nap){
+              throw new Error("les nombres de colonnes des deux matrices sont différents");
+          }
+              double[][] forces = new double[ns][2];
+              double[][] alpha=  new double[ns][ns];
+              double[][] beta=  new double[ns][1];
+              
+            for (int i=0; i<this.listeNoeuds.size(); i++){
+                    System.out.println("Quelle force Px s'exerce sur le noeud "+ i+" ?");
+                    forces[i][0]=Lire.d();
+                    System.out.println("Quelle force Py s'exerce sur le noeud "+ i+" ?");
+                    forces[i][1]=Lire.d();
+                    for(int n=0; n<this.getListeNoeuds().size(); n++){
+                        if(i!=n){
+                            alpha[i][n]=getAngle(this.listeNoeuds.get(i).getPos(),(this.listeNoeuds.get(n).getPos()));
+                        }
+                    }
+                    
+                 if(this.listeNoeuds.get(i) instanceof AppuiSimple){
+                     AppuiSimple ap= (AppuiSimple) this.listeNoeuds.get(i);
+                     int debut=ap.getPoint1();
+                     int fin= ap.getPoint2();
+                     if((debut==1) && (fin==2)){
+                        beta[i][1]=getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT2())+Math.PI/2;
+                     }
+                     if((debut==2) && (fin==3)){
+                        beta[i][1]=getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT3())+Math.PI/2;
+                     }
+                     if((debut==3) && (fin==1)){
+                        beta[i][1]=getAngle(ap.getTerrain().getPT3(),ap.getTerrain().getPT1())+Math.PI/2;
+                     }
+                 }
+                   
+                        
+                    
+                }
+            
+            }
+    
+
+            
+public static double getAngle(Point a, Point c) {
+		double x=a.getX()-c.getX();
+                double y=a.getY()-c.getY();
+                return Math.atan2(x,y);
+	}
+
     }
+   
+
  
- * /
- 
-}
+
