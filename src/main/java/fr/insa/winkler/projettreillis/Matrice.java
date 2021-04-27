@@ -656,25 +656,8 @@ public static void resolution(){
         System.out.println(m.subCols(m.getNbrCol()-1,m.getNbrCol()-1).toString());
     }
 }
-public static void resolution2(int inc, double[][]alpha, double [][] beta ){
-    Matrice m= new Matrice (inc, inc+1);
-    for(int i=0; i<m.getNbrLig(); i++){
-        for(int j=0; j<m.getNbrCol(); j++){
-            
-        }
-    }
-    if(m.subCols(0,m.getNbrCol()-2).determinant()==0){
-        System.out.println("Le système a 0 ou une infinité de solutions");
-    }
-    else{
-        m.descenteGauss();
-        m.remontéeGauss().unitaire();
-        System.out.println("Les solutions sont:");
-        System.out.println(m.subCols(m.getNbrCol()-1,m.getNbrCol()-1).toString());
-    }
-}
-}
 
+}
 
 
 
