@@ -88,10 +88,9 @@ public MainPane(){
        mbNoeud.getItems().addAll(menuItemTB, menuItemEN);
        
       VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer);
-        this.setLeft(vbDroite);
+        this.setRight(vbDroite);
       VBox vbGauche = new VBox();
         this.setLeft(vbGauche);
-        
   
 }
 

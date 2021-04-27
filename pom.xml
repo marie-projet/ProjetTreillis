@@ -21,7 +21,6 @@
             <artifactId>javafx-controls</artifactId>
             <version>15.0.1</version>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
@@ -38,7 +37,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.5</version>
                 <configuration>
-                    <mainClass>fr.insa.winkler.projettreillis.Main</mainClass>
+                    <mainClass>fr.insa.winkler.projettreillis.gui.Main</mainClass>
                 </configuration>
                 <executions>
                     <execution>
