@@ -200,7 +200,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
               }
           }
           if(2*ns!=nb+nas+nap){
-              throw new Error("les nombres de colonnes des deux matrices sont différents");
+              throw new Error("le treillis n'est pas isostatique");
           }
               double[][] forces = new double[ns][2];
               double[][] alpha=  new double[ns][ns];
@@ -226,6 +226,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
                      }
                  }
             }
+            
                     for(int n=0; n<this.getListeBarres().size(); n++){
                         Barre barre=this.getListeBarres().get(n);
                         Noeud debut = barre.getNoeudDebut();
@@ -233,10 +234,51 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
                         alpha[n][1]=getAngle(debut.getPos(),fin.getPos());
                         alpha[n][2]=getAngle(fin.getPos(),debut.getPos());
                     }
-                }
-          
-public static double getAngle(Point a, Point c) {
+                
+    Matrice m= new Matrice (ns, ns+1);
+    for(int i=0; i<m.getNbrLig(); i++){
+        for(int j=0; j<m.getNbrCol(); j++){
+            
+        }
+    }
+    for(int i=0; i<this.getListeNoeuds().size(); i++){
+        System.out.println("Quelle force Px s'exerce sur le noeud "+ i+" ?");
+                m.setCoeffs(i*2-1,ns+1,Lire.d());
+                System.out.println("Quelle force Py s'exerce sur le noeud "+ i+" ?");
+                m.setCoeffs(i*2,ns+1,Lire.d());
+        for(int n=0; n<this.getListeBarres().size(); n++){
+        if((this.getListeNoeuds().get(i)==this.getListeBarres().get(n).getNoeudDebut())){
+            m.setCoeffs(i*2-1, n, Math.cos(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(n).getNoeudFin().getPos())));
+            m.setCoeffs(i*2, n, Math.sin(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(n).getNoeudFin().getPos())));
+        }
+           if( this.getListeNoeuds().get(i)==this.getListeBarres().get(n).getNoeudFin()){
+               m.setCoeffs(i*2-1, n, Math.cos(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(n).getNoeudDebut().getPos())));
+            m.setCoeffs(i*2, n, Math.sin(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(n).getNoeudDebut().getPos())));
+        }
+           }
+        int n=this.getListeBarres().size();
+        while n<m.getNbrCol()+1{
+            if(this.getListeNoeuds().get(i) instanceof AppuiSimple){
+                m.setCoeffs(i*2-1, n, nap);
+                n=n+1
+            }
+            
+        }
+        }
     
+    if(m.subCols(0,m.getNbrCol()-2).determinant()==0){
+        System.out.println("Le système a 0 ou une infinité de solutions");
+    }
+    else{
+        m.descenteGauss();
+        m.remontéeGauss().unitaire();
+        System.out.println("Les solutions sont:");
+        System.out.println(m.subCols(m.getNbrCol()-1,m.getNbrCol()-1).toString());
+    }
+}
+
+   
+public static double getAngle(Point a, Point c) {  
 double x;
 double y;
 double angle=0;
