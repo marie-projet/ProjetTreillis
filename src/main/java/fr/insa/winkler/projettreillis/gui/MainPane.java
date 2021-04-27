@@ -5,8 +5,14 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import java.io.File;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.MenuButton;
 import javafx.scene.layout.BorderPane;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.VBox;
 /**
  *
  * @author mariewinkler
@@ -14,6 +20,79 @@ import javafx.scene.layout.BorderPane;
 public class MainPane extends BorderPane{
     
     // définir le squelette de l'interface
+private Button bCalcul;
+private Button bEnregistrer;    
 
+private MenuButton mbTerrain;
+private MenuButton mbNoeud;
+private MenuButton mbBarre;
+private MenuButton mbCatalogueBarre; 
+      
+private DessinCanvas cDessin; 
+
+public MainPane(){
+    this.bCalcul= new Button("Calculer");
+    this.bCalcul.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent t) {
+            //indiquer dans la console que le bouton a été cliqué 
+           System.out.println("bouton Calculer cliqué");
+        }
+    }); 
+    this.bEnregistrer = new Button ("Enrigistrer");
+    this.bEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent t) {
+            //indiquer dans la console que le bouton a été cliqué 
+           System.out.println("bouton Enregistrer cliqué");
+        }
+    }); 
+    this.mbTerrain= new MenuButton("Terrain");
+    this.mbTerrain.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent t) {
+            //indiquer dans la console que le bouton a été cliqué 
+           System.out.println("bouton terrain cliqué");
+        }
+    }); 
+    
+     
+    this.mbNoeud = new MenuButton ("Noeud");
+    this.mbNoeud.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent t) {
+            //indiquer dans la console que le bouton a été cliqué 
+           System.out.println("bouton Noeud cliqué");
+        }
+    }); 
+    this.mbBarre= new MenuButton ("Barre");
+    this.mbBarre.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent t) {
+            //indiquer dans la console que le bouton a été cliqué 
+           System.out.println("bouton Barre cliqué");
+        }
+    }); 
+    this.mbCatalogueBarre= new MenuButton ("Catalogue Barre");
+    this.mbCatalogueBarre.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent t) {
+            //indiquer dans la console que le bouton a été cliqué 
+           System.out.println("bouton Catalogue Barre cliqué");
+        }
+    }); 
+     // Creation de MenuItems
+       MenuItem menuItemTB = new MenuItem("Noeud simple");
+       MenuItem menuItemEN = new MenuItem("Noeuds appuis");
        
+       mbNoeud.getItems().addAll(menuItemTB, menuItemEN);
+       
+      VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer);
+        this.setLeft(vbDroite);
+      VBox vbGauche = new VBox();
+        this.setLeft(vbGauche);
+        
+  
+}
+
 }
