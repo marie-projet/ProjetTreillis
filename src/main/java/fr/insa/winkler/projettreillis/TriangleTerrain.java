@@ -13,17 +13,16 @@ import java.awt.Point;
  */
 public class TriangleTerrain {
     private int identificateur;
+    private Point PT0;
     private Point PT1;
     private Point PT2;
-    private Point PT3;
-    private Point P;
     
-public TriangleTerrain (int identificateur, Point PT1, Point PT2, Point PT3, Point P){
+public TriangleTerrain (int identificateur, Point PT0, Point PT1, Point PT2){
     this.identificateur = identificateur; 
-    this.PT1 = PT1;
-    this.PT2 = PT2;
-    this.PT3 = PT3;
-    this.P = P;
+    this.PT0 = PT1;
+    this.PT1 = PT2;
+    this.PT2 = PT3;
+
 }
 
     public int getIdentificateur() {
@@ -38,12 +37,8 @@ public TriangleTerrain (int identificateur, Point PT1, Point PT2, Point PT3, Poi
         return PT2;
     }
 
-    public Point getPT3() {
-        return PT3;
-    }
-
-    public Point getP() {
-        return P;
+    public Point getPT0() {
+        return PT0;
     }
 
     public void setIdentificateur(int identificateur) {
@@ -58,11 +53,7 @@ public TriangleTerrain (int identificateur, Point PT1, Point PT2, Point PT3, Poi
         this.PT2 = PT2;
     }
 
-    public void setPT3(Point PT3) {
-        this.PT3 = PT3;
-    }
-
-    public void setP(Point P) {
-        this.P = P;
+    public void setPT0(Point PT3) {
+        this.PT0 = PT3;
     }
 }
