@@ -19,9 +19,9 @@ public class TriangleTerrain {
     
 public TriangleTerrain (int identificateur, Point PT0, Point PT1, Point PT2){
     this.identificateur = identificateur; 
-    this.PT0 = PT1;
-    this.PT1 = PT2;
-    this.PT2 = PT3;
+    this.PT0 = PT0;
+    this.PT1 = PT1;
+    this.PT2 = PT2;
 
 }
 

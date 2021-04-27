@@ -15,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 public class Controleur {
     
     private MainPane vue;
-
     private int etat;
     
     /*
