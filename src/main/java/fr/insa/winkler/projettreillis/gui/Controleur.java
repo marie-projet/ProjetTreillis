@@ -17,6 +17,11 @@ public class Controleur {
     private MainPane vue;
     private int etat;
     
+    public Controleur (MainPane vue){
+        this.vue=vue;
+    }
+
+   
 }
 
 

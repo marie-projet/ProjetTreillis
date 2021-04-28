@@ -5,6 +5,7 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import fr.insa.winkler.projettreillis.Treillis;
 import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +13,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 /**
  *
@@ -20,6 +22,11 @@ import javafx.scene.layout.VBox;
 public class MainPane extends BorderPane{
     
     // définir le squelette de l'interface
+    private Treillis model;
+    private Controleur controleur; 
+
+    
+    
 private Button bCalcul;
 private Button bEnregistrer;    
 
@@ -30,7 +37,9 @@ private MenuButton mbCatalogueBarre;
       
 private DessinCanvas cDessin; 
 
-public MainPane(){
+public MainPane(Treillis model){
+    this.model=model;
+    this.controleur= new Controleur(this);
     this.bCalcul= new Button("Calculer");
     this.bCalcul.setOnAction(new EventHandler<ActionEvent>() {
         @Override
@@ -91,7 +100,18 @@ public MainPane(){
         this.setRight(vbDroite);
       VBox vbGauche = new VBox();
         this.setLeft(vbGauche);
-  
+  HBox boutons = new HBox(this.mbTerrain,this.mbNoeud, this.mbBarre, this.mbCatalogueBarre);
+      this.cDessin=new DessinCanvas (this);
+       this.setCenter(this.cDessin);
 }
 
+  
+public Treillis getModel() {
+        return model;
+    }
+
+    public Controleur getControleur() {
+        return controleur;
+    }
+    
 }
