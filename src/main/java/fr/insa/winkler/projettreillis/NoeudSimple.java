@@ -5,8 +5,6 @@
  */
 package fr.insa.winkler.projettreillis;
 
-import java.awt.Point;
-
 /**
  *
  * @author mariewinkler
@@ -19,13 +17,11 @@ public class NoeudSimple extends Noeud{
         this.position=pos;
     }
 
-    public Point getPosition() {
+    public Point getPos() {
         return position;
     }
 
     public void setPosition(Point position) {
         this.position = position;
     }
-    
-    
 }

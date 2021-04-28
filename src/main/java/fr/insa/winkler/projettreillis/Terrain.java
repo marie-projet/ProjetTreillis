@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package fr.insa.winkler.projettreillis;
-
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +18,20 @@ public class Terrain {
     private double ymax;
     private List<TriangleTerrain> triangles;
     
+    public Terrain(){
+        this.xmin=-100;
+        this.xmax=100;
+        this.ymin=-100;
+        this.ymax=100;
+        this.triangles= new ArrayList<TriangleTerrain>();
+    }
+    
 public Terrain (double xmin, double xmax, double ymin, double ymax){
     this.xmin = xmin;
     this.xmax = xmax;
     this.ymin = ymin;
     this.ymax = ymax;
-    this.triangles= new ArrayList();
+    this.triangles= new ArrayList<TriangleTerrain>();
 }
 
     public double getXmin() {
@@ -58,6 +64,14 @@ public Terrain (double xmin, double xmax, double ymin, double ymax){
 
     public void setYmax(double ymax) {
         this.ymax = ymax;
+    }
+
+    public List<TriangleTerrain> getTriangles() {
+        return triangles;
+    }
+
+    public void setTriangles(List<TriangleTerrain> triangles) {
+        this.triangles = triangles;
     }
 
    

@@ -22,6 +22,12 @@ public Barre (int identifiant, Noeud noeudDeb, Noeud noeudFin, TypeBarre type){
     this.noeudFin = noeudFin;
     this.type=type;
 }
+public Barre(Noeud noeudDeb, Noeud noeudFin){
+    this.identifiant=1;
+    this.type=new TypeBarre();
+    this.noeudDebut = noeudDeb;
+    this.noeudFin = noeudFin;
+}
 
 public int getIdentifiant (){
     return identifiant;

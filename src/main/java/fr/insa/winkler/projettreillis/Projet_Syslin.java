@@ -1,9 +1,6 @@
 package fr.insa.winkler.projettreillis;
 
 
-
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,7 +21,7 @@ public class Projet_Syslin {
         Matrice.test4();
         Matrice.test5(4, 4);
         Matrice.resolution();
-        Matrice m=new Matrice(3,3);
+
 }
     
     

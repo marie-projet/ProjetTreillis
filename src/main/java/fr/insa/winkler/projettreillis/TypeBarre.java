@@ -9,7 +9,7 @@ package fr.insa.winkler.projettreillis;
  *
  * @author elodieherrmann
  */
-public abstract class TypeBarre {
+public  class TypeBarre {
   private double coutAuMetre;
   private double longueurMin;
   private double longueurMax;
@@ -22,6 +22,13 @@ public abstract class TypeBarre {
       this.longueurMax = longueurMax;
       this.resistanceMaxTraction = resistanceMaxTraction;
       this.resistanceMaxCompression = resistanceMaxCompression;
+  }
+  public TypeBarre(){
+       this.coutAuMetre = 10;
+      this.longueurMin = 1;
+      this.longueurMax = 100;
+      this.resistanceMaxTraction = 100;
+      this.resistanceMaxCompression = 100;
   }
 
     public double getCoutAuMetre() {
