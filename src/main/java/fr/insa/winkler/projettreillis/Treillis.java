@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package fr.insa.winkler.projettreillis;
-
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,6 +21,14 @@ public class Treillis {
     private Terrain terrain;
     private CatalogueBarres catalogue;
     
+public Treillis(){
+    this.identifiant=1;
+    this.listeNoeuds = new ArrayList<Noeud>();
+    this.listeBarres = new ArrayList<Barre>();
+    this.terrain = new Terrain(); 
+    this.catalogue=new CatalogueBarres();
+}    
+
 public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
     this.identifiant = identifiant;
     this.listeNoeuds = new ArrayList<Noeud>();
@@ -64,7 +70,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         this.catalogue = catalogue;
     }
     
-
+/*
     public void ajouterNoeud(Figure f) {
         if (f.getGroupe() != this) {
             if (f.getGroupe() != null) {
@@ -106,10 +112,33 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         List<Barre> toRemove2 = new ArrayList<>(this.listeBarres);
         this.removeAll(toRemove2);
     }
-    
+    */
     public static Treillis treillisTest() {
+        Treillis test=new Treillis();
+        Point p0= new Point(0,-3);
+        Point p1=new Point(0,1);
+        Point p2=new Point(-1,-1);
+        TriangleTerrain t1= new TriangleTerrain(1,p0,p1,p2);
+        Point p4=new Point(0,0);
+        Point p5= new Point(0,-2);
+        Point p6= new Point(1,-1);
+        AppuiDouble ap2=new AppuiDouble(1,t1,0,1,0.75);
+        AppuiSimple ap=new AppuiSimple(2,t1,0,1,0.25);
+        NoeudSimple n=new NoeudSimple(3,p6);
+        test.getTerrain().getTriangles().add(t1);
+        test.getListeNoeuds().add(ap2);
+        test.getListeNoeuds().add(ap);
+        test.getListeNoeuds().add(n);
+        Barre b1= new Barre(ap2,n);
+        Barre b2=new Barre(ap,n);
+        Barre b3=new Barre(ap2,ap);
+        test.getCatalogue().add(b1.getType());
+        test.getListeBarres().add(b1);
+        test.getListeBarres().add(b2);
+        test.getListeBarres().add(b3);
+        return test;
     }
-    
+    /*
     public void menuTexte() {
         
     }
@@ -183,7 +212,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         }
     }
 
-
+*/
     public void calculForces(){
         int ns=this.getListeNoeuds().size();
         int nb=this.getListeBarres().size();
@@ -199,71 +228,84 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
                   nap=nap+1;
             }
         }
-        if(2*ns!=nb+nas+nap){
+        if((2*ns)!=(nb+nas+2*nap)){
             throw new Error("le treillis n'est pas isostatique");
         }           
-        Matrice m= new Matrice (ns, ns+1);
+        Matrice m= new Matrice (2*ns, (2*ns)+1);
+        int n=nb;
+            while(n<m.getNbrCol()-2){
             for(int i=0; i<this.getListeNoeuds().size(); i++){
                 System.out.println("Quelle force Px s'exerce sur le noeud "+ i+" ?");
-                m.setCoeffs(i*2-1,ns+1,Lire.d());
+                m.setCoeffs(i*2,2*ns,Lire.d());
                 System.out.println("Quelle force Py s'exerce sur le noeud "+ i+" ?");
-                m.setCoeffs(i*2,ns+1,Lire.d());
-                for(int n=0; n<nb; n++){
-                    if((this.getListeNoeuds().get(i)==this.getListeBarres().get(n).getNoeudDebut())){
-                        m.setCoeffs(i*2-1, n, Math.cos(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(n).getNoeudFin().getPos())));
-                        m.setCoeffs(i*2, n, Math.sin(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(n).getNoeudFin().getPos())));
+                m.setCoeffs(i*2+1,2*ns,Lire.d());
+               // System.out.println(m);
+                for(int j=0; j<nb; j++){
+                    if((this.getListeNoeuds().get(i)==this.getListeBarres().get(j).getNoeudDebut())){
+                        m.setCoeffs(i*2, j, Math.cos(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudFin().getPos())));
+                        m.setCoeffs(i*2+1, j, Math.sin(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudFin().getPos())));
                     }
-                    if( this.getListeNoeuds().get(i)==this.getListeBarres().get(n).getNoeudFin()){
-                        m.setCoeffs(i*2-1, n, Math.cos(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(n).getNoeudDebut().getPos())));
-                        m.setCoeffs(i*2, n, Math.sin(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(n).getNoeudDebut().getPos())));
+                    if( this.getListeNoeuds().get(i)==this.getListeBarres().get(j).getNoeudFin()){
+                  //      System.out.println("debug 4");
+                        m.setCoeffs(i*2, j, Math.cos(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudDebut().getPos())));
+                        m.setCoeffs(i*2+1, j, Math.sin(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudDebut().getPos())));
                     }
                 }
-                int n=nb;
-                while (n<m.getNbrCol()+1){
+               // System.out.println("debug 1");
                     if(this.getListeNoeuds().get(i) instanceof AppuiSimple){
                         AppuiSimple ap= (AppuiSimple)this.getListeNoeuds().get(i);
                         int debut=ap.getPoint1();
                         int fin= ap.getPoint2();
-                            if((debut==1) && (fin==2)){
+                            if((debut==0) && (fin==1)){
                                 if(ap.getTerrain().getPT0().getY()>=ap.getTerrain().getPT1().getY()){
-                                    m.setCoeffs(i*2-1, n,Math.cos(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT1())+Math.PI/2));
-                                    m.setCoeffs(i*2, n,Math.sin(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT1())+Math.PI/2));
+                                    m.setCoeffs(i*2, n,Math.cos(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT1())+Math.PI/2));
+                                    m.setCoeffs(i*2+1, n,Math.sin(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT1())+Math.PI/2));
+                                    n=n+1;
                                 }   
                                 else{
-                                    m.setCoeffs(i*2-1, n,Math.cos(getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT0())+Math.PI/2));
-                                    m.setCoeffs(i*2, n,Math.sin(getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT0())+Math.PI/2));
-                                }
-                                    
+                                    m.setCoeffs(i*2, n,Math.cos(getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT0())+Math.PI/2));
+                                    m.setCoeffs(i*2+1, n,Math.sin(getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT0())+Math.PI/2));
+                                    n=n+1;
+                                }     
                             }
-                            if((debut==2) && (fin==3)){
+                            if((debut==1) && (fin==2)){
                                 if(ap.getTerrain().getPT1().getY()>=ap.getTerrain().getPT2().getY()){
-                                    m.setCoeffs(i*2-1, n,Math.cos(getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT2())+Math.PI/2));
-                                    m.setCoeffs(i*2, n,Math.sin(getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT2())+Math.PI/2));
+                                    m.setCoeffs(i*2, n,Math.cos(getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT2())+Math.PI/2));
+                                    m.setCoeffs(i*2+1, n,Math.sin(getAngle(ap.getTerrain().getPT1(),ap.getTerrain().getPT2())+Math.PI/2));
+                                    n=n+1;
                                 }   
                                 else{
-                                    m.setCoeffs(i*2-1, n,Math.cos(getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT1())+Math.PI/2));
-                                    m.setCoeffs(i*2, n,Math.sin(getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT1())+Math.PI/2));
+                                    m.setCoeffs(i*2, n,Math.cos(getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT1())+Math.PI/2));
+                                    m.setCoeffs(i*2+1, n,Math.sin(getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT1())+Math.PI/2));
+                                    n=n+1;
                                 }
                             }
-                            if((debut==3) && (fin==1)){
+                            if((debut==2) && (fin==0)){
                                if(ap.getTerrain().getPT2().getY()>=ap.getTerrain().getPT0().getY()){
-                                    m.setCoeffs(i*2-1, n,Math.cos(getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT0())+Math.PI/2));
-                                    m.setCoeffs(i*2, n,Math.sin(getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT0())+Math.PI/2));
+                                    m.setCoeffs(i*2, n,Math.cos(getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT0())+Math.PI/2));
+                                    m.setCoeffs(i*2+1, n,Math.sin(getAngle(ap.getTerrain().getPT2(),ap.getTerrain().getPT0())+Math.PI/2));
+                                    n=n+1;
                                 }   
                                 else{
-                                    m.setCoeffs(i*2-1, n,Math.cos(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT2())+Math.PI/2));
-                                    m.setCoeffs(i*2, n,Math.sin(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT2())+Math.PI/2));
+                                    m.setCoeffs(i*2, n,Math.cos(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT2())+Math.PI/2));
+                                    m.setCoeffs(i*2+1, n,Math.sin(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT2())+Math.PI/2));
+                                    n=n+1;
                                 }
                             }
+                       //     System.out.println(n);
+                        //    System.out.println("debug 2");
                         }
-                    n=n+1;
-                    }
+                    
                     if(this.getListeNoeuds().get(i) instanceof AppuiDouble){
-                        m.setCoeffs(i*2-1, n, 1);
-                        n=n+1;
                         m.setCoeffs(i*2, n, 1);
+                        n=n+1;
+                        m.setCoeffs(i*2+1, n, 1);
+                        n=n+1;
                     }
+                    System.out.println(m);
                 }
+            }
+            System.out.println(m);
         if(m.subCols(0,m.getNbrCol()-2).determinant()==0){
             System.out.println("Le système a 0 ou une infinité de solutions");
         }
