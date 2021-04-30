@@ -14,7 +14,5 @@ public class ClassePrincipale {
     public static void main (String args[]){
        Treillis t= Treillis.treillisTest();
         t.calculForces();
-
-        
     }
 }

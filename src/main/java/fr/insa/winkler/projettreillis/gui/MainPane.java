@@ -7,7 +7,7 @@ package fr.insa.winkler.projettreillis.gui;
 
 import fr.insa.winkler.projettreillis.CatalogueBarres;
 import fr.insa.winkler.projettreillis.Treillis;
-import java.io.File;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.MenuButton;
@@ -23,13 +23,14 @@ import javafx.scene.layout.VBox;
  * @author mariewinkler
  */
 public class MainPane extends BorderPane{
-    
     // définir le squelette de l'interface
     private Treillis model;
     private Controleur controleur; 
 
     
-    
+ 
+private Button abscisse=new Button("Abscisse");
+private Button ordonéeeeee=new Button("Ordonnéeeeeeee");
 private Button bCalcul;
 private Button bEnregistrer;   
 private Button bTerrain;
@@ -56,7 +57,7 @@ public MainPane(Treillis model){
            System.out.println("bouton Calculer cliqué");
         }
     }); 
-    this.bEnregistrer = new Button ("Enrigistrer");
+    this.bEnregistrer = new Button ("Enregistrer");
     this.bEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent t) {
@@ -105,14 +106,12 @@ public MainPane(Treillis model){
      // Creation de MenuItems
        MenuItem menuItemTB = new MenuItem("Noeud simple");
        MenuItem menuItemEN = new MenuItem("Noeuds appuis");
-       
+
        mbNoeud.getItems().addAll(menuItemTB, menuItemEN);
        
       VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer);
         this.setRight(vbDroite);
-      VBox vbGauche = new VBox();
-        this.setLeft(vbGauche);
-  HBox boutons = new HBox(this.bTerrain,this.mbNoeud, this.bBarre, this.bCatalogueBarre);
+        HBox boutons = new HBox(this.mbTerrain,this.mbNoeud, this.mbBarre, this.mbCatalogueBarre);
       this.cDessin=new DessinCanvas (this);
        this.setCenter(this.cDessin);
 }

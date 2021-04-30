@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
  *
  * @author elodieherrmann
  */
-
 public class DessinCanvas extends Pane {
     
     
@@ -44,6 +43,8 @@ public class DessinCanvas extends Pane {
     public void redrawAll() {
         GraphicsContext context = this.vraiCanvas.getGraphicsContext2D();
         Treillis model = this.PanneauPrincipal.getModel();
+        context.setFill(Color.WHITE);
         context.fillRect(0,0, this.getWidth(), this.getHeight());
+         
     }
 }

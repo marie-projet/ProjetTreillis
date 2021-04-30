@@ -5,6 +5,7 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import fr.insa.winkler.projettreillis.Treillis;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
@@ -17,7 +18,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        Scene sc = new Scene(new MainPane(),800,600);
+        Scene sc = new Scene(new MainPane(Treillis.treillisTest()),800,600);
         stage.setScene(sc);
           stage.show();
     }
