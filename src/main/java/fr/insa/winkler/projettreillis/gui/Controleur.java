@@ -5,6 +5,9 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import fr.insa.winkler.projettreillis.Noeud;
+import fr.insa.winkler.projettreillis.Point;
+import fr.insa.winkler.projettreillis.Treillis;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -21,7 +24,13 @@ public class Controleur {
         this.vue=vue;
     }
 
-   
+   public void clicDansZoneDessin(MouseEvent t) {
+       double px = t.getX();
+       double py = t.getY();
+      Treillis model = this.vue.getModel();
+      model.add(new Point (px, py));
+      this.vue.redrawAll();
+    }
 }
 
 

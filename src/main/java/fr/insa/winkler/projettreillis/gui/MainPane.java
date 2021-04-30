@@ -5,6 +5,7 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import fr.insa.winkler.projettreillis.CatalogueBarres;
 import fr.insa.winkler.projettreillis.Treillis;
 import java.io.File;
 import javafx.event.ActionEvent;
@@ -13,8 +14,10 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 /**
  *
  * @author mariewinkler
@@ -28,14 +31,19 @@ public class MainPane extends BorderPane{
     
     
 private Button bCalcul;
-private Button bEnregistrer;    
+private Button bEnregistrer;   
+private Button bTerrain;
+private Button bBarre;
+private Button bCatalogueBarre;
 
-private MenuButton mbTerrain;
 private MenuButton mbNoeud;
-private MenuButton mbBarre;
-private MenuButton mbCatalogueBarre; 
+
       
 private DessinCanvas cDessin; 
+
+public MainPane(){
+    
+}
 
 public MainPane(Treillis model){
     this.model=model;
@@ -56,8 +64,8 @@ public MainPane(Treillis model){
            System.out.println("bouton Enregistrer cliqué");
         }
     }); 
-    this.mbTerrain= new MenuButton("Terrain");
-    this.mbTerrain.setOnAction(new EventHandler<ActionEvent>() {
+    this.bTerrain= new Button("Terrain");
+    this.bTerrain.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent t) {
             //indiquer dans la console que le bouton a été cliqué 
@@ -74,22 +82,26 @@ public MainPane(Treillis model){
            System.out.println("bouton Noeud cliqué");
         }
     }); 
-    this.mbBarre= new MenuButton ("Barre");
-    this.mbBarre.setOnAction(new EventHandler<ActionEvent>() {
+    this.bBarre= new Button ("Barre");
+    this.bBarre.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent t) {
             //indiquer dans la console que le bouton a été cliqué 
            System.out.println("bouton Barre cliqué");
+           vbGauche.getChildren().addButton("type de Barres");
         }
     }); 
-    this.mbCatalogueBarre= new MenuButton ("Catalogue Barre");
-    this.mbCatalogueBarre.setOnAction(new EventHandler<ActionEvent>() {
+    this.bCatalogueBarre= new Button ("Catalogue Barre");
+    this.bCatalogueBarre.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent t) {
             //indiquer dans la console que le bouton a été cliqué 
            System.out.println("bouton Catalogue Barre cliqué");
+           vbGauche.getChildren().addRadioButton("ajouter la liste du batalogue de barre ");
         }
     }); 
+    
+  
      // Creation de MenuItems
        MenuItem menuItemTB = new MenuItem("Noeud simple");
        MenuItem menuItemEN = new MenuItem("Noeuds appuis");
@@ -100,9 +112,13 @@ public MainPane(Treillis model){
         this.setRight(vbDroite);
       VBox vbGauche = new VBox();
         this.setLeft(vbGauche);
-  HBox boutons = new HBox(this.mbTerrain,this.mbNoeud, this.mbBarre, this.mbCatalogueBarre);
+  HBox boutons = new HBox(this.bTerrain,this.mbNoeud, this.bBarre, this.bCatalogueBarre);
       this.cDessin=new DessinCanvas (this);
        this.setCenter(this.cDessin);
+}
+
+public void redrawAll(){
+    this.cDessin.redrawAll();
 }
 
   
@@ -113,5 +129,20 @@ public Treillis getModel() {
     public Controleur getControleur() {
         return controleur;
     }
+
+    public Button getbTerrain() {
+        return bTerrain;
+    }
+
+    public Button getbBarre() {
+        return bBarre;
+    }
+
+    public MenuButton getMbNoeud() {
+        return mbNoeud;
+    }
+
+   
+    
     
 }

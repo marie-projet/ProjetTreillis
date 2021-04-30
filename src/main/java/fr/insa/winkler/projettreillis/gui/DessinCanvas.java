@@ -32,9 +32,12 @@ public class DessinCanvas extends Pane {
         });
         this.vraiCanvas.widthProperty().bind(this.widthProperty());
        this.vraiCanvas.widthProperty().addListener((cl)-> {
-          this.redrawAll();
         });
-                
+       this.vraiCanvas.setOnMouseClicked((t)-> {
+           Controleur control = this.PanneauPrincipal.getControleur();
+           control.clicDansZoneDessin(t);
+       });
+           this.redrawAll();      
     }
     //méthode qui permet de reessiner si on change la taille de la fenêtre 
     public void redrawAll() {
