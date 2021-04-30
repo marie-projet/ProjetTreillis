@@ -22,7 +22,14 @@ public TriangleTerrain (int identificateur, Point PT0, Point PT1, Point PT2){
     this.PT2 = PT2;
 
 }
-
+/*
+public int positionRelative(){
+    
+}
+public boolean estDansTraingle(Point p){
+    
+}
+*/
     public int getIdentificateur() {
         return identificateur;
     }

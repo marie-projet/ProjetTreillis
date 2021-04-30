@@ -286,6 +286,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
                 System.out.println("Quelle force Py s'exerce sur le noeud "+ i+" ?");
                 m.setCoeffs(i*2+1,2*ns,Lire.d());
                // System.out.println(m);
+               //ajouter un condition if val<epsilon val=0
                 for(int j=0; j<nb; j++){
                     if((this.getListeNoeuds().get(i)==this.getListeBarres().get(j).getNoeudDebut())){
                         m.setCoeffs(i*2, j, Math.cos(getAngle(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudFin().getPos())));
@@ -302,6 +303,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
                         AppuiSimple ap= (AppuiSimple)this.getListeNoeuds().get(i);
                         int debut=ap.getPoint1();
                         int fin= ap.getPoint2();
+                        // erreur dans le calcul d'angles
                             if((debut==0) && (fin==1)){
                                 if(ap.getTerrain().getPT0().getY()>=ap.getTerrain().getPT1().getY()){
                                     m.setCoeffs(i*2, n,Math.cos(getAngle(ap.getTerrain().getPT0(),ap.getTerrain().getPT1())+Math.PI/2));
@@ -362,7 +364,12 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
             System.out.println(m.subCols(m.getNbrCol()-1,m.getNbrCol()-1).toString());
          }
     }
-
+/**
+ * 
+ * @param a Point de référence (milieu de l'angle)
+ * @param c Deuxième Point
+ * @return l'angle Ox,ac
+ */
    
 public static double getAngle(Point a, Point c) {  
 double x;
@@ -391,10 +398,8 @@ double angle=0;
         }
     }
     return angle;
-}
-               
-
     }
+}
    
 
  
