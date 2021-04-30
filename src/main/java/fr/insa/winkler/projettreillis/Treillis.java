@@ -70,6 +70,52 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         this.catalogue = catalogue;
     }
     
+    /*public void getNbrNoeuds (List listeNoeuds)
+    {
+        this.getListeNoeuds();
+        int nbrNoeuds = new int nbrNoeuds;
+        
+    } */
+    
+    
+    // ça sert bien à rajouter un noeud à un treillis?
+    public void ajouterNoeud (Point p){
+       
+        System.out.println("Saisir l'identifiant du noeud");
+        int id = Lire.i();
+        NoeudSimple n = new NoeudSimple(id,p);
+        this.getListeNoeuds().add(n);
+    }
+    // marche à condition de rentrer comme identifiant 1,2,3 rien d'autre (pour que la fonction supprimer tout marche)
+    
+    public void ajouterBarre (Noeud n1,Noeud n2){
+         
+         System.out.println("Saisir l'identifiant de la barre");
+         int id = Lire.i();
+         System.out.println("Saisir le type de barre");
+         TypeBarre type = Lire.TypeBarre();
+         Barre b = new Barre(id,n1,n2,type);
+         
+        this.getListeBarres().add(b);
+    }
+     
+     public void supprimerNoeud (Noeud n){
+         this.getListeNoeuds().remove(n);
+     }
+     
+     public void supprimerBarre (Barre b){
+         this.getListeBarres().remove(b);
+     }
+     
+     public void supprimerTout (){
+         for (int i=0; i<this.listeNoeuds.size() ;i++){
+             this.getListeNoeuds().remove(i+1);
+         }
+         for (int i =0 ; i<this.listeBarres.size() ; i++){
+             this.getListeBarres().remove(i+1);
+         }
+             
+     }
 /*
     public void ajouterNoeud(Figure f) {
         if (f.getGroupe() != this) {
