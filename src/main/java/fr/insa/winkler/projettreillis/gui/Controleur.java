@@ -28,6 +28,7 @@ public class Controleur {
        double px = t.getX();
        double py = t.getY();
       Treillis model = this.vue.getModel();
+      // il faudra ajouter des noeuds (et pas des points) en fonctions de l'état du controleur
       model.add(new Point (px, py));
       this.vue.redrawAll();
     }

@@ -7,7 +7,7 @@ package fr.insa.winkler.projettreillis.gui;
 
 import fr.insa.winkler.projettreillis.CatalogueBarres;
 import fr.insa.winkler.projettreillis.Treillis;
-
+import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.MenuButton;
@@ -29,8 +29,6 @@ public class MainPane extends BorderPane{
 
     
  
-private Button abscisse=new Button("Abscisse");
-private Button ordonéeeeee=new Button("Ordonnéeeeeeee");
 private Button bCalcul;
 private Button bEnregistrer;   
 private Button bTerrain;
