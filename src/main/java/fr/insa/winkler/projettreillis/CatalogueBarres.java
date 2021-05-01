@@ -17,6 +17,11 @@ public CatalogueBarres(){
     this.liste = new ArrayList<TypeBarre>();
 }
 
+    public List<TypeBarre> getListe() {
+        return liste;
+    }
+
+
 public void add(TypeBarre TB){
     if(this.liste.contains(TB)==true){
     throw new Error ("Ce type de barre existe déjà");
@@ -36,4 +41,5 @@ public void removeAll (){
         this.liste.remove(liste.get(i));
     }
 }
+
 }
