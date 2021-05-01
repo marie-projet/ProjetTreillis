@@ -26,6 +26,30 @@ public abstract class Appui extends Noeud{
         this.position=position;
     }
     
+    public Appui(int identificateur, TriangleTerrain terrain,Point p){
+        super(identificateur);
+        this.terrain=terrain;
+        if(TriangleTerrain.positivite(p,this.getTerrain().getPT0(), this.getTerrain().getPT1())==0){
+            this.point1=0;
+            this.point2=1;
+            this.position=p.getX()/(Math.max(this.getTerrain().getPT0().getX(), this.getTerrain().getPT1().getX()))
+                    -Math.min(this.getTerrain().getPT0().getX(), this.getTerrain().getPT1().getX());    
+        }
+        if(TriangleTerrain.positivite(p,this.getTerrain().getPT1(), this.getTerrain().getPT2())==0){
+            this.point1=1;
+            this.point2=2;
+            this.position=p.getX()/(Math.max(this.getTerrain().getPT1().getX(), this.getTerrain().getPT2().getX()))
+                    -Math.min(this.getTerrain().getPT1().getX(), this.getTerrain().getPT2().getX());    
+        }
+        if(TriangleTerrain.positivite(p,this.getTerrain().getPT2(), this.getTerrain().getPT0())==0){
+            this.point1=2;
+            this.point2=0;
+            this.position=p.getX()/(Math.max(this.getTerrain().getPT2().getX(), this.getTerrain().getPT0().getX()))
+                    -Math.min(this.getTerrain().getPT2().getX(), this.getTerrain().getPT0().getX());    
+        }
+        
+    }
+    
     public Point getPos(){
         Point p1=new Point(0,0);
         Point p2=new Point(0,0);
@@ -52,6 +76,7 @@ public abstract class Appui extends Noeud{
         Point p=new Point(x,y);
         return p;
     }
+    
 
     public TriangleTerrain getTerrain() {
         return terrain;
