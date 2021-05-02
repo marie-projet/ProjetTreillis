@@ -21,13 +21,13 @@ public class Treillis {
     private Terrain terrain;
     private CatalogueBarres catalogue;
     
-public Treillis(){
-    this.identifiant=1;
-    this.listeNoeuds = new ArrayList<Noeud>();
-    this.listeBarres = new ArrayList<Barre>();
-    this.terrain = new Terrain(); 
-    this.catalogue=new CatalogueBarres();
-}    
+    public Treillis(){
+        this.identifiant=1;
+        this.listeNoeuds = new ArrayList<Noeud>();
+        this.listeBarres = new ArrayList<Barre>();
+        this.terrain = new Terrain(); 
+        this.catalogue=new CatalogueBarres();
+    }    
 
 public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
     this.identifiant = identifiant;
@@ -70,6 +70,24 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         this.catalogue = catalogue;
     }
     
+    public String toString(){
+        String res="";
+        res=res+this.getTerrain().toString()+"FINTERRAIN"+"\n";
+        for(int i=0; i<this.getCatalogue().getListe().size(); i++){
+            res=res+this.getCatalogue().getListe().get(i).toString()+"\n";
+        }
+        res=res+"FINCATALOGUE"+"\n";
+        for(int i=0; i<this.getListeNoeuds().size();i++){
+            res=res+this.getListeNoeuds().get(i).toString()+"\n";
+        }
+        res=res+"FINNOEUDS"+"\n";
+        for (int i=0; i<this.getListeBarres().size();i++){
+            res=res+this.getListeBarres().get(i).toString()+"\n";
+        }
+        res=res+"FINBARRES";
+        return res;
+    }
+    
     /*public void getNbrNoeuds (List listeNoeuds)
     {
         this.getListeNoeuds();
@@ -77,26 +95,56 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         
     } */
     
-    
-    // ça sert bien à rajouter un noeud à un treillis?
+    /**
+     * crée un NoeudSimple à partir d'un point
+     * @param p Point (position du Noeud)
+     * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
+     */
     public void ajouterNoeudSimple (Point p){
+        for(int i=0; i<this.getTerrain().getTriangles().size();i++){
+            if(this.getTerrain().getTriangles().get(i).estDansTriangle(p)==true){
+                throw new Error("le point est dans un triangle terrain");
+            }
+        }
         System.out.println("Saisissez l'identifiant du Noeud");
         NoeudSimple n = new NoeudSimple(Lire.i(),p);
         this.getListeNoeuds().add(n);
     }
+     /**
+     * créee un AppuiSimple à partir d'un point et d'un TriangleTerrain
+     * @param p Point (position du noeud)
+     * @param t TraingleTerrain
+     * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
+     */
     public void ajouterAppuiSimple(Point p, TriangleTerrain t){
+        if(t.estDansTriangle(p)==false){
+            throw new Error("le point n'est pas dans le triangle terrain");
+        }
         System.out.println("Saisissez l'identifiant du Noeud");
         AppuiSimple a = new AppuiSimple(Lire.i(),t,p);
         this.getListeNoeuds().add(a);
     }
+    /**
+     * créee un AppuiDouble à partir d'un point et d'un TriangleTerrain
+     * @param p Point (position du noeud)
+     * @param t TraingleTerrain
+     * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
+     */
     public void ajouterAppuiDouble(Point p, TriangleTerrain t){
+        if(t.estDansTriangle(p)==false){
+            throw new Error("le point n'est pas dans le triangle terrain");
+        }
         System.out.println("Saisissez l'identifiant du Noeud");
         AppuiDouble a = new AppuiDouble(Lire.i(),t,p);
         this.getListeNoeuds().add(a);
     }
     
-    // marche à condition de rentrer comme identifiant 1,2,3 rien d'autre (pour que la fonction supprimer tout marche)
-    // sélectionner le type de barre dans le catalogue 
+  /**
+   * crée une nouvelle barre à partir de deux noeuds
+   * @param n1 Noeud 1
+   * @param n2 Noeud 2
+   * reste a faire: vérifier qu'aucune barre ne possède cet identifiant
+   */
     public void ajouterBarre (Noeud n1,Noeud n2){
         System.out.println("Saisissez l'indentifiant de la barre");
          int id = Lire.i();
@@ -105,14 +153,17 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
          Barre b = new Barre(id,n1,n2,type);
         this.getListeBarres().add(b);
     }
-    
+    /**
+     * premet de choisir le type de la barre qu'on veut créer dans le catalogue
+     * @param Treillis
+     * @return TypeBarre
+     */
     public TypeBarre choisiType() {
-        List<TypeBarre> lp = new ArrayList<>();
         System.out.println("liste des points disponibles : ");
         int nbr = this.getCatalogue().getListe().size();
-        for (int i = 0; i < this.getCatalogue().getListe().size(); i++) {
+        for (int i = 0; i < nbr; i++) {
             TypeBarre t = this.getCatalogue().getListe().get(i);
-                System.out.println(i + ") " + t);
+                System.out.println(i+1 + ") " + t);
             }
         
         if (nbr == 0) {
@@ -127,7 +178,37 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
             if (rep == 0) {
                 return null;
             } else {
-                return lp.get(rep);
+                return this.getCatalogue().getListe().get(rep-1);
+            }
+        }
+    }
+    
+    /**
+     * permet de choisir un Noeud parmi les noeuds existants pour créer une barre
+     * @param Treillis
+     * @return Noeud
+     */
+    public Noeud choisiNoeud() {
+        System.out.println("liste des points disponibles : ");
+        int nbr = this.getListeNoeuds().size();
+        for (int i = 0; i < nbr; i++) {
+            Noeud n = this.getListeNoeuds().get(i);
+                System.out.println(i+1 + ") " + n);
+            }
+        
+        if (nbr == 0) {
+            System.out.println("Aucun noeud disponible");
+            return null;
+        } else {
+            int rep = -1;
+            while (rep < 0 || rep > nbr) {
+                System.out.println("votre choix (0 pour annuler) : ");
+                rep = Lire.i();
+            }
+            if (rep == 0) {
+                return null;
+            } else {
+                return this.getListeNoeuds().get(rep-1);
             }
         }
     }
@@ -291,6 +372,12 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
     }
 
 */
+    /**
+     * affiche la matrice des forces de traction/compression des barres et de récation des noeuds
+     * @param Treillis
+     * reste a faire: tester si les forces sont supérieures aux valeurs des types de barres
+     *               afficher T1, T2,...
+     */
     public void calculForces(){
         int ns=this.getListeNoeuds().size();
         int nb=this.getListeBarres().size();
@@ -318,20 +405,20 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
                 m.setCoeffs(i*2,2*ns,-1*Lire.d());
                 System.out.println("Quelle force Py s'exerce sur le noeud "+ i+" ?");
                 m.setCoeffs(i*2+1,2*ns,-1*Lire.d());
-               // System.out.println(m);
-               //ajouter un condition if val<epsilon val=0
                 for(int j=0; j<nb; j++){
                     if((this.getListeNoeuds().get(i)==this.getListeBarres().get(j).getNoeudDebut())){
-                        m.setCoeffs(i*2, j, Math.cos(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudFin().getPos())));
-                        m.setCoeffs(i*2+1, j, Math.sin(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudFin().getPos())));
+                        m.setCoeffs(i*2, j, Math.cos(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),
+                                this.getListeBarres().get(j).getNoeudFin().getPos())));
+                        m.setCoeffs(i*2+1, j, Math.sin(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),
+                                this.getListeBarres().get(j).getNoeudFin().getPos())));
                     }
                     if( this.getListeNoeuds().get(i)==this.getListeBarres().get(j).getNoeudFin()){
-                  //      System.out.println("debug 4");
-                        m.setCoeffs(i*2, j, Math.cos(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudDebut().getPos())));
-                        m.setCoeffs(i*2+1, j, Math.sin(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),this.getListeBarres().get(j).getNoeudDebut().getPos())));
+                        m.setCoeffs(i*2, j, Math.cos(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),
+                                this.getListeBarres().get(j).getNoeudDebut().getPos())));
+                        m.setCoeffs(i*2+1, j, Math.sin(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),
+                                this.getListeBarres().get(j).getNoeudDebut().getPos())));
                     }
                 }
-               // System.out.println("debug 1");
                     if(this.getListeNoeuds().get(i) instanceof AppuiSimple){
                         AppuiSimple ap= (AppuiSimple)this.getListeNoeuds().get(i);
                         m.setCoeffs(i*2, n, Math.cos(ap.getAngleBeta()));
@@ -365,40 +452,40 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
          }
     }
     
-/**
- * 
- * @param a Point de référence (milieu de l'angle)
- * @param c Deuxième Point
- * @return l'angle Ox,ac
- */
+    /**
+    * 
+    * @param a Point de référence (milieu de l'angle)
+    * @param c Deuxième Point
+    * @return l'angle Ox,ac
+    */
  
-public static double getAngleAlpha(Point a, Point c) {  
-double x;
-double y;
-double angle=0;
+    public static double getAngleAlpha(Point a, Point c) {  
+    double x;
+    double y;
+    double angle=0;
     if(a.getX()>c.getX()){
-	 x=a.getX()-c.getX();
+        x=a.getX()-c.getX();
         if (a.getY()>c.getY()){
             y=a.getY()-c.getY();
             angle= -1*(Math.PI-Math.atan2(y, x));
         }
-        if (c.getY()>=a.getY()){
+        else if (c.getY()>=a.getY()){
             y=c.getY()-a.getY();
             angle= Math.PI-Math.atan2(y, x);
         }
     }
-    if(c.getX()>a.getY()){
-	 x=c.getX()-a.getX();
+    else if(c.getX()>a.getY()){
+        x=c.getX()-a.getX();
         if (c.getY()>=a.getY()){
             y=c.getY()-a.getY();
-            angle= Math.atan2(y, x);
-        }
-        if (a.getY()>c.getY()){
+                angle= Math.atan2(y, x);
+            }
+        else if (a.getY()>c.getY()){
             y=a.getY()-c.getY();
             angle= -1*Math.atan2(y, x);
+            }
         }
-    }
-    if(a.getX()==c.getX()){
+    else if(a.getX()==c.getX()){
         if(a.getY()>c.getY()){
             return -Math.PI/2;
         }
@@ -408,7 +495,6 @@ double angle=0;
     }
     return angle;
     }
-
 }
    
 
