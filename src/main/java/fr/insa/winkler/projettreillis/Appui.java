@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package fr.insa.winkler.projettreillis;
-
-
 /**
  *
  * @author mariewinkler
@@ -25,31 +23,65 @@ public abstract class Appui extends Noeud{
         this.point2=point2;
         this.position=position;
     }
-    
+    /**
+     * constructeur permettant de créer un appui à partir d'un id, d'un triangle et d'un point
+     * @param identificateur int
+     * @param terrain TriangleTerrain
+     * @param p Point (position de l'appui)
+     */
     public Appui(int identificateur, TriangleTerrain terrain,Point p){
         super(identificateur);
         this.terrain=terrain;
         if(TriangleTerrain.positivite(p,this.getTerrain().getPT0(), this.getTerrain().getPT1())==0){
             this.point1=0;
             this.point2=1;
-            this.position=p.getX()/(Math.max(this.getTerrain().getPT0().getX(), this.getTerrain().getPT1().getX()))
-                    -Math.min(this.getTerrain().getPT0().getX(), this.getTerrain().getPT1().getX());    
+            if(this.getTerrain().getPT0().getX()!= this.getTerrain().getPT1().getX()){
+                this.position=(p.getX()-Math.min(this.getTerrain().getPT0().getX(), this.getTerrain().getPT1().getX()))
+                        /(Math.max(this.getTerrain().getPT0().getX(), this.getTerrain().getPT1().getX())
+                        -Math.min(this.getTerrain().getPT0().getX(), this.getTerrain().getPT1().getX()));    
+            }
+            else{
+                this.position=(p.getY()-Math.min(this.getTerrain().getPT0().getY(),this.getTerrain().getPT1().getY()))
+                        /(Math.max(this.getTerrain().getPT0().getY(), this.getTerrain().getPT1().getY())
+                        -Math.min(this.getTerrain().getPT0().getY(), this.getTerrain().getPT1().getY()));
+            }
         }
-        if(TriangleTerrain.positivite(p,this.getTerrain().getPT1(), this.getTerrain().getPT2())==0){
+        else if(TriangleTerrain.positivite(p,this.getTerrain().getPT1(), this.getTerrain().getPT2())==0){
             this.point1=1;
             this.point2=2;
-            this.position=p.getX()/(Math.max(this.getTerrain().getPT1().getX(), this.getTerrain().getPT2().getX()))
-                    -Math.min(this.getTerrain().getPT1().getX(), this.getTerrain().getPT2().getX());    
+            if(this.getTerrain().getPT1().getX()!= this.getTerrain().getPT2().getX()){
+                this.position=(p.getX()-Math.min(this.getTerrain().getPT1().getX(), this.getTerrain().getPT2().getX()))
+                        /(Math.max(this.getTerrain().getPT1().getX(), this.getTerrain().getPT2().getX())
+                        -Math.min(this.getTerrain().getPT1().getX(), this.getTerrain().getPT2().getX()));
+            }
+            else{
+                this.position=(p.getY()-Math.min(this.getTerrain().getPT1().getY(),this.getTerrain().getPT2().getY()))
+                        /(Math.max(this.getTerrain().getPT1().getY(), this.getTerrain().getPT2().getY())
+                        -Math.min(this.getTerrain().getPT1().getY(), this.getTerrain().getPT2().getY()));
+            }
         }
-        if(TriangleTerrain.positivite(p,this.getTerrain().getPT2(), this.getTerrain().getPT0())==0){
+        else if(TriangleTerrain.positivite(p,this.getTerrain().getPT2(), this.getTerrain().getPT0())==0){
             this.point1=2;
             this.point2=0;
-            this.position=p.getX()/(Math.max(this.getTerrain().getPT2().getX(), this.getTerrain().getPT0().getX()))
-                    -Math.min(this.getTerrain().getPT2().getX(), this.getTerrain().getPT0().getX());    
+            if(this.getTerrain().getPT2().getX()!= this.getTerrain().getPT0().getX()){
+                this.position=(p.getX() -Math.min(this.getTerrain().getPT2().getX(), this.getTerrain().getPT0().getX()))
+                        /(Math.max(this.getTerrain().getPT2().getX(), this.getTerrain().getPT0().getX())
+                        -Math.min(this.getTerrain().getPT2().getX(), this.getTerrain().getPT0().getX()));
+            }
+             else{
+                this.position=(p.getY()-Math.min(this.getTerrain().getPT2().getY(),this.getTerrain().getPT0().getY()))
+                        /(Math.max(this.getTerrain().getPT2().getY(), this.getTerrain().getPT0().getY())
+                        -Math.min(this.getTerrain().getPT2().getY(), this.getTerrain().getPT0().getY()));
+            }
         }
-        
     }
     
+    public abstract String toString();
+    
+    /**
+    * méthode permettant d'obtenir le point de position d'un appui
+    * @return Point
+    */
     public Point getPos(){
         Point p1=new Point(0,0);
         Point p2=new Point(0,0);

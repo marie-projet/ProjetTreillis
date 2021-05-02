@@ -13,33 +13,31 @@ import java.util.List;
 public class CatalogueBarres {
     private List<TypeBarre> liste;
     
-public CatalogueBarres(){
-    this.liste = new ArrayList<TypeBarre>();
-}
+    public CatalogueBarres(){
+        this.liste = new ArrayList<TypeBarre>();
+    }
 
     public List<TypeBarre> getListe() {
         return liste;
     }
 
-
-public void add(TypeBarre TB){
+    public void add(TypeBarre TB){
     if(this.liste.contains(TB)==true){
-    throw new Error ("Ce type de barre existe déjà");
-}
+        throw new Error ("Ce type de barre existe déjà");
+    }
     this.liste.add(TB);
-}
-
-public void remove(TypeBarre TB){
-    if(this.liste.contains(TB)==false){
-        throw new Error ("Ce type de barre n'est pas dans le catalogue");
     }
-    this.liste.remove(TB);
-}
 
-public void removeAll (){
-    for (int i=0; i<this.liste.size(); i++){
-        this.liste.remove(liste.get(i));
+    public void remove(TypeBarre TB){
+        if(this.liste.contains(TB)==false){
+            throw new Error ("Ce type de barre n'est pas dans le catalogue");
+        }
+        this.liste.remove(TB);
     }
-}
 
+    public void removeAll (){
+        for (int i=0; i<this.liste.size(); i++){
+            this.liste.remove(liste.get(i));
+        }
+    }
 }

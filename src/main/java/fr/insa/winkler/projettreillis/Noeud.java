@@ -29,6 +29,8 @@ public abstract class Noeud {
     public void setIdentifiant(int identifiant) {
         this.identifiant = identifiant;
     }
+    
+    public abstract String toString();
 
     
 }

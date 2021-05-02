@@ -14,13 +14,13 @@ public class ResGauss {
     public int rang;
     public int sigPerm;
     
- public ResGauss (int rang, int sig){
+    public ResGauss (int rang, int sig){
      this.rang=rang;
      this.sigPerm=sig;
- }
+    }
  
- public String toString(){
+    public String toString(){
      String res="ResGauss: rang = "+this.rang+" ; sigPerm = "+ this.sigPerm;
      return res;
- }
+    }
 }

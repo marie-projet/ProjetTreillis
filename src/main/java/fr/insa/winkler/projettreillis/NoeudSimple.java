@@ -24,4 +24,7 @@ public class NoeudSimple extends Noeud{
     public void setPosition(Point position) {
         this.position = position;
     }
+    public String toString(){
+        return "NoeudSimple;"+this.getIdentifiant()+";"+this.getPos();
+    }
 }

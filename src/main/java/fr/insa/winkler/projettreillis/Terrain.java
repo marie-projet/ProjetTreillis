@@ -26,13 +26,21 @@ public class Terrain {
         this.triangles= new ArrayList<TriangleTerrain>();
     }
     
-public Terrain (double xmin, double xmax, double ymin, double ymax){
-    this.xmin = xmin;
-    this.xmax = xmax;
-    this.ymin = ymin;
-    this.ymax = ymax;
-    this.triangles= new ArrayList<TriangleTerrain>();
-}
+    public Terrain (double xmin, double xmax, double ymin, double ymax){
+        this.xmin = xmin;
+        this.xmax = xmax;
+        this.ymin = ymin;
+        this.ymax = ymax;
+        this.triangles= new ArrayList<TriangleTerrain>();
+    }
+    
+    public String toString(){
+    String res="ZoneConstructible;"+this.getXmin()+";"+this.getXmax()+";"+this.getYmin()+";"+this.getYmax()+"\n";
+    for(int i=0; i<this.getTriangles().size(); i++){
+        res=res+this.getTriangles().get(i).toString()+"\n";
+    }
+    return res;  
+    }
 
     public double getXmin() {
         return xmin;
@@ -72,7 +80,5 @@ public Terrain (double xmin, double xmax, double ymin, double ymax){
 
     public void setTriangles(List<TriangleTerrain> triangles) {
         this.triangles = triangles;
-    }
-
-   
+    } 
 }

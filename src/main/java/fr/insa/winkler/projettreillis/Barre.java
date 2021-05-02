@@ -16,33 +16,40 @@ public class Barre {
     private TypeBarre type;
     
     //definition du constructeur 
-public Barre (int identifiant, Noeud noeudDeb, Noeud noeudFin, TypeBarre type){
-    this.identifiant = identifiant;
-    this.noeudDebut = noeudDeb;
-    this.noeudFin = noeudFin;
-    this.type=type;
-}
-public Barre(Noeud noeudDeb, Noeud noeudFin){
-    this.identifiant=1;
-    this.type=new TypeBarre();
-    this.noeudDebut = noeudDeb;
-    this.noeudFin = noeudFin;
-}
+    public Barre (int identifiant, Noeud noeudDeb, Noeud noeudFin, TypeBarre type){
+        this.identifiant = identifiant;
+        this.noeudDebut = noeudDeb;
+        this.noeudFin = noeudFin;
+        this.type=type;
+    }
+    public Barre(Noeud noeudDeb, Noeud noeudFin){
+        this.identifiant=1;
+        this.type=new TypeBarre();
+        this.noeudDebut = noeudDeb;
+        this.noeudFin = noeudFin;
+    }
 
-public int getIdentifiant (){
-    return identifiant;
-}
-public void setIdentifiant( int identifiant ){
-    this.identifiant = identifiant; 
-}
-public Noeud getNoeudDebut(){
-    return noeudDebut;
-}
-public void setNoeudDebut (Noeud noeudDebut){
-    this.noeudDebut = noeudDebut; 
-}
+    public String toString(){
+        return "Barre;"+this.getIdentifiant()+";"+this.getNoeudDebut().getIdentifiant()+";"+this.getNoeudFin().getIdentifiant()+";"+this.getType().getIdentificateur();
+    }
 
-public Noeud getNoeudFin() {
+    public int getIdentifiant (){
+        return identifiant;
+    }
+    
+    public void setIdentifiant( int identifiant ){
+        this.identifiant = identifiant; 
+    }
+    
+    public Noeud getNoeudDebut(){
+        return noeudDebut;
+    }
+    
+    public void setNoeudDebut (Noeud noeudDebut){ 
+        this.noeudDebut = noeudDebut; 
+    }
+
+    public Noeud getNoeudFin() {
         return noeudFin;
     }
 
@@ -57,8 +64,4 @@ public Noeud getNoeudFin() {
     public void setType(TypeBarre type) {
         this.type = type;
     }
-    
-
-
-
 } 

@@ -87,7 +87,7 @@ public MainPane(Treillis model){
         public void handle(ActionEvent t) {
             //indiquer dans la console que le bouton a été cliqué 
            System.out.println("bouton Barre cliqué");
-           vbGauche.getChildren().addButton("type de Barres");
+           //vbGauche.getChildren().addButton("type de Barres");
         }
     }); 
     this.bCatalogueBarre= new Button ("Catalogue Barre");
@@ -96,7 +96,7 @@ public MainPane(Treillis model){
         public void handle(ActionEvent t) {
             //indiquer dans la console que le bouton a été cliqué 
            System.out.println("bouton Catalogue Barre cliqué");
-           vbGauche.getChildren().addRadioButton("ajouter la liste du batalogue de barre ");
+           //vbGauche.getChildren().addRadioButton("ajouter la liste du batalogue de barre ");
         }
     }); 
     
@@ -109,7 +109,7 @@ public MainPane(Treillis model){
        
       VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer);
         this.setRight(vbDroite);
-        HBox boutons = new HBox(this.mbTerrain,this.mbNoeud, this.mbBarre, this.mbCatalogueBarre);
+        HBox boutons = new HBox(this.bTerrain,this.mbNoeud, this.bBarre, this.bCatalogueBarre);
       this.cDessin=new DessinCanvas (this);
        this.setCenter(this.cDessin);
 }
