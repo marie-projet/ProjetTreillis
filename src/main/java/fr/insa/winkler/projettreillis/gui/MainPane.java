@@ -96,6 +96,18 @@ public class MainPane extends BorderPane{
                 //indiquer dans la console que le bouton a été cliqué 
                 System.out.println("bouton terrain cliqué");
                 vbGauche.getChildren().clear();
+                Label abscisseMin = new Label("xmin");
+                Label abscisseMax = new Label("xmax");
+                Label ordonneeMin = new Label("ymin");
+                Label ordonneeMax = new Label("ymax");
+                Label triangleTerrain = new Label ("Triangle Terrrain");
+                TextField xmin = new TextField();
+                TextField xmax = new TextField();
+                TextField ymax = new TextField();
+                TextField ymin = new TextField();
+                VBox test = new VBox (abscisseMin, xmin, abscisseMax, xmax, ordonneeMax, ymax, ordonneeMin, ymin);
+                vbGauche.getChildren().add(test);
+                
             }
         }); 
 
@@ -147,7 +159,7 @@ public class MainPane extends BorderPane{
                 TextField zoneTexteId = new TextField();
                 Label noeudDebut = new Label ("Noeud début");
                 Label noeudFin = new Label ("Noeud fin");
-                VBox barre = new VBox(identificateur, noeudDebut, noeudFin);
+                VBox barre = new VBox(identificateur, zoneTexteId, noeudDebut, noeudFin);
                 vbGauche.getChildren().add(barre);
             }
         }); 
