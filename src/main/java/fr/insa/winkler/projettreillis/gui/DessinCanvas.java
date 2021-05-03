@@ -32,19 +32,29 @@ public class DessinCanvas extends Pane {
         });
         this.vraiCanvas.widthProperty().bind(this.widthProperty());
        this.vraiCanvas.widthProperty().addListener((cl)-> {
+           this.redrawAll();
         });
        this.vraiCanvas.setOnMouseClicked((t)-> {
            Controleur control = this.PanneauPrincipal.getControleur();
            control.clicDansZoneDessin(t);
        });
-           this.redrawAll();      
+       this.redrawAll();
     }
+    
     //méthode qui permet de reessiner si on change la taille de la fenêtre 
     public void redrawAll() {
         GraphicsContext context = this.vraiCanvas.getGraphicsContext2D();
         Treillis model = this.PanneauPrincipal.getModel();
-        context.setFill(Color.WHITE);
-        context.fillRect(0,0, this.getWidth(), this.getHeight());
+        model.dessine(context);
          
     }
+
+    public MainPane getPanneauPrincipal() {
+        return PanneauPrincipal;
+    }
+
+    public Canvas getVraiCanvas() {
+        return vraiCanvas;
+    }
+    
 }

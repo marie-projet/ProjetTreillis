@@ -5,6 +5,9 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author elodieherrmann
@@ -140,5 +143,12 @@ public class TriangleTerrain {
 
     public void setPT0(Point PT3) {
         this.PT0 = PT3;
+    }
+    
+    public void dessine(GraphicsContext gc){
+        gc.setStroke(Color.CHOCOLATE);
+        gc.strokeLine(this.getPT0().getX(),this.getPT0().getY(), this.getPT1().getX(), this.getPT1().getY());
+        gc.strokeLine(this.getPT1().getX(),this.getPT1().getY(), this.getPT2().getX(), this.getPT2().getY());
+        gc.strokeLine(this.getPT2().getX(),this.getPT2().getY(), this.getPT0().getX(), this.getPT0().getY());
     }
 }

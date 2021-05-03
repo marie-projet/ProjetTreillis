@@ -5,6 +5,9 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author mariewinkler
@@ -63,5 +66,11 @@ public class Barre {
 
     public void setType(TypeBarre type) {
         this.type = type;
+    }
+    
+    public void dessine(GraphicsContext context) {
+        context.setStroke(Color.BLACK);
+        context.strokeLine(this.getNoeudDebut().getPos().getX(), this.getNoeudDebut().getPos().getY(), 
+                this.getNoeudFin().getPos().getX(), this.getNoeudFin().getPos().getY());
     }
 } 

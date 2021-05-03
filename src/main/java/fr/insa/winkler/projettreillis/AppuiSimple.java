@@ -5,6 +5,9 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author mariewinkler
@@ -86,5 +89,10 @@ public class AppuiSimple extends Appui{
         }
     }
     return angle;
+    }
+    
+    public void dessine(GraphicsContext gc){
+        gc.setFill(Color.BLUE);
+        super.dessine(gc);    
     }
 }

@@ -5,6 +5,9 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author mariewinkler
@@ -22,5 +25,10 @@ public class AppuiDouble extends Appui{
      public String toString(){
        return "AppuiDouble;"+ this.getIdentifiant()+";"+this.getTriangle().getIdentificateur()+";"+ this.getPoint1()+";" 
                +this.getPosition();
+    }
+     
+    public void dessine(GraphicsContext gc){
+        gc.setFill(Color.RED);
+        super.dessine(gc);    
     }
 }

@@ -231,63 +231,25 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
          }
              
      }
-/*
-    public void ajouterNoeud(Figure f) {
-        if (f.getGroupe() != this) {
-            if (f.getGroupe() != null) {
-                throw new Error("figure déja dans un autre groupe");
-            }
-            this.contient.add(f);
-            f.setGroupe(this);
-        }
-    }
-    
-    public void ajouterBarre(Figure f) {
-        if (f.getGroupe() != this) {
-            if (f.getGroupe() != null) {
-                throw new Error("figure déja dans un autre groupe");
-            }
-            this.contient.add(f);
-            f.setGroupe(this);
-        }
-    }
 
-    public void supprimerNoeud(Figure f) {
-        if (f.getGroupe() != this) {
-            throw new Error("la figure n'est pas dans le groupe");
-        }
-        this.contient.remove(f);
-        f.setGroupe(null);
-    }
-    
-    public void supprimerBarre(Barre b) {
-    }
 
-    public void removeAll() {
-   
-    }
-
-    public void clear() {
-        List<Noeud> toRemove = new ArrayList<>(this.listeNoeuds);
-        this.removeAll(toRemove);
-        List<Barre> toRemove2 = new ArrayList<>(this.listeBarres);
-        this.removeAll(toRemove2);
-    }
-    */
     public static Treillis treillisTest() {
         Treillis test=new Treillis();
         Point p0= new Point(0,-3);
         Point p1=new Point(0,1);
         Point p2=new Point(-1,-1);
+        Point p7= new Point (710,560);
         TriangleTerrain t1= new TriangleTerrain(1,p0,p1,p2);
         Point p6= new Point(1,-1);
         AppuiDouble ap2=new AppuiDouble(1,t1,0,0.75);
         AppuiSimple ap=new AppuiSimple(2,t1,0,0.25);
+        NoeudSimple n2=new NoeudSimple(4,p7);
         NoeudSimple n=new NoeudSimple(3,p6);
         test.getTerrain().getTriangles().add(t1);
         test.getListeNoeuds().add(ap2);
         test.getListeNoeuds().add(ap);
         test.getListeNoeuds().add(n);
+        test.getListeNoeuds().add(n2);
         Barre b1= new Barre(1,ap2,n);
         Barre b2=new Barre(2,ap,n);
         Barre b3=new Barre(3,ap2,ap);
@@ -359,19 +321,20 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
             return min;
         }
     }
-     public void dessine(GraphicsContext context) {
-        for (Figure f : this.contient) {
-            f.dessine(context);
+    */
+    public void dessine(GraphicsContext context) {
+        this.getTerrain().dessine(context);
+        for (Noeud n : this.getListeNoeuds()) {
+            n.dessine(context);
+        }
+        for (Barre b : this.getListeBarres()) {
+            b.dessine(context);
         }
     }
+    
 
-     public void changeCouleur(Color value) {
-        for (Figure f : this.contient) {
-            f.changeCouleur(value);
-        }
-    }
+ 
 
-*/
     /**
      * affiche la matrice des forces de traction/compression des barres et de récation des noeuds
      * @param Treillis

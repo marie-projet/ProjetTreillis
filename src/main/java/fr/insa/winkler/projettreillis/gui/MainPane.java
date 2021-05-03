@@ -10,6 +10,7 @@ import fr.insa.winkler.projettreillis.Treillis;
 import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
@@ -61,12 +62,16 @@ public class MainPane extends BorderPane{
         this.setTop(boutons);
         this.cDessin=new DessinCanvas (this);
         this.setCenter(this.cDessin);
+        
+        GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
+        context.translate(300, 250);
     
         this.bCalcul.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
                 //indiquer dans la console que le bouton a été cliqué 
                 System.out.println("bouton Calculer cliqué");
+                cDessin.redrawAll();
             }
         }); 
     

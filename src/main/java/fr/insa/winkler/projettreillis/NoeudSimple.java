@@ -5,6 +5,9 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author mariewinkler
@@ -26,5 +29,10 @@ public class NoeudSimple extends Noeud{
     }
     public String toString(){
         return "NoeudSimple;"+this.getIdentifiant()+";"+this.getPos();
+    }
+    
+    public void dessine(GraphicsContext gc){
+        gc.setFill(Color.BLACK);
+        super.dessine(gc);    
     }
 }

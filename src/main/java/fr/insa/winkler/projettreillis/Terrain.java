@@ -6,6 +6,8 @@
 package fr.insa.winkler.projettreillis;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -81,4 +83,15 @@ public class Terrain {
     public void setTriangles(List<TriangleTerrain> triangles) {
         this.triangles = triangles;
     } 
+    
+    public void dessine (GraphicsContext gc){
+        gc.setStroke(Color.GREEN);
+        gc.strokeLine(this.getXmin(),this.getYmin(),this.getXmin(),this.getYmax());
+        gc.strokeLine(this.getXmin(),this.getYmax(),this.getXmax(),this.getYmax());
+        gc.strokeLine(this.getXmax(),this.getYmax(),this.getXmax(),this.getYmin());
+        gc.strokeLine(this.getXmax(),this.getYmin(),this.getXmin(),this.getYmin());
+        for (int i=0; i<this.getTriangles().size(); i++){
+            this.getTriangles().get(i).dessine(gc);
+        }
+    }
 }
