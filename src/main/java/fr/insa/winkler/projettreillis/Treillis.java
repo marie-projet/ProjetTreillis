@@ -281,8 +281,8 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         Point p2=new Point(-1,-1);
         TriangleTerrain t1= new TriangleTerrain(1,p0,p1,p2);
         Point p6= new Point(1,-1);
-        AppuiDouble ap2=new AppuiDouble(1,t1,0,1,0.75);
-        AppuiSimple ap=new AppuiSimple(2,t1,0,1,0.25);
+        AppuiDouble ap2=new AppuiDouble(1,t1,0,0.75);
+        AppuiSimple ap=new AppuiSimple(2,t1,0,0.25);
         NoeudSimple n=new NoeudSimple(3,p6);
         test.getTerrain().getTriangles().add(t1);
         test.getListeNoeuds().add(ap2);

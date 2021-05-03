@@ -16,11 +16,11 @@ public abstract class Appui extends Noeud{
     private int point2;
     private double position;
     
-    public Appui (int identificateur, TriangleTerrain terrain, int point1, int point2, double position) {
+    public Appui (int identificateur, TriangleTerrain terrain, int point1, double position) {
         super(identificateur);
         this.triangleterrain= terrain;
         this.point1=point1;
-        this.point2=point2;
+        this.point2=point1+1%3;
         this.position=position;
     }
     /**

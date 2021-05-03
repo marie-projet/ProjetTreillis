@@ -11,8 +11,8 @@ package fr.insa.winkler.projettreillis;
  */
 public class AppuiSimple extends Appui{
     
-    public AppuiSimple (int identificateur, TriangleTerrain terrain, int point1, int point2, double position) {
-        super(identificateur,terrain,point1,point2,position);
+    public AppuiSimple (int identificateur, TriangleTerrain terrain, int point1, double position) {
+        super(identificateur,terrain,point1,position);
     }
     
    public AppuiSimple(int identificateur, TriangleTerrain terrain,Point p){
