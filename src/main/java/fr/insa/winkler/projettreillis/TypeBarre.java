@@ -38,7 +38,7 @@ public  class TypeBarre {
   
     public String toString(){
         return "TypeBarre;"+this.getIdentificateur()+";"+this.getCoutAuMetre()+";"+this.getLongueurMin()+";"+this.getLongueurMax()+";"
-              +this.resistanceMaxTraction+";"+this.getResistanceMaxCompression();
+              +this.getResistanceMaxTraction()+";"+this.getResistanceMaxCompression();
     }
 
     public double getCoutAuMetre() {

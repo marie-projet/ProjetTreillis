@@ -22,15 +22,15 @@ public class Barre {
         this.noeudFin = noeudFin;
         this.type=type;
     }
-    public Barre(Noeud noeudDeb, Noeud noeudFin){
-        this.identifiant=1;
+    public Barre(int id,Noeud noeudDeb, Noeud noeudFin){
+        this.identifiant=id;
         this.type=new TypeBarre();
         this.noeudDebut = noeudDeb;
         this.noeudFin = noeudFin;
     }
 
     public String toString(){
-        return "Barre;"+this.getIdentifiant()+";"+this.getNoeudDebut().getIdentifiant()+";"+this.getNoeudFin().getIdentifiant()+";"+this.getType().getIdentificateur();
+        return "Barre;"+this.getIdentifiant()+";"+this.getType().getIdentificateur()+";"+this.getNoeudDebut().getIdentifiant()+";"+this.getNoeudFin().getIdentifiant();
     }
 
     public int getIdentifiant (){

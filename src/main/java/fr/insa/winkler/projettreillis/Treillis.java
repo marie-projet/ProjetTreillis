@@ -72,7 +72,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
     
     public String toString(){
         String res="";
-        res=res+this.getTerrain().toString()+"FINTERRAIN"+"\n";
+        res=res+this.getTerrain().toString()+"FINTRIANGLES"+"\n";
         for(int i=0; i<this.getCatalogue().getListe().size(); i++){
             res=res+this.getCatalogue().getListe().get(i).toString()+"\n";
         }
@@ -288,9 +288,9 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         test.getListeNoeuds().add(ap2);
         test.getListeNoeuds().add(ap);
         test.getListeNoeuds().add(n);
-        Barre b1= new Barre(ap2,n);
-        Barre b2=new Barre(ap,n);
-        Barre b3=new Barre(ap2,ap);
+        Barre b1= new Barre(1,ap2,n);
+        Barre b2=new Barre(2,ap,n);
+        Barre b3=new Barre(3,ap2,ap);
         test.getCatalogue().add(b1.getType());
         test.getListeBarres().add(b1);
         test.getListeBarres().add(b2);

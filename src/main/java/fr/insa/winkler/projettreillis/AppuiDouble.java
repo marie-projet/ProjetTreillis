@@ -20,7 +20,7 @@ public class AppuiDouble extends Appui{
      }
      
      public String toString(){
-       return "AppuiDouble;"+ this.getIdentifiant()+";"+this.getTerrain().getIdentificateur()+";"+ this.getPoint1()+";" 
-               + this.getPoint2()+";"+this.getPosition();
+       return "AppuiDouble;"+ this.getIdentifiant()+";"+this.getTriangle().getIdentificateur()+";"+ this.getPoint1()+";" 
+               +this.getPosition();
     }
 }
