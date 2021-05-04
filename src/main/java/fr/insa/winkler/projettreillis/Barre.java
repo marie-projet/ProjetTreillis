@@ -69,8 +69,8 @@ public class Barre {
         this.type = type;
     }
     
-    public void dessine(GraphicsContext context) {
-        context.setStroke(Color.BLACK);
+    public void dessine(GraphicsContext context, Color couleur) {
+        context.setStroke(couleur);
         context.setLineWidth(0.1);
         context.strokeLine(this.getNoeudDebut().getPos().getX(), -1*this.getNoeudDebut().getPos().getY(), 
                 this.getNoeudFin().getPos().getX(), -1*this.getNoeudFin().getPos().getY());

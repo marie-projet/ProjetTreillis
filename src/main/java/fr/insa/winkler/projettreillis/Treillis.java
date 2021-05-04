@@ -301,11 +301,11 @@ public class Treillis {
                 }
                 else if (type==2){
                     System.out.println("Entrez le numéro du triangle surlequel vous voulez placez l'appui");
-                    this.ajouterAppuiSimple(np,this.getTerrain().getTriangles().get(Lire.i()));
+                    this.ajouterAppuiSimple(np,this.getTerrain().getTriangles().get(Lire.i()-1));
                 }
                 else if(type==3){
                     System.out.println("Entrez le numéro du triangle surlequel vous voulez placez l'appui");
-                    this.ajouterAppuiSimple(np,this.getTerrain().getTriangles().get(Lire.i()));
+                    this.ajouterAppuiSimple(np,this.getTerrain().getTriangles().get(Lire.i()-1));
                 }
             } else if (rep == 3) {
                 System.out.println("choisissez le début de la barre");
@@ -399,7 +399,7 @@ public class Treillis {
             n.dessine(context);
         }
         for (Barre b : this.getListeBarres()) {
-            b.dessine(context);
+            b.dessine(context, Color.BLACK);
         }
     }
     
@@ -409,7 +409,7 @@ public class Treillis {
      * reste a faire: tester si les forces sont supérieures aux valeurs des types de barres
      *               afficher T1, T2,...
      */
-    public void calculForces(){
+    public Matrice calculForces(){
         int ns=this.getListeNoeuds().size();
         int nb=this.getListeBarres().size();
         int nas=0;
@@ -481,6 +481,7 @@ public class Treillis {
             System.out.println("Les solutions sont:");
             System.out.println(m.subCols(m.getNbrCol()-1,m.getNbrCol()-1).toString());
          }
+        return m.subCols(m.getNbrCol()-1,m.getNbrCol()-1);
     }
     
     /**

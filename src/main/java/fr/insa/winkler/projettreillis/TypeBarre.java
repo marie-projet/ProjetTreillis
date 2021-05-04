@@ -32,8 +32,8 @@ public  class TypeBarre {
         this.coutAuMetre = 10;
         this.longueurMin = 1;
         this.longueurMax = 100;
-        this.resistanceMaxTraction = 100;
-        this.resistanceMaxCompression = 100;
+        this.resistanceMaxTraction = 700;
+        this.resistanceMaxCompression = 500;
     }
   
     public String toString(){

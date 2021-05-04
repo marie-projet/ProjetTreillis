@@ -5,9 +5,8 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
-import fr.insa.winkler.projettreillis.CatalogueBarres;
+import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Treillis;
-import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,9 +17,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -72,7 +71,14 @@ public class MainPane extends BorderPane{
             public void handle(ActionEvent t) {
                 //indiquer dans la console que le bouton a été cliqué 
                 System.out.println("bouton Calculer cliqué");
-                cDessin.redrawAll();
+                Matrice res=model.calculForces();
+                for(int i=0; i<model.getListeBarres().size(); i++){
+                    if ((res.getCoeffs(i,0)>model.getListeBarres().get(i).getType().getResistanceMaxTraction())
+                        ||(-1*res.getCoeffs(i,0)>model.getListeBarres().get(i).getType().getResistanceMaxCompression())){
+                            model.getListeBarres().get(i).dessine(context, Color.RED);
+                            System.out.println(model.getListeBarres().get(i));
+                    }
+                }
             }
         }); 
     
