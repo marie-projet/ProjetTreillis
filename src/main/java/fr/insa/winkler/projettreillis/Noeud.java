@@ -15,8 +15,8 @@ import javafx.scene.canvas.GraphicsContext;
 public abstract class Noeud {
     private int identifiant;
 
-    public static double RAYON_IN_DRAW = 5;
-  public abstract Point getPos();
+    public static double RAYON_IN_DRAW = 0.1;
+    public abstract Point getPos();
     
     //definition du constructeur 
     public Noeud (int identifiant){

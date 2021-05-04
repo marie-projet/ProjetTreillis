@@ -29,13 +29,13 @@ public class Treillis {
         this.catalogue=new CatalogueBarres();
     }    
 
-public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
-    this.identifiant = identifiant;
-    this.listeNoeuds = new ArrayList<Noeud>();
-    this.listeBarres = new ArrayList<Barre>();
-    this.terrain = terrain; 
-    this.catalogue=catalogue;
-}
+    public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
+        this.identifiant = identifiant;
+        this.listeNoeuds = new ArrayList<Noeud>();
+        this.listeBarres = new ArrayList<Barre>();
+        this.terrain = terrain; 
+        this.catalogue=catalogue;
+    }
 
     public int getIdentifiant() {
         return identifiant;
@@ -139,18 +139,18 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         this.getListeNoeuds().add(a);
     }
     
-  /**
-   * crée une nouvelle barre à partir de deux noeuds
-   * @param n1 Noeud 1
-   * @param n2 Noeud 2
-   * reste a faire: vérifier qu'aucune barre ne possède cet identifiant
-   */
+    /**
+    * crée une nouvelle barre à partir de deux noeuds
+    * @param n1 Noeud 1
+    * @param n2 Noeud 2
+    * reste a faire: vérifier qu'aucune barre ne possède cet identifiant
+    */
     public void ajouterBarre (Noeud n1,Noeud n2){
         System.out.println("Saisissez l'indentifiant de la barre");
-         int id = Lire.i();
-         System.out.println("Choisissez le type de barre");
-         TypeBarre type= choisiType();
-         Barre b = new Barre(id,n1,n2,type);
+        int id = Lire.i();
+        System.out.println("Choisissez le type de barre");
+        TypeBarre type= choisiType();
+        Barre b = new Barre(id,n1,n2,type);
         this.getListeBarres().add(b);
     }
     /**
@@ -212,6 +212,31 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
             }
         }
     }
+    
+    public Barre choisiBarre(){
+        System.out.println("liste des barres disponibles : ");
+        int nbr = this.getListeBarres().size();
+        for (int i = 0; i < nbr; i++) {
+            Barre b = this.getListeBarres().get(i);
+                System.out.println(i+1 + ") " + b);
+            }
+        
+        if (nbr == 0) {
+            System.out.println("Aucune barre disponible");
+            return null;
+        } else {
+            int rep = -1;
+            while (rep < 0 || rep > nbr) {
+                System.out.println("votre choix (0 pour annuler) : ");
+                rep = Lire.i();
+            }
+            if (rep == 0) {
+                return null;
+            } else {
+                return this.getListeBarres().get(rep-1);
+            }
+        }
+    }
      
      public void supprimerNoeud (Noeud n){
          this.getListeNoeuds().remove(n);
@@ -259,17 +284,69 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         test.getListeBarres().add(b3);
         return test;
     }
-    /*
+    
     public void menuTexte() {
-        
+        int rep = -1;
+        while (rep != 0) {
+            System.out.println("1) afficher le treillis");
+            System.out.println("2) ajouter un noeud");
+            System.out.println("3) ajouter une barre sur deux noeuds existants");
+            System.out.println("4) afficher le rectangle englobant");
+            System.out.println("5) retirer des noeuds");
+            System.out.println("6) retirer des barres");
+            System.out.println("0) quitter");
+            System.out.println("votre choix : ");
+            rep = Lire.i();
+            if (rep == 1) {
+                System.out.println(this);
+            } else if (rep == 2) {
+                System.out.println("1) NoeudSimple"+"\n"+"2)AppuiSimple"+"\n"+"3)AppuiDouble");
+                int type=Lire.i();
+                Point np = Point.demandePoint();
+                if (type==1){
+                    this.ajouterNoeudSimple(np);
+                }
+                else if (type==2){
+                    System.out.println("Entrez le numéro du triangle surlequel vous voulez placez l'appui");
+                    this.ajouterAppuiSimple(np,this.getTerrain().getTriangles().get(Lire.i()));
+                }
+                else if(type==3){
+                    System.out.println("Entrez le numéro du triangle surlequel vous voulez placez l'appui");
+                    this.ajouterAppuiSimple(np,this.getTerrain().getTriangles().get(Lire.i()));
+                }
+            } else if (rep == 3) {
+                System.out.println("choisissez le début de la barre");
+                Noeud deb = this.choisiNoeud();
+                if (deb != null) {
+                    System.out.println("choisissez la fin de la barre");
+                    Noeud fin = this.choisiNoeud();
+                    this.ajouterBarre(deb,fin);
+                }
+            } else if (rep == 4) {
+                System.out.println("maxX = " + this.maxX() + " ; "
+                       + "minX = " + this.minX() + "\n"
+                       + "maxY = " + this.maxY() + " ; "
+                       + "minY = " + this.minY() + "\n");
+            } else if (rep == 5) {
+                System.out.println("choisissez un Noeud :");
+                Noeud n= this.choisiNoeud();
+                this.supprimerNoeud(n);
+            } else if (rep == 6) {
+                System.out.println("choisissez une Barre :");
+                Barre b= this.choisiBarre();
+                this.supprimerBarre(b);
+            }
+        }
     }
+   
+    // ces méthodes peuvent être améliorer un prenant en compte les triangles terrain
     public double maxX() {
-        if (this.contient.isEmpty()) {
+        if (this.getListeNoeuds().isEmpty()) {
             return 0;
         } else {
-            double max = this.contient.get(0).maxX();
-            for (int i = 1; i < this.contient.size(); i++) {
-                double cur = this.contient.get(i).maxX();
+            double max = this.getListeNoeuds().get(0).getPos().getX();
+            for (int i = 1; i < this.getListeNoeuds().size(); i++) {
+                double cur = this.getListeNoeuds().get(i).getPos().getX();
                 if (cur > max) {
                     max = cur;
                 }
@@ -279,12 +356,12 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
     }
     
     public double minX() {
-        if (this.contient.isEmpty()) {
+        if (this.getListeNoeuds().isEmpty()) {
             return 0;
         } else {
-            double min = this.contient.get(0).minX();
-            for (int i = 1; i < this.contient.size(); i++) {
-                double cur = this.contient.get(i).minX();
+            double min = this.getListeNoeuds().get(0).getPos().getX();
+            for (int i = 1; i < this.getListeNoeuds().size(); i++) {
+                double cur = this.getListeNoeuds().get(i).getPos().getX();
                 if (cur < min) {
                     min = cur;
                 }
@@ -292,13 +369,14 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
             return min;
         }
     }
-     public double maxY() {
-        if (this.contient.isEmpty()) {
+    
+    public double maxY() {
+        if (this.getListeNoeuds().isEmpty()) {
             return 0;
         } else {
-            double max = this.contient.get(0).maxY();
-            for (int i = 1; i < this.contient.size(); i++) {
-                double cur = this.contient.get(i).maxY();
+            double max = this.getListeNoeuds().get(0).getPos().getY();
+            for (int i = 1; i < this.getListeNoeuds().size(); i++) {
+                double cur = this.getListeNoeuds().get(i).getPos().getY();
                 if (cur > max) {
                     max = cur;
                 }
@@ -307,13 +385,13 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         }
     }
 
-     public double minY() {
-        if (this.contient.isEmpty()) {
+    public double minY() {
+        if (this.getListeNoeuds().isEmpty()) {
             return 0;
         } else {
-            double min = this.contient.get(0).minY();
-            for (int i = 1; i < this.contient.size(); i++) {
-                double cur = this.contient.get(i).minY();
+            double min = this.getListeNoeuds().get(0).getPos().getY();
+            for (int i = 1; i < this.getListeNoeuds().size(); i++) {
+                double cur = this.getListeNoeuds().get(i).getPos().getY();
                 if (cur < min) {
                     min = cur;
                 }
@@ -321,7 +399,7 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
             return min;
         }
     }
-    */
+
     public void dessine(GraphicsContext context) {
         this.getTerrain().dessine(context);
         for (Noeud n : this.getListeNoeuds()) {
@@ -332,9 +410,6 @@ public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
         }
     }
     
-
- 
-
     /**
      * affiche la matrice des forces de traction/compression des barres et de récation des noeuds
      * @param Treillis

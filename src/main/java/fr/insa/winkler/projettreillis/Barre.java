@@ -7,6 +7,7 @@ package fr.insa.winkler.projettreillis;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
 /**
  *
@@ -70,6 +71,7 @@ public class Barre {
     
     public void dessine(GraphicsContext context) {
         context.setStroke(Color.BLACK);
+        context.setLineWidth(0.1);
         context.strokeLine(this.getNoeudDebut().getPos().getX(), this.getNoeudDebut().getPos().getY(), 
                 this.getNoeudFin().getPos().getX(), this.getNoeudFin().getPos().getY());
     }

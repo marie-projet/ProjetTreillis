@@ -19,7 +19,8 @@ public class ClassePrincipale {
        Point p= new Point (-3,4);
        //t.choisiType();
        AppuiDouble ap=(AppuiDouble) t.getListeNoeuds().get(0);
-       System.out.println(ap.getPoint2());
+       System.out.println(t.toString());
+       t.menuTexte();
 
 
 

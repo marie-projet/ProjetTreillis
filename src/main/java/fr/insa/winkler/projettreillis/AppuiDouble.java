@@ -7,6 +7,7 @@ package fr.insa.winkler.projettreillis;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import recup.Lire;
 
 /**
  *
@@ -31,4 +32,5 @@ public class AppuiDouble extends Appui{
         gc.setFill(Color.RED);
         super.dessine(gc);    
     }
+    
 }
