@@ -86,10 +86,10 @@ public class Terrain {
     
     public void dessine (GraphicsContext gc){
         gc.setStroke(Color.GREEN);
-        gc.strokeLine(this.getXmin(),this.getYmin(),this.getXmin(),this.getYmax());
-        gc.strokeLine(this.getXmin(),this.getYmax(),this.getXmax(),this.getYmax());
-        gc.strokeLine(this.getXmax(),this.getYmax(),this.getXmax(),this.getYmin());
-        gc.strokeLine(this.getXmax(),this.getYmin(),this.getXmin(),this.getYmin());
+        gc.strokeLine(this.getXmin(),-1*this.getYmin(),this.getXmin(),-1*this.getYmax());
+        gc.strokeLine(this.getXmin(),-1*this.getYmax(),this.getXmax(),-1*this.getYmax());
+        gc.strokeLine(this.getXmax(),-1*this.getYmax(),this.getXmax(),-1*this.getYmin());
+        gc.strokeLine(this.getXmax(),-1*this.getYmin(),this.getXmin(),-1*this.getYmin());
         for (int i=0; i<this.getTriangles().size(); i++){
             this.getTriangles().get(i).dessine(gc);
         }

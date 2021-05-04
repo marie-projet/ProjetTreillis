@@ -63,7 +63,6 @@ public class MainPane extends BorderPane{
         this.cDessin=new DessinCanvas (this);
         this.setCenter(this.cDessin);
         
-        //reste un probleme avec les axes (y est vers le bas)
         GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
         context.translate(300, 250);
         context.scale(50, 50);

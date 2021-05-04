@@ -147,8 +147,8 @@ public class TriangleTerrain {
     
     public void dessine(GraphicsContext gc){
         gc.setStroke(Color.CHOCOLATE);
-        gc.strokeLine(this.getPT0().getX(),this.getPT0().getY(), this.getPT1().getX(), this.getPT1().getY());
-        gc.strokeLine(this.getPT1().getX(),this.getPT1().getY(), this.getPT2().getX(), this.getPT2().getY());
-        gc.strokeLine(this.getPT2().getX(),this.getPT2().getY(), this.getPT0().getX(), this.getPT0().getY());
+        gc.strokeLine(this.getPT0().getX(),-1*this.getPT0().getY(), this.getPT1().getX(), -1*this.getPT1().getY());
+        gc.strokeLine(this.getPT1().getX(),-1*this.getPT1().getY(), this.getPT2().getX(), -1*this.getPT2().getY());
+        gc.strokeLine(this.getPT2().getX(),-1*this.getPT2().getY(), this.getPT0().getX(), -1*this.getPT0().getY());
     }
 }
