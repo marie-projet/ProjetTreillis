@@ -88,13 +88,6 @@ public class Treillis {
         return res;
     }
     
-    /*public void getNbrNoeuds (List listeNoeuds)
-    {
-        this.getListeNoeuds();
-        int nbrNoeuds = new int nbrNoeuds;
-        
-    } */
-    
     /**
      * crée un NoeudSimple à partir d'un point
      * @param p Point (position du Noeud)
@@ -104,6 +97,10 @@ public class Treillis {
         for(int i=0; i<this.getTerrain().getTriangles().size();i++){
             if(this.getTerrain().getTriangles().get(i).estDansTriangle(p)==true){
                 throw new Error("le point est dans un triangle terrain");
+            }
+            if((p.getX()<this.getTerrain().getXmin())||(p.getX()>this.getTerrain().getXmax())
+                    ||(p.getY()<this.getTerrain().getYmin())|| (p.getY()>this.getTerrain().getYmax())){
+                throw new Error("le point n'est pas dans la zone contructible");
             }
         }
         System.out.println("Saisissez l'identifiant du Noeud");
@@ -257,7 +254,6 @@ public class Treillis {
              
      }
 
-
     public static Treillis treillisTest() {
         Treillis test=new Treillis();
         Point p0= new Point(0,-3);
@@ -297,7 +293,7 @@ public class Treillis {
             if (rep == 1) {
                 System.out.println(this);
             } else if (rep == 2) {
-                System.out.println("1) NoeudSimple"+"\n"+"2)AppuiSimple"+"\n"+"3)AppuiDouble");
+                System.out.println("1)NoeudSimple"+"\n"+"2)AppuiSimple"+"\n"+"3)AppuiDouble");
                 int type=Lire.i();
                 Point np = Point.demandePoint();
                 if (type==1){
