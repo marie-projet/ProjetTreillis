@@ -65,6 +65,7 @@ public class MainPane extends BorderPane{
         
         GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
         context.translate(300, 250);
+        context.scale(50, 50);
     
         this.bCalcul.setOnAction(new EventHandler<ActionEvent>() {
             @Override
