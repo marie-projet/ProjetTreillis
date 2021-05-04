@@ -263,18 +263,15 @@ public class Treillis {
         Point p0= new Point(0,-3);
         Point p1=new Point(0,1);
         Point p2=new Point(-1,-1);
-        Point p7= new Point (710,560);
         TriangleTerrain t1= new TriangleTerrain(1,p0,p1,p2);
         Point p6= new Point(1,-1);
         AppuiDouble ap2=new AppuiDouble(1,t1,0,0.75);
         AppuiSimple ap=new AppuiSimple(2,t1,0,0.25);
-        NoeudSimple n2=new NoeudSimple(4,p7);
         NoeudSimple n=new NoeudSimple(3,p6);
         test.getTerrain().getTriangles().add(t1);
         test.getListeNoeuds().add(ap2);
         test.getListeNoeuds().add(ap);
         test.getListeNoeuds().add(n);
-        test.getListeNoeuds().add(n2);
         Barre b1= new Barre(1,ap2,n);
         Barre b2=new Barre(2,ap,n);
         Barre b3=new Barre(3,ap2,ap);
@@ -399,7 +396,7 @@ public class Treillis {
             return min;
         }
     }
-
+   
     public void dessine(GraphicsContext context) {
         this.getTerrain().dessine(context);
         for (Noeud n : this.getListeNoeuds()) {
