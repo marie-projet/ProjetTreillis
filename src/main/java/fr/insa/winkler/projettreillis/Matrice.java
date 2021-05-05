@@ -561,12 +561,17 @@ public double determinant(){
     if(this.getNbrCol()!=this.getNbrLig()){
         throw new Error("La matrice n'est pas une matrice carrée");
     }
-    ResGauss res=this.descenteGauss();
-    double determinant=1;
-    for(int i=0; i<this.getNbrCol(); i++){
-        determinant=determinant*getCoeffs(i,i);
-    }
-    return determinant*res.sigPerm;
+    Matrice m = this.copie();
+        ResGauss res = m.descenteGauss();
+        if (res.rang != this.getNbrLig()) {
+            return 0;
+        } else {
+            double det = res.sigPerm;
+            for (int k = 0; k < this.getNbrLig(); k++) {
+                det = det * m.getCoeffs(k, k);
+            }
+            return det;
+        }
 }
 
 
