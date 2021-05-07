@@ -7,6 +7,7 @@ package fr.insa.winkler.projettreillis.gui;
 
 import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Treillis;
+import fr.insa.winkler.projettreillis.TypeBarre;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,11 +18,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import recup.Lire;
 
 /**
  *
@@ -51,19 +54,39 @@ public class MainPane extends BorderPane{
         this.bEnregistrer = new Button ("Enregistrer");
         this.mbNoeud=new MenuButton("Noeud");
       
-        MenuItem menuItemC = new MenuItem("Créer");
-        MenuItem menuItemM = new MenuItem("Modifier");
-        MenuItem menuItemS = new MenuItem("Supprimer");
-        bBarre.getItems().addAll(menuItemC, menuItemM, menuItemS);  
-        Menu menuItemC3 = new Menu ("Créer");
-        MenuItem menuItemM3 = new MenuItem("Modifier");
-        MenuItem menuItemS3 = new MenuItem("Supprimer");
-        mbNoeud.getItems().addAll(menuItemC3, menuItemM3, menuItemS3);
-        MenuItem menuItemC2 = new MenuItem("Créer");
-        MenuItem menuItemM2 = new MenuItem("Modifier");
-        MenuItem menuItemS2 = new MenuItem("Supprimer");
-        bTerrain.getItems().addAll(menuItemC2, menuItemM2, menuItemS2);
-       
+        MenuItem menuItemCB = new MenuItem("Créer");
+        MenuItem menuItemMB = new MenuItem("Modifier");
+        MenuItem menuItemSB = new MenuItem("Supprimer");
+        bBarre.getItems().addAll(menuItemCB, menuItemMB, menuItemSB);  
+        Menu menuItemCN = new Menu ("Créer");
+        MenuItem menuItemMN = new MenuItem("Modifier");
+        MenuItem menuItemSN = new MenuItem("Supprimer");
+        mbNoeud.getItems().addAll(menuItemCN, menuItemMN, menuItemSN);
+        MenuItem menuItemCT = new MenuItem("Créer");
+        MenuItem menuItemMT = new MenuItem("Modifier");
+        MenuItem menuItemST = new MenuItem("Supprimer");
+        bTerrain.getItems().addAll(menuItemCT, menuItemMT, menuItemST);
+        Button valider=new Button("Valider");
+        MenuButton typeBarre = new MenuButton("Type de Barre");
+        if (model.getCatalogue().getListe().size()!=0){
+            for(int i=0; i<model.getCatalogue().getListe().size();i++){
+            MenuItem it=new MenuItem(model.getCatalogue().getListe().get(i).toString());
+            typeBarre.getItems().addAll(it);  
+            }
+        }else{
+            MenuItem it=new MenuItem("Aucun type disponible"); 
+            typeBarre.getItems().addAll(it);  
+            }  
+        MenuButton noeuds = new MenuButton("Noeuds existants");
+        if(model.getListeNoeuds().size()!=0){
+        for(int i=0; i<model.getListeNoeuds().size();i++){
+            MenuItem it=new MenuItem(model.getListeNoeuds().get(i).toString());
+            noeuds.getItems().addAll(it);    
+        }
+        }else{
+            MenuItem it=new MenuItem("Aucun noeud disponible"); 
+            noeuds.getItems().addAll(it);  
+        }
           
           
         VBox vbGauche = new VBox();
@@ -110,13 +133,12 @@ public class MainPane extends BorderPane{
             public void handle (ActionEvent t){
                 System.out.println("bouton Force cliqué ");
                 vbGauche.getChildren().clear();
-                Label forcesx = new Label ("forces qui s'exercent sur Px");
-                Label forcesy = new Label ("forces qui s'exercent sur Py");
+                Label identifiant=new Label ("identifiant du Noeud");
+                Label forcesx = new Label ("force Px");
+                Label forcesy = new Label ("force Py");
                 TextField Px = new TextField();
                 TextField Py = new TextField();
-                Button Enregistrer = new Button ("Enregistrer");
-                Button Enregistrer2 = new Button ("Enregistrer");
-                VBox test = new VBox (forcesx, Px, Enregistrer, forcesy, Py, Enregistrer2);
+                VBox test = new VBox (forcesx, Px, forcesy, Py,valider);
                 vbGauche.getChildren().add(test);
             }
         });
@@ -129,10 +151,10 @@ public class MainPane extends BorderPane{
             }
         }); 
        
-         menuItemC2.setOnAction (new EventHandler<ActionEvent>() {
+         menuItemCT.setOnAction (new EventHandler<ActionEvent>() {
             public void handle (ActionEvent t){
                 System.out.println("Créer cliqué");
-                     vbGauche.getChildren().clear();
+                vbGauche.getChildren().clear();
                 Label abscisseMin = new Label("xmin");
                 Label abscisseMax = new Label("xmax");
                 Label ordonneeMin = new Label("ymin");
@@ -146,12 +168,12 @@ public class MainPane extends BorderPane{
                 vbGauche.getChildren().add(test);
             }
         });
-                 menuItemM2.setOnAction (new EventHandler<ActionEvent>() {
+                 menuItemMT.setOnAction (new EventHandler<ActionEvent>() {
             public void handle (ActionEvent t){
                 System.out.println("Modifier cliqué");
             }
         });  
-                        menuItemS2.setOnAction (new EventHandler<ActionEvent>() {
+                        menuItemST.setOnAction (new EventHandler<ActionEvent>() {
             public void handle (ActionEvent t){
                 System.out.println("Suprimer cliqué");
             }
@@ -164,72 +186,101 @@ public class MainPane extends BorderPane{
                 System.out.println("bouton Noeud cliqué");
             }
         }); 
-    MenuItem noeudSimple = new MenuItem("Noeud Simple");
-          MenuItem noeudAppui = new MenuItem ("Noeud Appui");
-                menuItemC3.getItems().addAll(noeudSimple, noeudAppui);
-        menuItemC3.setOnAction(new EventHandler<ActionEvent>() {
-              
-            @Override
-            public void handle (ActionEvent t){
-                System.out.println("noeud simple cliqué");
-                System.out.println("noeud appui cliqué");
-                vbGauche.getChildren().clear();
-            }
-        });
+        MenuItem noeudSimple = new MenuItem("Noeud Simple");
+        MenuItem noeudAppui = new MenuItem ("Noeud Appui");
+        menuItemCN.getItems().addAll(noeudSimple, noeudAppui);
+ 
         noeudSimple.setOnAction (new EventHandler<ActionEvent>() {
             public void handle (ActionEvent t){
-              vbGauche.getChildren().clear();
-               Label abscisse = new Label ("Abscisse ");
-               Label ordonnee = new Label ("Ordonnée");
-               TextField x = new TextField(); 
-               TextField y = new TextField();
-               HBox abs = new HBox (abscisse, x);
-               HBox ord = new HBox (ordonnee, y);
-               vbGauche.getChildren().add(abs);
-               vbGauche.getChildren().add(ord);
+                System.out.println("NoeudSimple cliqué");
+                vbGauche.getChildren().clear();
+                Label identifiant= new Label ("Identifiant");
+                Label abscisse = new Label ("Abscisse ");
+                Label ordonnee = new Label ("Ordonnée");
+                TextField id=new TextField();
+                TextField x = new TextField(); 
+                TextField y = new TextField();
+                HBox ident= new HBox(identifiant, id);
+                HBox abs = new HBox (abscisse, x);
+                HBox ord = new HBox (ordonnee, y);
+                vbGauche.getChildren().add(ident);
+                vbGauche.getChildren().add(abs);
+                vbGauche.getChildren().add(ord);
+                vbGauche.getChildren().add(valider);
+                valider.setOnAction (new EventHandler<ActionEvent>() {
+            public void handle (ActionEvent t){
+                controleur.changeEtat(0);
+                controleur.boutonValider();
+            }
+                });
             }
         });
                 
     
        noeudAppui.setOnAction (new EventHandler<ActionEvent>() {
            public void handle (ActionEvent t){
-                vbGauche.getChildren().clear();
-               RadioButton appuiDouble = new RadioButton("AppuiDouble");
-               RadioButton appuiSimple = new RadioButton("AppuiSimple");
-              VBox test = new VBox(appuiDouble, appuiSimple);
-             vbGauche.getChildren().add(test);
+                System.out.println("NoeudAppui cliqué");
+                vbGauche.getChildren().clear(); 
+                RadioButton appuiDouble = new RadioButton("AppuiDouble");
+                RadioButton appuiSimple = new RadioButton("AppuiSimple");
+                ToggleGroup appui = new ToggleGroup();
+                appuiDouble.setToggleGroup(appui);
+                appuiSimple.setToggleGroup(appui);
+                Label identifiant= new Label ("Identifiant");
+                Label abscisse = new Label ("Abscisse ");
+                Label ordonnee = new Label ("Ordonnée");
+                TextField id=new TextField();
+                TextField x = new TextField(); 
+                TextField y = new TextField();
+                HBox ident= new HBox(identifiant, id);
+                HBox abs = new HBox (abscisse, x);
+                HBox ord = new HBox (ordonnee, y);
+                VBox choixAppui = new VBox(appuiDouble, appuiSimple);
+                vbGauche.getChildren().add(choixAppui);
+                vbGauche.getChildren().add(ident);
+                vbGauche.getChildren().add(abs);
+                vbGauche.getChildren().add(ord);
+                vbGauche.getChildren().add(valider);
+                valider.setOnAction (new EventHandler<ActionEvent>() {
+                public void handle (ActionEvent t){
+                controleur.changeEtat(0);
+                controleur.boutonValider();
+            }
+                });
           }
        });
-    
-        this.bBarre.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                //indiquer dans la console que le bouton a été cliqué 
-                System.out.println("bouton Barre cliqué");
-            }
-        }); 
         
-    menuItemC.setOnAction (new EventHandler<ActionEvent>() {
+    menuItemCB.setOnAction (new EventHandler<ActionEvent>() {
             public void handle (ActionEvent t){
                 System.out.println("Créer cliqué");
-                 vbGauche.getChildren().clear();
-                Label typeBarre = new Label("Type de Barre");
-                //pas sure peut être mieux des Radio Boutons
-                TextField zoneTexteTB = new TextField();
-                Label identificateur= new Label ("rentrer un identificateur (nombre entier)");
-                TextField zoneTexteId = new TextField();
-                Label noeudDebut = new Label ("Noeud début");
-                Label noeudFin = new Label ("Noeud fin");
-                VBox barre = new VBox(identificateur, zoneTexteId, noeudDebut, noeudFin);
+                vbGauche.getChildren().clear();
+                Label identifiant= new Label ("identifiant");
+                TextField id = new TextField();
+                Label identifiantType=new Label ("Identifiant du type :");
+                TextField idType= new TextField();
+                Label identifiantNoeudDebut = new Label ("Identifiant du noeud début :");
+                TextField idND=new TextField();
+                Label identifiantNoeudFin = new Label ("Identifiant du noeud de fin:  ");
+                TextField idNF=new TextField();
+                HBox ident=new HBox(identifiant, id);
+                VBox barre = new VBox(ident,typeBarre,identifiantType,idType,noeuds,identifiantNoeudDebut,idND,
+                        identifiantNoeudFin,idNF);
                 vbGauche.getChildren().add(barre);
+                vbGauche.getChildren().add(valider);
+                valider.setOnAction (new EventHandler<ActionEvent>() {
+                public void handle (ActionEvent t){
+                controleur.changeEtat(0);
+                controleur.boutonValider();
+            }
+                });
             }
         });
-       menuItemM.setOnAction (new EventHandler<ActionEvent>() {
+       menuItemMB.setOnAction (new EventHandler<ActionEvent>() {
             public void handle (ActionEvent t){
                 System.out.println("Modifier cliqué");
             }
         });
-          menuItemS.setOnAction (new EventHandler<ActionEvent>() {
+          menuItemSB.setOnAction (new EventHandler<ActionEvent>() {
             public void handle (ActionEvent t){
                 System.out.println("Suprimer cliqué");
             }

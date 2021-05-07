@@ -187,7 +187,7 @@ public class Treillis {
      * @return TypeBarre
      */
     public TypeBarre choisiType() {
-        System.out.println("liste des points disponibles : ");
+        System.out.println("liste des types disponibles : ");
         int nbr = this.getCatalogue().getListe().size();
         for (int i = 0; i < nbr; i++) {
             TypeBarre t = this.getCatalogue().getListe().get(i);
@@ -303,6 +303,7 @@ public class Treillis {
         Barre b2=new Barre(2,ap,n);
         Barre b3=new Barre(3,ap2,ap);
         test.getCatalogue().add(b1.getType());
+        test.getCatalogue().add(new TypeBarre(2,50,60,70,80,78));
         test.getListeBarres().add(b1);
         test.getListeBarres().add(b2);
         test.getListeBarres().add(b3);

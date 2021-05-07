@@ -86,6 +86,7 @@ public class Terrain {
     
     public void dessine (GraphicsContext gc){
         gc.setStroke(Color.GREEN);
+        gc.setLineWidth(0.1);
         gc.strokeLine(this.getXmin(),-1*this.getYmin(),this.getXmin(),-1*this.getYmax());
         gc.strokeLine(this.getXmin(),-1*this.getYmax(),this.getXmax(),-1*this.getYmax());
         gc.strokeLine(this.getXmax(),-1*this.getYmax(),this.getXmax(),-1*this.getYmin());

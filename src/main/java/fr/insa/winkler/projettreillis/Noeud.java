@@ -38,4 +38,7 @@ public abstract class Noeud {
         context.fillOval(this.getPos().getX()-RAYON_IN_DRAW, -1*this.getPos().getY()-RAYON_IN_DRAW, 2*RAYON_IN_DRAW, 2*RAYON_IN_DRAW);
     }
     
+    public String name(){
+        return "Noeud"+this.getIdentifiant();
+    }
 }
