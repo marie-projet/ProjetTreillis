@@ -31,15 +31,15 @@ import recup.Lire;
  * @author mariewinkler
  */
 public class MainPane extends BorderPane{
-    // définir le squelette de l'interface
     private Treillis model;
     private Controleur controleur;  
     private Button bCalcul;
     private Button bEnregistrer;   
-    private MenuButton bTerrain;
-    private MenuButton bBarre;
+    private Button bZoneConstructible;
+    private MenuButton mbTriangle;
+    private MenuButton mbBarre;
     private Button bForce; 
-    private Button bCatalogueBarre;
+    private MenuButton mbCatalogue;
     private MenuButton mbNoeud;   
     private DessinCanvas cDessin; 
 
@@ -47,25 +47,33 @@ public class MainPane extends BorderPane{
         this.model=model;
         this.controleur= new Controleur(this);
         this.bCalcul= new Button("Calculer");
-        this.bBarre=new MenuButton ("Barre");
-        this.bCatalogueBarre=new Button("Catalogue de barres");
+        this.mbBarre=new MenuButton ("Barre");
+        this.mbCatalogue=new MenuButton("Catalogue de barres");
         this.bForce = new Button ("Forces");
-        this.bTerrain=new MenuButton ("Terrain");
+        this.bZoneConstructible=new Button ("Zone Constructible");
+        this.mbTriangle=new MenuButton("Triangles");
         this.bEnregistrer = new Button ("Enregistrer");
         this.mbNoeud=new MenuButton("Noeud");
       
-        MenuItem menuItemCB = new MenuItem("Créer");
-        MenuItem menuItemMB = new MenuItem("Modifier");
-        MenuItem menuItemSB = new MenuItem("Supprimer");
-        bBarre.getItems().addAll(menuItemCB, menuItemMB, menuItemSB);  
-        Menu menuItemCN = new Menu ("Créer");
-        MenuItem menuItemMN = new MenuItem("Modifier");
-        MenuItem menuItemSN = new MenuItem("Supprimer");
-        mbNoeud.getItems().addAll(menuItemCN, menuItemMN, menuItemSN);
         MenuItem menuItemCT = new MenuItem("Créer");
         MenuItem menuItemMT = new MenuItem("Modifier");
         MenuItem menuItemST = new MenuItem("Supprimer");
-        bTerrain.getItems().addAll(menuItemCT, menuItemMT, menuItemST);
+        mbTriangle.getItems().addAll(menuItemCT,menuItemMT,menuItemST);
+        MenuItem menuItemCB = new MenuItem("Créer");
+        MenuItem menuItemMB = new MenuItem("Modifier");
+        MenuItem menuItemSB = new MenuItem("Supprimer");
+        mbBarre.getItems().addAll(menuItemCB, menuItemMB, menuItemSB);  
+        Menu menuCN = new Menu ("Créer");
+        MenuItem menuItemMN = new MenuItem("Modifier");
+        MenuItem menuItemSN = new MenuItem("Supprimer");
+        mbNoeud.getItems().addAll(menuCN, menuItemMN, menuItemSN);
+        MenuItem noeudSimple = new MenuItem("Noeud Simple");
+        MenuItem noeudAppui = new MenuItem ("Noeud Appui");
+        menuCN.getItems().addAll(noeudSimple, noeudAppui);
+        MenuItem menuItemCC = new MenuItem("Créer");
+        MenuItem menuItemSC = new MenuItem("Supprimer");
+        mbCatalogue.getItems().addAll(menuItemCC, menuItemSC); 
+        
         Button valider=new Button("Valider");
         MenuButton typeBarre = new MenuButton("Type de Barre");
         if (model.getCatalogue().getListe().size()!=0){
@@ -95,211 +103,188 @@ public class MainPane extends BorderPane{
         VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer);
         vbDroite.setSpacing(10);
         this.setRight(vbDroite);
-        HBox boutons=new HBox(this.bTerrain, this.mbNoeud, this.bBarre, this.bCatalogueBarre, this.bForce);
-        boutons.setSpacing(10);
-        this.setTop(boutons);
+        HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.bForce);
+        entete.setSpacing(10);
+        this.setTop(entete);
         this.cDessin=new DessinCanvas (this);
         this.setCenter(this.cDessin);
         
         GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
         context.translate(300, 250);
         context.scale(50, 50);
-    
-        this.bCalcul.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                //indiquer dans la console que le bouton a été cliqué 
-                System.out.println("bouton Calculer cliqué");
-                Matrice res=model.calculForces();
-                for(int i=0; i<model.getListeBarres().size(); i++){
-                    if ((res.getCoeffs(i,0)>model.getListeBarres().get(i).getType().getResistanceMaxTraction())
-                        ||(-1*res.getCoeffs(i,0)>model.getListeBarres().get(i).getType().getResistanceMaxCompression())){
-                            model.getListeBarres().get(i).dessine(context, Color.RED);
-                            System.out.println(model.getListeBarres().get(i));
-                    }
+        
+        bZoneConstructible.setOnAction ((t) -> {
+            System.out.println("Créer cliqué");
+            vbGauche.getChildren().clear();
+            Label abscisseMin = new Label("xmin");
+            Label abscisseMax = new Label("xmax");
+            Label ordonneeMin = new Label("ymin");
+            Label ordonneeMax = new Label("ymax");
+            TextField xmin = new TextField();
+            TextField xmax = new TextField();
+            TextField ymax = new TextField();
+            TextField ymin = new TextField();
+            VBox test = new VBox (abscisseMin, xmin, abscisseMax, xmax, ordonneeMax, ymax, ordonneeMin, ymin,valider);
+                vbGauche.getChildren().add(test);
+        });
+        
+        Label identifiant= new Label ("Identifiant");
+        TextField id=new TextField();
+        HBox ident= new HBox(identifiant, id);
+        
+        menuItemCT.setOnAction ((t) -> {
+            //id, trois points, valider
+        });
+        menuItemMT.setOnAction ((t) -> {
+            //trianglesexistants, id, 3 points
+        });
+        menuItemST.setOnAction ((t) -> {
+            //triangles existants, id
+        });
+
+        Label abscisse = new Label ("Abscisse ");
+        Label ordonnee = new Label ("Ordonnée");
+        TextField x = new TextField(); 
+        TextField y = new TextField();
+        HBox abs = new HBox (abscisse, x);
+        HBox ord = new HBox (ordonnee, y);
+        
+        noeudSimple.setOnAction ((t) -> {
+            vbGauche.getChildren().clear();
+            vbGauche.getChildren().add(ident);
+            vbGauche.getChildren().add(abs);
+            vbGauche.getChildren().add(ord);
+            vbGauche.getChildren().add(valider);
+            valider.setOnAction ((i) -> {
+                controleur.changeEtat(0);
+                controleur.boutonValider();
+            });
+        });
+                
+
+        noeudAppui.setOnAction ((t) -> {
+            vbGauche.getChildren().clear();
+            RadioButton appuiDouble = new RadioButton("AppuiDouble");
+            RadioButton appuiSimple = new RadioButton("AppuiSimple");
+            ToggleGroup appui = new ToggleGroup();
+            appuiDouble.setToggleGroup(appui);
+            appuiSimple.setToggleGroup(appui);
+            VBox choixAppui = new VBox(appuiDouble, appuiSimple);
+            vbGauche.getChildren().add(choixAppui);
+            vbGauche.getChildren().add(ident);
+            vbGauche.getChildren().add(abs);
+            vbGauche.getChildren().add(ord);
+            vbGauche.getChildren().add(valider);
+            valider.setOnAction ((i) -> {
+                controleur.changeEtat(0);
+                controleur.boutonValider();
+            });
+        });
+        menuItemMN.setOnAction((t) -> {
+            //noeudsexistants,id, coordonées, valider
+        });
+        menuItemSN.setOnAction((t) -> {
+            //noeudsexistants,id,valider
+        });
+  
+        menuItemCB.setOnAction ((t) -> {
+            vbGauche.getChildren().clear();
+            Label identifiantType=new Label ("Identifiant du type :");
+            TextField idType= new TextField();
+            Label identifiantNoeudDebut = new Label ("Identifiant du noeud début :");
+            TextField idND=new TextField();
+            Label identifiantNoeudFin = new Label ("Identifiant du noeud de fin:  ");
+            TextField idNF=new TextField();
+            VBox barre = new VBox(ident,typeBarre,identifiantType,idType,noeuds,identifiantNoeudDebut,idND,
+                        identifiantNoeudFin,idNF);
+            vbGauche.getChildren().add(barre);
+            vbGauche.getChildren().add(valider);
+            valider.setOnAction ((i) -> {
+                controleur.changeEtat(0);
+                controleur.boutonValider();
+            });
+        });
+        menuItemMB.setOnAction ((t) -> {
+            //barresexistantes,id, noeuddeb,noeudfin,valider
+        });
+        menuItemSB.setOnAction ((t) -> {
+            //barresexistantes,id,valider
+        });
+
+            
+        menuItemCC.setOnAction((t) -> {
+            //id, cout au metre,...,valider
+        });
+        menuItemSC.setOnAction((t) -> {
+            //typesexistants,id,valider
+        });
+                   
+        this.bForce.setOnAction((t) -> {
+            System.out.println("bouton Force cliqué ");
+            vbGauche.getChildren().clear();
+            Label identifiantNoeud=new Label ("identifiant du Noeud");
+            Label forcesx = new Label ("force Px");
+            Label forcesy = new Label ("force Py");
+            TextField idN =new TextField();
+            TextField Px = new TextField();
+            TextField Py = new TextField();
+            HBox forcesPx=new HBox(forcesx,Px);
+            HBox forcesPy=new HBox(forcesy,Py);
+            VBox forces = new VBox (noeuds,identifiantNoeud,idN,forcesPx,forcesPy,valider);
+            vbGauche.getChildren().add(forces);
+            valider.setOnAction ((i) -> {
+                controleur.changeEtat(0);
+                controleur.boutonValider();
+            });
+        });
+        
+        this.bCalcul.setOnAction((t) -> {
+            Matrice res=model.calculForces();
+            for(int i=0; i<model.getListeBarres().size(); i++){
+                if ((res.getCoeffs(i,0)>model.getListeBarres().get(i).getType().getResistanceMaxTraction())
+                    ||(-1*res.getCoeffs(i,0)>model.getListeBarres().get(i).getType().getResistanceMaxCompression())){
+                        model.getListeBarres().get(i).dessine(context, Color.RED);
+                        System.out.println(model.getListeBarres().get(i));
                 }
             }
         }); 
     
-        this.bEnregistrer.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                //indiquer dans la console que le bouton a été cliqué 
-                System.out.println("bouton Enregistrer cliqué");
-            }
+        this.bEnregistrer.setOnAction((t) -> {
         }); 
-        
-        this.bForce.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle (ActionEvent t){
-                System.out.println("bouton Force cliqué ");
-                vbGauche.getChildren().clear();
-                Label identifiant=new Label ("identifiant du Noeud");
-                Label forcesx = new Label ("force Px");
-                Label forcesy = new Label ("force Py");
-                TextField Px = new TextField();
-                TextField Py = new TextField();
-                VBox test = new VBox (forcesx, Px, forcesy, Py,valider);
-                vbGauche.getChildren().add(test);
-            }
-        });
-        
-        this.bTerrain.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                //indiquer dans la console que le bouton a été cliqué 
-                System.out.println("bouton terrain cliqué"); 
-            }
-        }); 
-       
-         menuItemCT.setOnAction (new EventHandler<ActionEvent>() {
-            public void handle (ActionEvent t){
-                System.out.println("Créer cliqué");
-                vbGauche.getChildren().clear();
-                Label abscisseMin = new Label("xmin");
-                Label abscisseMax = new Label("xmax");
-                Label ordonneeMin = new Label("ymin");
-                Label ordonneeMax = new Label("ymax");
-                Label triangleTerrain = new Label ("Triangle Terrrain");
-                TextField xmin = new TextField();
-                TextField xmax = new TextField();
-                TextField ymax = new TextField();
-                TextField ymin = new TextField();
-                VBox test = new VBox (abscisseMin, xmin, abscisseMax, xmax, ordonneeMax, ymax, ordonneeMin, ymin);
-                vbGauche.getChildren().add(test);
-            }
-        });
-                 menuItemMT.setOnAction (new EventHandler<ActionEvent>() {
-            public void handle (ActionEvent t){
-                System.out.println("Modifier cliqué");
-            }
-        });  
-                        menuItemST.setOnAction (new EventHandler<ActionEvent>() {
-            public void handle (ActionEvent t){
-                System.out.println("Suprimer cliqué");
-            }
-        });
-                        
-        this.mbNoeud.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                //indiquer dans la console que le bouton a été cliqué 
-                System.out.println("bouton Noeud cliqué");
-            }
-        }); 
-        MenuItem noeudSimple = new MenuItem("Noeud Simple");
-        MenuItem noeudAppui = new MenuItem ("Noeud Appui");
-        menuItemCN.getItems().addAll(noeudSimple, noeudAppui);
- 
-        noeudSimple.setOnAction (new EventHandler<ActionEvent>() {
-            public void handle (ActionEvent t){
-                System.out.println("NoeudSimple cliqué");
-                vbGauche.getChildren().clear();
-                Label identifiant= new Label ("Identifiant");
-                Label abscisse = new Label ("Abscisse ");
-                Label ordonnee = new Label ("Ordonnée");
-                TextField id=new TextField();
-                TextField x = new TextField(); 
-                TextField y = new TextField();
-                HBox ident= new HBox(identifiant, id);
-                HBox abs = new HBox (abscisse, x);
-                HBox ord = new HBox (ordonnee, y);
-                vbGauche.getChildren().add(ident);
-                vbGauche.getChildren().add(abs);
-                vbGauche.getChildren().add(ord);
-                vbGauche.getChildren().add(valider);
-                valider.setOnAction (new EventHandler<ActionEvent>() {
-            public void handle (ActionEvent t){
-                controleur.changeEtat(0);
-                controleur.boutonValider();
-            }
-                });
-            }
-        });
-                
-    
-       noeudAppui.setOnAction (new EventHandler<ActionEvent>() {
-           public void handle (ActionEvent t){
-                System.out.println("NoeudAppui cliqué");
-                vbGauche.getChildren().clear(); 
-                RadioButton appuiDouble = new RadioButton("AppuiDouble");
-                RadioButton appuiSimple = new RadioButton("AppuiSimple");
-                ToggleGroup appui = new ToggleGroup();
-                appuiDouble.setToggleGroup(appui);
-                appuiSimple.setToggleGroup(appui);
-                Label identifiant= new Label ("Identifiant");
-                Label abscisse = new Label ("Abscisse ");
-                Label ordonnee = new Label ("Ordonnée");
-                TextField id=new TextField();
-                TextField x = new TextField(); 
-                TextField y = new TextField();
-                HBox ident= new HBox(identifiant, id);
-                HBox abs = new HBox (abscisse, x);
-                HBox ord = new HBox (ordonnee, y);
-                VBox choixAppui = new VBox(appuiDouble, appuiSimple);
-                vbGauche.getChildren().add(choixAppui);
-                vbGauche.getChildren().add(ident);
-                vbGauche.getChildren().add(abs);
-                vbGauche.getChildren().add(ord);
-                vbGauche.getChildren().add(valider);
-                valider.setOnAction (new EventHandler<ActionEvent>() {
-                public void handle (ActionEvent t){
-                controleur.changeEtat(0);
-                controleur.boutonValider();
-            }
-                });
-          }
-       });
-        
-    menuItemCB.setOnAction (new EventHandler<ActionEvent>() {
-            public void handle (ActionEvent t){
-                System.out.println("Créer cliqué");
-                vbGauche.getChildren().clear();
-                Label identifiant= new Label ("identifiant");
-                TextField id = new TextField();
-                Label identifiantType=new Label ("Identifiant du type :");
-                TextField idType= new TextField();
-                Label identifiantNoeudDebut = new Label ("Identifiant du noeud début :");
-                TextField idND=new TextField();
-                Label identifiantNoeudFin = new Label ("Identifiant du noeud de fin:  ");
-                TextField idNF=new TextField();
-                HBox ident=new HBox(identifiant, id);
-                VBox barre = new VBox(ident,typeBarre,identifiantType,idType,noeuds,identifiantNoeudDebut,idND,
-                        identifiantNoeudFin,idNF);
-                vbGauche.getChildren().add(barre);
-                vbGauche.getChildren().add(valider);
-                valider.setOnAction (new EventHandler<ActionEvent>() {
-                public void handle (ActionEvent t){
-                controleur.changeEtat(0);
-                controleur.boutonValider();
-            }
-                });
-            }
-        });
-       menuItemMB.setOnAction (new EventHandler<ActionEvent>() {
-            public void handle (ActionEvent t){
-                System.out.println("Modifier cliqué");
-            }
-        });
-          menuItemSB.setOnAction (new EventHandler<ActionEvent>() {
-            public void handle (ActionEvent t){
-                System.out.println("Suprimer cliqué");
-            }
-        });
-        this.bCatalogueBarre.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                //indiquer dans la console que le bouton a été cliqué 
-                System.out.println("bouton Catalogue Barre cliqué");
-                //vbGauche.getChildren().addRadioButton("ajouter la liste du batalogue de barre ");
-            }
-        });   
     }
 
     public void redrawAll(){
         this.cDessin.redrawAll();
     }
 
-  
+    public Button getbCalcul() {
+        return bCalcul;
+    }
+
+    public Button getbEnregistrer() {
+        return bEnregistrer;
+    }
+
+    public MenuButton getMbTriangle() {
+        return mbTriangle;
+    }
+
+    public MenuButton getMbBarre() {
+        return mbBarre;
+    }
+
+    public Button getbForce() {
+        return bForce;
+    }
+
+    public MenuButton getMbCatalogue() {
+        return mbCatalogue;
+    }
+
+    public DessinCanvas getcDessin() {
+        return cDessin;
+    }
+    
     public Treillis getModel() {
         return model;
     }
@@ -308,12 +293,12 @@ public class MainPane extends BorderPane{
         return controleur;
     }
 
-    public MenuButton getbTerrain() {
-        return bTerrain;
+    public Button getbZoneConstructible() {
+        return bZoneConstructible;
     }
 
     public MenuButton getbBarre() {
-        return bBarre;
+        return mbBarre;
     }
 
     public MenuButton getMbNoeud() {
