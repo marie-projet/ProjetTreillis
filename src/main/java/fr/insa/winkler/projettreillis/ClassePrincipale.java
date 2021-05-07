@@ -22,21 +22,6 @@ public class ClassePrincipale {
        //System.out.println(t.toString());
        //t.menuTexte();
        
-       
-       
-    double a=123456789;
-    int n=0;
-    while (a != 0){
-        if(a%2==0){
-            a=a/2;
-            n=n+1;
-        }
-        else if (a%2==1){
-        a= a-1;
-        n=n+1;
-    }   
-    }
-    System.out.println(n);
     
 }
 
