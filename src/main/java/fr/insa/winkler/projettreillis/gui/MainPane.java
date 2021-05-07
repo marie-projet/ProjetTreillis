@@ -134,7 +134,27 @@ public class MainPane extends BorderPane{
         
         menuItemCT.setOnAction ((t) -> {
             //id, trois points, valider
+            vbGauche.getChildren().clear();
+           Label identifiantTriangle=new Label ("Identifiant du triangle de terrain :");
+            TextField idTriangle= new TextField();
+            Label abscisse1 = new Label ("x1");
+            Label abscisse2 = new Label ("x2");
+            Label abscisse3 = new Label ("x3");
+            Label ordonnee1 = new Label ("y1");
+            Label ordonnee2 = new Label ("y2");
+            Label ordonnee3 = new Label ("y3");
+            TextField x1 = new TextField();
+            TextField x2 = new TextField();
+            TextField x3 = new TextField();
+            TextField y1 = new TextField();
+            TextField y2 = new TextField();
+            TextField y3 = new TextField();
+            VBox triangle = new VBox (identifiantTriangle, idTriangle, abscisse1, x1, 
+                    abscisse2, x2, abscisse3, x3, ordonnee1, y1, ordonnee2, y2, ordonnee3, y3);
+            vbGauche.getChildren().add(triangle);
+            vbGauche.getChildren().add(valider);
         });
+        
         menuItemMT.setOnAction ((t) -> {
             //trianglesexistants, id, 3 points
         });
@@ -214,7 +234,25 @@ public class MainPane extends BorderPane{
             
         menuItemCC.setOnAction((t) -> {
             //id, cout au metre,...,valider
+            vbGauche.getChildren().clear();
+            Label identifiantType = new Label("Identifiant du type :");
+            TextField idType = new TextField();
+            Label coutAuMetre = new Label("coût au metre : ");
+            TextField cAm = new TextField();
+            Label longueurMin = new Label ("Longueur minimale de la barre : ");
+            TextField lMin = new TextField();
+            Label longueurMax = new Label ("Longueur maximale de la barre : ");
+            TextField lMax = new TextField();
+            Label resistanceTension = new Label ("résistance maximale à la tension :");
+            TextField resTen = new TextField();
+            Label resistanceCompression = new Label ("resistance maximale à la compression :");
+            TextField resComp = new TextField();
+            VBox CatBarre = new VBox (identifiantType, idType, coutAuMetre, cAm,
+                    longueurMin, lMin, longueurMax, lMax, resistanceTension, resTen, resistanceCompression, resComp);
+            vbGauche.getChildren().add(CatBarre);
+            vbGauche.getChildren().add(valider);
         });
+        
         menuItemSC.setOnAction((t) -> {
             //typesexistants,id,valider
         });
