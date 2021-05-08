@@ -8,6 +8,8 @@ package fr.insa.winkler.projettreillis.gui;
 import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Treillis;
 import fr.insa.winkler.projettreillis.TypeBarre;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,6 +22,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -95,6 +99,8 @@ public class MainPane extends BorderPane{
             MenuItem it=new MenuItem("Aucun noeud disponible"); 
             noeuds.getItems().addAll(it);  
         }
+        
+        
           
           
         VBox vbGauche = new VBox();
@@ -177,7 +183,7 @@ public class MainPane extends BorderPane{
             vbGauche.getChildren().add(valider);
             valider.setOnAction ((i) -> {
                 controleur.changeEtat(0);
-                controleur.boutonValider();
+            // controleur.boutonValider();
             });
         });
                 
@@ -197,11 +203,13 @@ public class MainPane extends BorderPane{
             vbGauche.getChildren().add(valider);
             valider.setOnAction ((i) -> {
                 controleur.changeEtat(0);
-                controleur.boutonValider();
+            // controleur.boutonValider();
             });
         });
         menuItemMN.setOnAction((t) -> {
             //noeudsexistants,id, coordonées, valider
+            vbGauche.getChildren().clear();
+            //Selctionner le noeud parmi la liste de noeud
         });
         menuItemSN.setOnAction((t) -> {
             //noeudsexistants,id,valider
@@ -221,14 +229,60 @@ public class MainPane extends BorderPane{
             vbGauche.getChildren().add(valider);
             valider.setOnAction ((i) -> {
                 controleur.changeEtat(0);
-                controleur.boutonValider();
+            //   controleur.boutonValider();
             });
         });
+        
         menuItemMB.setOnAction ((t) -> {
             //barresexistantes,id, noeuddeb,noeudfin,valider
+            //Selectionner une barre parmi la liste 
+            vbGauche.getChildren().clear();
+          
+        ToggleButton modifND = new ToggleButton("modifier noeud début");
+    ToggleButton modifNF = new ToggleButton("modifier Noeud fin");
+    // créer un ToggleGroup
+    final ToggleGroup group = new ToggleGroup();
+    // ajouter les ToggleButtons au ToggleGroup
+    group.getToggles().addAll(modifNF, modifND);
+    // Créer un ChangeListener pour le ToggleGroup
+    group.selectedToggleProperty().addListener(
+                   new ChangeListener<Toggle>() {
+        public void changed(ObservableValue<? extends Toggle> ov,
+                    final Toggle toggle, final Toggle new_toggle) {
+            if (group.getSelectedToggle()!= modifNF){
+                ToggleButton button = (ToggleButton) group.getSelectedToggle();
+                vbGauche.getChildren().clear();
+                Label idND = new Label ("Rentrer un identifiant de noeud début");
+                TextField idNd = new TextField ();
+                VBox modif2 = new VBox (idND, idNd);
+                vbGauche.getChildren().add(modif2);
+                vbGauche.getChildren().add(valider);
+            }
+            else {
+                vbGauche.getChildren().clear();
+                Label idNF = new Label ("Rentrer un identifiant de noeud fin ");
+                TextField idNf = new TextField();
+                VBox modif3 = new VBox (idNF, idNf);
+                vbGauche.getChildren().add(modif3);
+                vbGauche.getChildren().add(valider);
+            }
+            String toggleBtn = ((ToggleButton)new_toggle).getText();
+        }
+    });
+    VBox modifBarre = new VBox (modifND, modifNF);
+            vbGauche.getChildren().add(modifBarre);
         });
+        
+        
+        
+        
+        
         menuItemSB.setOnAction ((t) -> {
             //barresexistantes,id,valider
+            //Selectionner barre  
+            vbGauche.getChildren().clear();
+            Button supprimer = new Button ("Supprimer");
+           vbGauche.getChildren().add(supprimer);
         });
 
             
@@ -272,7 +326,7 @@ public class MainPane extends BorderPane{
             vbGauche.getChildren().add(forces);
             valider.setOnAction ((i) -> {
                 controleur.changeEtat(0);
-                controleur.boutonValider();
+              //  controleur.boutonValider();
             });
         });
         
