@@ -5,22 +5,23 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import fr.insa.winkler.projettreillis.Barre;
 import fr.insa.winkler.projettreillis.Matrice;
+import fr.insa.winkler.projettreillis.Noeud;
 import fr.insa.winkler.projettreillis.Treillis;
+import fr.insa.winkler.projettreillis.TriangleTerrain;
 import fr.insa.winkler.projettreillis.TypeBarre;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -28,7 +29,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import recup.Lire;
 
 /**
  *
@@ -79,29 +79,6 @@ public class MainPane extends BorderPane{
         mbCatalogue.getItems().addAll(menuItemCC, menuItemSC); 
         
         Button valider=new Button("Valider");
-        MenuButton typeBarre = new MenuButton("Type de Barre");
-        if (model.getCatalogue().getListe().size()!=0){
-            for(int i=0; i<model.getCatalogue().getListe().size();i++){
-            MenuItem it=new MenuItem(model.getCatalogue().getListe().get(i).toString());
-            typeBarre.getItems().addAll(it);  
-            }
-        }else{
-            MenuItem it=new MenuItem("Aucun type disponible"); 
-            typeBarre.getItems().addAll(it);  
-            }  
-        MenuButton noeuds = new MenuButton("Noeuds existants");
-        if(model.getListeNoeuds().size()!=0){
-        for(int i=0; i<model.getListeNoeuds().size();i++){
-            MenuItem it=new MenuItem(model.getListeNoeuds().get(i).toString());
-            noeuds.getItems().addAll(it);    
-        }
-        }else{
-            MenuItem it=new MenuItem("Aucun noeud disponible"); 
-            noeuds.getItems().addAll(it);  
-        }
-        
-        
-          
           
         VBox vbGauche = new VBox();
         vbGauche.setSpacing(10);
@@ -130,8 +107,7 @@ public class MainPane extends BorderPane{
             TextField xmax = new TextField();
             TextField ymax = new TextField();
             TextField ymin = new TextField();
-            VBox test = new VBox (abscisseMin, xmin, abscisseMax, xmax, ordonneeMax, ymax, ordonneeMin, ymin,valider);
-                vbGauche.getChildren().add(test);
+            vbGauche.getChildren().addAll(abscisseMin, xmin, abscisseMax, xmax, ordonneeMax, ymax, ordonneeMin, ymin,valider);
         });
         
         Label identifiant= new Label ("Identifiant");
@@ -141,31 +117,54 @@ public class MainPane extends BorderPane{
         menuItemCT.setOnAction ((t) -> {
             //id, trois points, valider
             vbGauche.getChildren().clear();
-           Label identifiantTriangle=new Label ("Identifiant du triangle de terrain :");
+            Label identifiantTriangle=new Label ("Identifiant du triangle de terrain :");
             TextField idTriangle= new TextField();
-            Label abscisse1 = new Label ("x1");
-            Label abscisse2 = new Label ("x2");
-            Label abscisse3 = new Label ("x3");
-            Label ordonnee1 = new Label ("y1");
-            Label ordonnee2 = new Label ("y2");
-            Label ordonnee3 = new Label ("y3");
+            Label abscisse1 = new Label ("Abscisse point 1");
+            Label ordonnee1 = new Label ("Ordonnée point 1");
+            Label abscisse2 = new Label ("Abscisse point 2");
+            Label ordonnee2 = new Label ("Ordonnée point 2");
+            Label abscisse3 = new Label ("Abscisse poin 3");
+            Label ordonnee3 = new Label ("Ordonnée point 3");
             TextField x1 = new TextField();
-            TextField x2 = new TextField();
-            TextField x3 = new TextField();
             TextField y1 = new TextField();
+            TextField x2 = new TextField();
             TextField y2 = new TextField();
+            TextField x3 = new TextField();
             TextField y3 = new TextField();
-            VBox triangle = new VBox (identifiantTriangle, idTriangle, abscisse1, x1, 
-                    abscisse2, x2, abscisse3, x3, ordonnee1, y1, ordonnee2, y2, ordonnee3, y3);
-            vbGauche.getChildren().add(triangle);
-            vbGauche.getChildren().add(valider);
+            vbGauche.getChildren().addAll(identifiantTriangle, idTriangle, abscisse1, x1, 
+                    ordonnee1, y1, abscisse2, x2, ordonnee2, y2, abscisse3, x3, ordonnee3, y3,valider);
         });
         
         menuItemMT.setOnAction ((t) -> {
-            //trianglesexistants, id, 3 points
+            vbGauche.getChildren().clear();
+            Label triangle=new Label("Triangle à modifier");
+            ComboBox<String> triangles=new ComboBox<String>();
+            for (TriangleTerrain tr: model.getTerrain().getTriangles()){
+                triangles.getItems().addAll(tr.toString());
+            }
+            Label abscisse1 = new Label ("Abscisse point 1");
+            Label ordonnee1 = new Label ("Ordonnée point 1");
+            Label abscisse2 = new Label ("Abscisse point 2");
+            Label ordonnee2 = new Label ("Ordonnée point 2");
+            Label abscisse3 = new Label ("Abscisse poin 3");
+            Label ordonnee3 = new Label ("Ordonnée point 3");
+            TextField x1 = new TextField();
+            TextField y1 = new TextField();
+            TextField x2 = new TextField();
+            TextField y2 = new TextField();
+            TextField x3 = new TextField();
+            TextField y3 = new TextField();
+            vbGauche.getChildren().addAll(triangle,triangles, abscisse1, x1, 
+                    ordonnee1, y1, abscisse2, x2, ordonnee2, y2, abscisse3, x3, ordonnee3, y3,valider);
         });
         menuItemST.setOnAction ((t) -> {
-            //triangles existants, id
+            vbGauche.getChildren().clear();
+            Label triangle=new Label("Triangle à supprimer");
+            ComboBox<String> triangles=new ComboBox<String>();
+            for (TriangleTerrain tr: model.getTerrain().getTriangles()){
+                triangles.getItems().addAll(tr.toString());
+            }
+            vbGauche.getChildren().addAll(triangle,triangles,valider);
         });
 
         Label abscisse = new Label ("Abscisse ");
@@ -207,26 +206,42 @@ public class MainPane extends BorderPane{
             });
         });
         menuItemMN.setOnAction((t) -> {
-            //noeudsexistants,id, coordonées, valider
             vbGauche.getChildren().clear();
-            //Selctionner le noeud parmi la liste de noeud
+            Label noeud = new Label ("Noeud à modifier :");
+            ComboBox<String> noeuds=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                noeuds.getItems().addAll(n.toString());
+            }
+            vbGauche.getChildren().addAll(noeud,noeuds,abs,ord,valider);
         });
         menuItemSN.setOnAction((t) -> {
-            //noeudsexistants,id,valider
+            vbGauche.getChildren().clear();
+            Label noeud = new Label ("Noeud à supprimer :");
+            ComboBox<String> noeuds=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                noeuds.getItems().addAll(n.toString());
+            }
+            vbGauche.getChildren().addAll(noeud,noeuds,valider);
         });
   
         menuItemCB.setOnAction ((t) -> {
             vbGauche.getChildren().clear();
-            Label identifiantType=new Label ("Identifiant du type :");
-            TextField idType= new TextField();
-            Label identifiantNoeudDebut = new Label ("Identifiant du noeud début :");
-            TextField idND=new TextField();
-            Label identifiantNoeudFin = new Label ("Identifiant du noeud de fin:  ");
-            TextField idNF=new TextField();
-            VBox barre = new VBox(ident,typeBarre,identifiantType,idType,noeuds,identifiantNoeudDebut,idND,
-                        identifiantNoeudFin,idNF);
-            vbGauche.getChildren().add(barre);
-            vbGauche.getChildren().add(valider);
+            Label type=new Label ("Type de barre:");
+            ComboBox<String> types=new ComboBox<String>();
+            for(TypeBarre b:model.getCatalogue().getListe()){
+                types.getItems().addAll(b.toString());
+            }
+            Label noeudDebut = new Label ("Noeud de début :");
+            ComboBox<String> noeudDeb=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                noeudDeb.getItems().addAll(n.toString());
+            }
+            Label noeudFin = new Label ("Noeud de fin:  ");
+            ComboBox<String> noeudF=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                noeudF.getItems().addAll(n.toString());
+            }
+            vbGauche.getChildren().addAll(ident,type,types,noeudDebut,noeudDeb,noeudFin,noeudF,valider);
             valider.setOnAction ((i) -> {
                 controleur.changeEtat(0);
             //   controleur.boutonValider();
@@ -237,40 +252,32 @@ public class MainPane extends BorderPane{
             //barresexistantes,id, noeuddeb,noeudfin,valider
             //Selectionner une barre parmi la liste 
             vbGauche.getChildren().clear();
-          
-        ToggleButton modifND = new ToggleButton("modifier noeud début");
-    ToggleButton modifNF = new ToggleButton("modifier Noeud fin");
-    // créer un ToggleGroup
-    final ToggleGroup group = new ToggleGroup();
-    // ajouter les ToggleButtons au ToggleGroup
-    group.getToggles().addAll(modifNF, modifND);
-    // Créer un ChangeListener pour le ToggleGroup
-    group.selectedToggleProperty().addListener(
-                   new ChangeListener<Toggle>() {
-        public void changed(ObservableValue<? extends Toggle> ov,
-                    final Toggle toggle, final Toggle new_toggle) {
-            if (group.getSelectedToggle()!= modifNF){
-                ToggleButton button = (ToggleButton) group.getSelectedToggle();
-                vbGauche.getChildren().clear();
-                Label idND = new Label ("Rentrer un identifiant de noeud début");
-                TextField idNd = new TextField ();
-                VBox modif2 = new VBox (idND, idNd);
-                vbGauche.getChildren().add(modif2);
-                vbGauche.getChildren().add(valider);
+            Label barre=new Label("Barre à modifier");
+            ComboBox<String> barres=new ComboBox<String>();
+            for(Barre b:model.getListeBarres()){
+                barres.getItems().addAll(b.toString());
             }
-            else {
-                vbGauche.getChildren().clear();
-                Label idNF = new Label ("Rentrer un identifiant de noeud fin ");
-                TextField idNf = new TextField();
-                VBox modif3 = new VBox (idNF, idNf);
-                vbGauche.getChildren().add(modif3);
-                vbGauche.getChildren().add(valider);
+            Label type=new Label ("Type de barre:");
+            ComboBox<String> types=new ComboBox<String>();
+            for(TypeBarre b:model.getCatalogue().getListe()){
+                types.getItems().addAll(b.toString());
             }
-            String toggleBtn = ((ToggleButton)new_toggle).getText();
-        }
-    });
-    VBox modifBarre = new VBox (modifND, modifNF);
-            vbGauche.getChildren().add(modifBarre);
+            Label noeudDebut = new Label ("Noeud de début :");
+            ComboBox<String> noeudDeb=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                noeudDeb.getItems().addAll(n.toString());
+            }
+            Label noeudFin = new Label ("Noeud de fin:  ");
+            ComboBox<String> noeudF=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                noeudF.getItems().addAll(n.toString());
+            }
+            vbGauche.getChildren().addAll(barre,barres,type,types,noeudDebut,noeudDeb,noeudFin,noeudF,valider);
+            valider.setOnAction ((i) -> {
+                controleur.changeEtat(0);
+            //   controleur.boutonValider();
+            });
+            
         });
         
         
@@ -278,11 +285,13 @@ public class MainPane extends BorderPane{
         
         
         menuItemSB.setOnAction ((t) -> {
-            //barresexistantes,id,valider
-            //Selectionner barre  
             vbGauche.getChildren().clear();
-            Button supprimer = new Button ("Supprimer");
-           vbGauche.getChildren().add(supprimer);
+            Label barre=new Label("Barre à supprimer");
+            ComboBox<String> barres=new ComboBox<String>();
+            for(Barre b:model.getListeBarres()){
+                barres.getItems().addAll(b.toString());
+            }
+            vbGauche.getChildren().addAll(barre,barres,valider);
         });
 
             
@@ -291,39 +300,46 @@ public class MainPane extends BorderPane{
             vbGauche.getChildren().clear();
             Label identifiantType = new Label("Identifiant du type :");
             TextField idType = new TextField();
-            Label coutAuMetre = new Label("coût au metre : ");
+            Label coutAuMetre = new Label("Coût au metre : ");
             TextField cAm = new TextField();
             Label longueurMin = new Label ("Longueur minimale de la barre : ");
             TextField lMin = new TextField();
             Label longueurMax = new Label ("Longueur maximale de la barre : ");
             TextField lMax = new TextField();
-            Label resistanceTension = new Label ("résistance maximale à la tension :");
+            Label resistanceTension = new Label ("Résistance maximale à la tension :");
             TextField resTen = new TextField();
-            Label resistanceCompression = new Label ("resistance maximale à la compression :");
+            Label resistanceCompression = new Label ("Résistance maximale à la compression :");
             TextField resComp = new TextField();
-            VBox CatBarre = new VBox (identifiantType, idType, coutAuMetre, cAm,
-                    longueurMin, lMin, longueurMax, lMax, resistanceTension, resTen, resistanceCompression, resComp);
-            vbGauche.getChildren().add(CatBarre);
-            vbGauche.getChildren().add(valider);
+            vbGauche.getChildren().addAll(identifiantType, idType, coutAuMetre, cAm,
+                    longueurMin, lMin, longueurMax, lMax, resistanceTension, resTen, resistanceCompression, resComp,valider);
         });
         
         menuItemSC.setOnAction((t) -> {
             //typesexistants,id,valider
+            vbGauche.getChildren().clear();
+            Label type=new Label ("Type de barre à supprimer:");
+            ComboBox<String> types=new ComboBox<String>();
+            for(TypeBarre b:model.getCatalogue().getListe()){
+                types.getItems().addAll(b.toString());
+            }
+            vbGauche.getChildren().addAll(type,types,valider);
         });
                    
         this.bForce.setOnAction((t) -> {
-            System.out.println("bouton Force cliqué ");
             vbGauche.getChildren().clear();
-            Label identifiantNoeud=new Label ("identifiant du Noeud");
-            Label forcesx = new Label ("force Px");
-            Label forcesy = new Label ("force Py");
-            TextField idN =new TextField();
+            
+            Label noeudsEx = new Label ("Noeuds :");
+            ComboBox<String> noeuds=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                noeuds.getItems().addAll(n.toString());
+            }
+            Label forcex = new Label ("force Px");
+            Label forcey = new Label ("force Py");
             TextField Px = new TextField();
             TextField Py = new TextField();
-            HBox forcesPx=new HBox(forcesx,Px);
-            HBox forcesPy=new HBox(forcesy,Py);
-            VBox forces = new VBox (noeuds,identifiantNoeud,idN,forcesPx,forcesPy,valider);
-            vbGauche.getChildren().add(forces);
+            HBox forcePx=new HBox(forcex,Px);
+            HBox forcePy=new HBox(forcey,Py);
+            vbGauche.getChildren().addAll(noeudsEx,noeuds,forcePx,forcePy,valider);
             valider.setOnAction ((i) -> {
                 controleur.changeEtat(0);
               //  controleur.boutonValider();
