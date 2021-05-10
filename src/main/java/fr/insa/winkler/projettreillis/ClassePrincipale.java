@@ -21,7 +21,7 @@ public class ClassePrincipale {
        AppuiDouble ap=(AppuiDouble) t.getListeNoeuds().get(0);
        //System.out.println(t.toString());
        //t.menuTexte();
-       
+       t.menuTexte();
     
 }
 

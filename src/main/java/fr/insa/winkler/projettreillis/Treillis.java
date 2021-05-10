@@ -93,23 +93,27 @@ public class Treillis {
      * @param p Point (position du Noeud)
      * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
      */
-    public void ajouterNoeudSimple ( int j,Point p){
+    public String ajouterNoeudSimple ( int j,Point p){
+        String mes="";
         for (int i=0; i<this.getListeNoeuds().size(); i++){
             if(this.getListeNoeuds().get(i).getIdentifiant()==j){
-                throw new Error ("il existe déjà un noeud avec cet identifiant");
+                mes=mes+"Il existe déjà un noeud avec cet identifiant"+"\n";
             }
         }
         for(int i=0; i<this.getTerrain().getTriangles().size();i++){
             if(this.getTerrain().getTriangles().get(i).estDansTriangle(p)==true){
-                throw new Error("le point est dans un triangle terrain");
+                mes=mes+"Le point est dans un triangle terrain"+"\n";
             }
             if((p.getX()<this.getTerrain().getXmin())||(p.getX()>this.getTerrain().getXmax())
                     ||(p.getY()<this.getTerrain().getYmin())|| (p.getY()>this.getTerrain().getYmax())){
-                throw new Error("le point n'est pas dans la zone contructible");
+                mes=mes+"Le point n'est pas dans la zone contructible";
             }
         }
-        NoeudSimple n = new NoeudSimple(j,p);
-        this.getListeNoeuds().add(n);
+        if(mes==""){
+            NoeudSimple n = new NoeudSimple(j,p);
+            this.getListeNoeuds().add(n);
+        }
+        return mes;
     }
      /**
      * créee un AppuiSimple à partir d'un point et d'un TriangleTerrain
@@ -117,10 +121,11 @@ public class Treillis {
      * @param t TraingleTerrain
      * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
      */
-    public void ajouterAppuiSimple(int id,Point p){
+    public String ajouterAppuiSimple(int id,Point p){
+        String mes="";
         for (int i=0; i<this.getListeNoeuds().size(); i++){
             if(this.getListeNoeuds().get(i).getIdentifiant()==id){
-                throw new Error ("il existe déjà un noeud avec cet identifiant");
+                mes=mes+"Il existe déjà un noeud avec cet identifiant";
             }
         }
         int test=0;
@@ -132,10 +137,13 @@ public class Treillis {
             }
         }
         if (test==0){
-            throw new Error("Le point n'appartient à aucun triangle");
+            mes=mes+"Le point n'appartient à aucun triangle";
         }
-        AppuiSimple a = new AppuiSimple(id,this.getTerrain().getTriangles().get(triangle),p);
-        this.getListeNoeuds().add(a);
+        if(mes==""){
+            AppuiSimple a = new AppuiSimple(id,this.getTerrain().getTriangles().get(triangle),p);
+            this.getListeNoeuds().add(a);
+        }
+        return mes;
     }
     /**
      * créee un AppuiDouble à partir d'un point et d'un TriangleTerrain
@@ -143,10 +151,11 @@ public class Treillis {
      * @param t TraingleTerrain
      * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
      */
-    public void ajouterAppuiDouble(int id,Point p){
+    public String ajouterAppuiDouble(int id,Point p){
+        String mes="";
         for (int i=0; i<this.getListeNoeuds().size(); i++){
             if(this.getListeNoeuds().get(i).getIdentifiant()==id){
-                throw new Error ("il existe déjà un noeud avec cet identifiant");
+                mes=mes+"Il existe déjà un noeud avec cet identifiant";
             }
         }
         int test=0;
@@ -158,10 +167,13 @@ public class Treillis {
             }
         }
         if (test==0){
-            throw new Error("Le point n'appartient à aucun triangle");
+            mes=mes+"Le point n'appartient à aucun triangle";
         }
-        AppuiDouble a = new AppuiDouble(id,this.getTerrain().getTriangles().get(triangle),p);
-        this.getListeNoeuds().add(a);
+        if(mes==""){
+            AppuiDouble a = new AppuiDouble(id,this.getTerrain().getTriangles().get(triangle),p);
+            this.getListeNoeuds().add(a);
+        }
+        return mes;
     }
     
     /**
@@ -170,16 +182,18 @@ public class Treillis {
     * @param n2 Noeud 2
     * reste a faire: vérifier qu'aucune barre ne possède cet identifiant
     */
-    public void ajouterBarre (int id,Noeud n1,Noeud n2 ){
+    public String ajouterBarre (int id,TypeBarre type,Noeud n1,Noeud n2 ){
+        String mes="";
         for (int i=0; i<this.getListeBarres().size(); i++){
             if(this.getListeBarres().get(i).getIdentifiant()==id){
-                throw new Error ("il existe déjà un noeud avec cet identifiant");
+                mes=mes+"Il existe déjà une barre avec cet identifiant";
             }
         }
-        System.out.println("Choisissez le type de barre");
-        TypeBarre type= choisiType();
-        Barre b = new Barre(id,n1,n2,type);
-        this.getListeBarres().add(b);
+        if(mes==""){
+            Barre b = new Barre(id,n1,n2,type);
+            this.getListeBarres().add(b);
+        }
+        return mes;
     }
     /**
      * premet de choisir le type de la barre qu'on veut créer dans le catalogue
@@ -320,6 +334,9 @@ public class Treillis {
             System.out.println("4) afficher le rectangle englobant");
             System.out.println("5) retirer des noeuds");
             System.out.println("6) retirer des barres");
+            // RESTE A FAIRE
+            System.out.println("7) ajouter un type de barre dans le catalogue");
+            System.out.println("8) supprimer un typer de barre dans le catalogue");
             System.out.println("0) quitter");
             System.out.println("votre choix : ");
             rep = Lire.i();
@@ -341,14 +358,16 @@ public class Treillis {
                     this.ajouterAppuiDouble(id,np);
                 }
             } else if (rep == 3) {
-                System.out.println("Saisissez l'identifiant du Noeud");
+                System.out.println("Saisissez l'identifiant de la barre");
                 int id=Lire.i();
-                System.out.println("choisissez le début de la barre");
+                System.out.println("Choisissez le type de barre");
+                TypeBarre type= choisiType();
+                System.out.println("choisissez le noeud de début de la barre");
                 Noeud deb = this.choisiNoeud();
                 if (deb != null) {
-                    System.out.println("choisissez la fin de la barre");
+                    System.out.println("choisissez le noeud de fin de la barre");
                     Noeud fin = this.choisiNoeud();
-                    this.ajouterBarre(id,deb,fin);
+                    this.ajouterBarre(id,type,deb,fin);
                 }
             } else if (rep == 4) {
                 System.out.println("maxX = " + this.maxX() + " ; "
