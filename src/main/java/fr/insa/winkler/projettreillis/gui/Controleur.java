@@ -36,6 +36,13 @@ public class Controleur {
         this.etat = nouvelEtat;
     }
     
+    public void valider(){
+        if (this.etat==0){
+            String abs = vue.getLeft().getx.getText();
+            NoeudSimple n=ne
+            vue.getModel().getListeNoeuds().add
+        }
+    }
     public void clicDansZoneDessin(MouseEvent t) {
        double px = t.getX();
        double py = t.getY();
@@ -44,6 +51,11 @@ public class Controleur {
         //model.add(new Point (px, py));
         this.vue.redrawAll();
     }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    
 }
 
 

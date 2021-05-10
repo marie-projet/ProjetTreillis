@@ -8,6 +8,7 @@ package fr.insa.winkler.projettreillis.gui;
 import fr.insa.winkler.projettreillis.Barre;
 import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Noeud;
+import fr.insa.winkler.projettreillis.Point;
 import fr.insa.winkler.projettreillis.Treillis;
 import fr.insa.winkler.projettreillis.TriangleTerrain;
 import fr.insa.winkler.projettreillis.TypeBarre;
@@ -177,14 +178,23 @@ public class MainPane extends BorderPane{
         HBox ord = new HBox (ordonnee, y);
         
         noeudSimple.setOnAction ((t) -> {
+            controleur.setEtat(0);
+            message.clear();
             vbGauche.getChildren().clear();
             vbGauche.getChildren().add(ident);
             vbGauche.getChildren().add(abs);
             vbGauche.getChildren().add(ord);
             vbGauche.getChildren().add(valider);
             valider.setOnAction ((i) -> {
-                controleur.changeEtat(0);
-            // controleur.boutonValider();
+                //controleur.changeEtat(0);
+                //controleur.valider();
+                message.clear();
+                String s1=x.getText();
+                String s2=y.getText();
+                String s3=id.getText();
+                message.appendText(model.ajouterNoeudSimple(Integer.parseInt(s3),new Point(Double.parseDouble(s1),
+                Double.parseDouble(s2))));
+                cDessin.redrawAll();
             });
         });
                 

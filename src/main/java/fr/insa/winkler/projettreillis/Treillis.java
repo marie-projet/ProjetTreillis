@@ -106,7 +106,7 @@ public class Treillis {
             }
             if((p.getX()<this.getTerrain().getXmin())||(p.getX()>this.getTerrain().getXmax())
                     ||(p.getY()<this.getTerrain().getYmin())|| (p.getY()>this.getTerrain().getYmax())){
-                mes=mes+"Le point n'est pas dans la zone contructible";
+                mes=mes+"Le point n'est pas dans la zone constructible";
             }
         }
         if(mes==""){
