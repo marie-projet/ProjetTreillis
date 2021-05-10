@@ -11,8 +11,6 @@ import fr.insa.winkler.projettreillis.Noeud;
 import fr.insa.winkler.projettreillis.Treillis;
 import fr.insa.winkler.projettreillis.TriangleTerrain;
 import fr.insa.winkler.projettreillis.TypeBarre;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.BorderPane;
@@ -22,9 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -46,6 +43,7 @@ public class MainPane extends BorderPane{
     private MenuButton mbCatalogue;
     private MenuButton mbNoeud;   
     private DessinCanvas cDessin; 
+    private TextArea message;
 
     public MainPane(Treillis model){
         this.model=model;
@@ -58,6 +56,9 @@ public class MainPane extends BorderPane{
         this.mbTriangle=new MenuButton("Triangles");
         this.bEnregistrer = new Button ("Enregistrer");
         this.mbNoeud=new MenuButton("Noeud");
+        this.message=new TextArea();
+        this.message.setMinHeight(60);
+        this.message.setMaxHeight(60);
       
         MenuItem menuItemCT = new MenuItem("Créer");
         MenuItem menuItemMT = new MenuItem("Modifier");
@@ -74,8 +75,8 @@ public class MainPane extends BorderPane{
         MenuItem noeudSimple = new MenuItem("Noeud Simple");
         MenuItem noeudAppui = new MenuItem ("Noeud Appui");
         menuCN.getItems().addAll(noeudSimple, noeudAppui);
-        MenuItem menuItemCC = new MenuItem("Créer");
-        MenuItem menuItemSC = new MenuItem("Supprimer");
+        MenuItem menuItemCC = new MenuItem("Créer un type");
+        MenuItem menuItemSC = new MenuItem("Supprimer un type");
         mbCatalogue.getItems().addAll(menuItemCC, menuItemSC); 
         
         Button valider=new Button("Valider");
@@ -91,7 +92,8 @@ public class MainPane extends BorderPane{
         this.setTop(entete);
         this.cDessin=new DessinCanvas (this);
         this.setCenter(this.cDessin);
-        
+        this.setBottom(this.message);
+                
         GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
         context.translate(300, 250);
         context.scale(50, 50);
@@ -99,10 +101,10 @@ public class MainPane extends BorderPane{
         bZoneConstructible.setOnAction ((t) -> {
             System.out.println("Créer cliqué");
             vbGauche.getChildren().clear();
-            Label abscisseMin = new Label("xmin");
-            Label abscisseMax = new Label("xmax");
-            Label ordonneeMin = new Label("ymin");
-            Label ordonneeMax = new Label("ymax");
+            Label abscisseMin = new Label("Abscisse minimale");
+            Label abscisseMax = new Label("Abscisse maximale");
+            Label ordonneeMin = new Label("Ordonnée minimale");
+            Label ordonneeMax = new Label("Ordonnée maximale");
             TextField xmin = new TextField();
             TextField xmax = new TextField();
             TextField ymax = new TextField();
