@@ -110,7 +110,11 @@ public class MainPane extends BorderPane{
             TextField xmax = new TextField();
             TextField ymax = new TextField();
             TextField ymin = new TextField();
-            vbGauche.getChildren().addAll(abscisseMin, xmin, abscisseMax, xmax, ordonneeMax, ymax, ordonneeMin, ymin,valider);
+            vbGauche.getChildren().addAll(abscisseMin, xmin, abscisseMax, xmax,ordonneeMin, ymin, ordonneeMax, ymax,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(xmin.getText(),xmax.getText(),ymin.getText(), ymax.getText());
+            });
         });
         
         Label identifiant= new Label ("Identifiant");
@@ -126,7 +130,7 @@ public class MainPane extends BorderPane{
             Label ordonnee1 = new Label ("Ordonnée point 1");
             Label abscisse2 = new Label ("Abscisse point 2");
             Label ordonnee2 = new Label ("Ordonnée point 2");
-            Label abscisse3 = new Label ("Abscisse poin 3");
+            Label abscisse3 = new Label ("Abscisse point 3");
             Label ordonnee3 = new Label ("Ordonnée point 3");
             TextField x1 = new TextField();
             TextField y1 = new TextField();
@@ -136,6 +140,10 @@ public class MainPane extends BorderPane{
             TextField y3 = new TextField();
             vbGauche.getChildren().addAll(identifiantTriangle, idTriangle, abscisse1, x1, 
                     ordonnee1, y1, abscisse2, x2, ordonnee2, y2, abscisse3, x3, ordonnee3, y3,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(idTriangle.getText(),x1.getText(),y1.getText(),x2.getText(), y2.getText(),x3.getText(),y3.getText());
+            });
         });
         
         menuItemMT.setOnAction ((t) -> {
@@ -150,7 +158,7 @@ public class MainPane extends BorderPane{
             Label ordonnee1 = new Label ("Ordonnée point 1");
             Label abscisse2 = new Label ("Abscisse point 2");
             Label ordonnee2 = new Label ("Ordonnée point 2");
-            Label abscisse3 = new Label ("Abscisse poin 3");
+            Label abscisse3 = new Label ("Abscisse point 3");
             Label ordonnee3 = new Label ("Ordonnée point 3");
             TextField x1 = new TextField();
             TextField y1 = new TextField();
@@ -188,19 +196,12 @@ public class MainPane extends BorderPane{
             vbGauche.getChildren().add(ord);
             vbGauche.getChildren().add(valider);
             valider.setOnAction ((i) -> {
-                //controleur.changeEtat(0);
-                //controleur.valider();
                 message.clear();
-                String s1=x.getText();
-                String s2=y.getText();
-                String s3=id.getText();
-                message.appendText(model.ajouterNoeudSimple(Integer.parseInt(s3),new Point(Double.parseDouble(s1),
-                Double.parseDouble(s2))));
-                cDessin.redrawAll();
+                controleur.valider(id.getText(),x.getText(),y.getText());
             });
         });
                 
-
+// à modifier
         noeudAppui.setOnAction ((t) -> {
             vbGauche.getChildren().clear();
             RadioButton appuiDouble = new RadioButton("AppuiDouble");
@@ -224,11 +225,15 @@ public class MainPane extends BorderPane{
             vbGauche.getChildren().add(ord);
             vbGauche.getChildren().add(valider);
             valider.setOnAction ((i) -> {
-                if(appuiDouble.isPressed()){
+                if(appuiDouble.isSelected()){
                 controleur.changeEtat(31);
+                message.clear();
+                controleur.valider(id.getText(),x.getText(),y.getText());
             }
-            if (appuiSimple.isPressed()){
+            if (appuiSimple.isSelected()){
                 controleur.changeEtat(32);
+                message.clear();
+                controleur.valider(id.getText(),x.getText(),y.getText());
             }
             });
         });
@@ -434,5 +439,9 @@ public class MainPane extends BorderPane{
     public MenuButton getMbNoeud() {
         return mbNoeud;
     }   
+
+    public TextArea getMessage() {
+        return message;
+    }
      
 }

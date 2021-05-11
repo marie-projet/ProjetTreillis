@@ -104,6 +104,7 @@ public class Treillis {
         for(int i=0; i<this.getTerrain().getTriangles().size();i++){
             if(this.getTerrain().getTriangles().get(i).estDansTriangle(p)==true){
                 mes=mes+"Le point est dans un triangle terrain"+"\n";
+ 
             }
             if((p.getX()<this.getTerrain().getXmin())||(p.getX()>this.getTerrain().getXmax())
                     ||(p.getY()<this.getTerrain().getYmin())|| (p.getY()>this.getTerrain().getYmax())){
@@ -128,7 +129,7 @@ public class Treillis {
         String mes="";
         for (int i=0; i<this.getListeNoeuds().size(); i++){
             if(this.getListeNoeuds().get(i).getIdentifiant()==id){
-                mes=mes+"Il existe déjà un noeud avec cet identifiant";
+                mes=mes+"Il existe déjà un noeud avec cet identifiant"+"\n";
             }
         }
         int test=0;
@@ -140,7 +141,7 @@ public class Treillis {
             }
         }
         if (test==0){
-            mes=mes+"Le point n'appartient à aucun triangle";
+            mes=mes+"Le point n'appartient à aucun triangle"+"\n";
         }
         if(mes==""){
             AppuiSimple a = new AppuiSimple(id,this.getTerrain().getTriangles().get(triangle),p);
@@ -158,7 +159,7 @@ public class Treillis {
         String mes="";
         for (int i=0; i<this.getListeNoeuds().size(); i++){
             if(this.getListeNoeuds().get(i).getIdentifiant()==id){
-                mes=mes+"Il existe déjà un noeud avec cet identifiant";
+                mes=mes+"Il existe déjà un noeud avec cet identifiant"+"\n";
             }
         }
         int test=0;
@@ -170,7 +171,7 @@ public class Treillis {
             }
         }
         if (test==0){
-            mes=mes+"Le point n'appartient à aucun triangle";
+            mes=mes+"Le point n'appartient à aucun triangle"+"\n";
         }
         if(mes==""){
             AppuiDouble a = new AppuiDouble(id,this.getTerrain().getTriangles().get(triangle),p);
@@ -302,6 +303,30 @@ public class Treillis {
              this.getListeBarres().remove(i);
          }       
      }
+    
+    //vérifier que les noeuds sont toujours dans la zone
+    public void modifierZC(double xmin, double xmax, double ymin, double ymax){
+        this.getTerrain().setXmin(xmin);
+        this.getTerrain().setXmax(xmax);
+        this.getTerrain().setYmin(ymin);
+        this.getTerrain().setYmax(ymax);
+    }
+    
+    public String ajouterTriangle(int id, double x0, double y0, double x1, double y1, double x2, double y2){
+        String mes="";
+        for(TriangleTerrain t:this.getTerrain().getTriangles()){
+            if (t.getIdentificateur()==id){
+                mes=mes+"Il existe déjà un triangle avec cet identifiacteur";
+            }
+        }
+        if (mes==""){
+            Point p0=new Point(x0,y0);
+            Point p1=new Point(x1,y1);
+            Point p2=new Point(x2,y2);
+            this.getTerrain().getTriangles().add(new TriangleTerrain(id,p0,p1,p2));
+        }
+        return mes;
+    }
     /*
     public String ajouterTypeBarre(1 int, 5 doubles){
         mettre un message d'erreur:
@@ -352,6 +377,8 @@ public class Treillis {
             // RESTE A FAIRE
             System.out.println("7) ajouter un type de barre dans le catalogue");
             System.out.println("8) supprimer un typer de barre dans le catalogue");
+            System.out.println("9) modifier la zone constructible");
+            System.out.println("10) créer un triangle de terrain");
             System.out.println("0) quitter");
             System.out.println("votre choix : ");
             rep = Lire.i();

@@ -45,6 +45,7 @@ public class DessinCanvas extends Pane {
     public void redrawAll() {
         GraphicsContext context = this.vraiCanvas.getGraphicsContext2D();
         Treillis model = this.PanneauPrincipal.getModel();
+        context.clearRect(-100, -100, this.getWidth(), this.getHeight());
         model.dessine(context);
          
     }
