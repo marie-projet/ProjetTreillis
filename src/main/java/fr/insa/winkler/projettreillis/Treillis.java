@@ -327,18 +327,50 @@ public class Treillis {
         }
         return mes;
     }
-    /*
-    public String ajouterTypeBarre(1 int, 5 doubles){
-        mettre un message d'erreur:
+    
+    public String ajouterTypeBarre(int id, double cam, double longmin, double longmax, double resmaxt, double resmaxc ){
+    String mes="";
+     for(int i=0; i<this.getCatalogue().getListe().size(); i++){
+            if(this.getCatalogue().getListe().get(i).getIdentificateur()==id){
+                mes=mes+"Il existe déjà un type de barre avec cet identifiant"+"\n";
+            }
+            if (cam <0){
+                mes = mes+"le coût au metre ne peut être négatif";
+            }
+           if (longmin <0) {
+               mes = mes+"le longueur minimale ne peut être négative";
+           } else {
+               if (longmax <0 ){
+                   mes = mes+"la longueur maximale ne peut être négative";
+               }
+           }
+           if (resmaxt <0){
+               mes=mes+"la resistance maximale à la tension ne peut être négative";
+           }
+           if (resmaxc <0){
+               mes=mes+"la resistance maximale à la ompression ne peut être négative";
+           }
+            if(mes==""){
+            TypeBarre n = new TypeBarre(id, cam, longmin, longmax, resmaxt, resmaxc );
+            this.getCatalogue().getListe().add(n);
+} 
+    } 
+     return mes;
+    }
+    
+    public void supprimerTypeBarre(TypeBarre tb){
+        this.getCatalogue().getListe().remove(tb);
+    }
+      /*  mettre un message d'erreur:
      s'il existe deja un type avec ce détermiant, 
      si un des doubles est négatif
     }
-    
+    /**
     public String supprimerTypeBarre(1 int){
      mettre un message d'erreur :
-     s'il existe une barre qui possède ce type
-     
+     s'il existe une barre qui possède ce type  
 */
+      
     public static Treillis treillisTest() {
         Treillis test=new Treillis();
         Point p0= new Point(0,-3);
@@ -376,7 +408,7 @@ public class Treillis {
             System.out.println("6) retirer des barres");
             // RESTE A FAIRE
             System.out.println("7) ajouter un type de barre dans le catalogue");
-            System.out.println("8) supprimer un typer de barre dans le catalogue");
+            System.out.println("8) supprimer un type de barre dans le catalogue");
             System.out.println("9) modifier la zone constructible");
             System.out.println("10) créer un triangle de terrain");
             System.out.println("0) quitter");
@@ -424,6 +456,25 @@ public class Treillis {
                 System.out.println("choisissez une Barre :");
                 Barre b= this.choisiBarre();
                 this.supprimerBarre(b);
+            } else if (rep == 7) { 
+                System.out.println (" Saississez un indentificateur");
+                int id = Lire.i();
+                System.out.println("Saissisez un cout au mètre");
+                double cam = Lire.i();
+                System.out.println("Saisissez une longueur maximale de barre");
+                double longmax = Lire.i();
+                    System.out.println(" Saisissez une longueur minimale de barre ");
+                    double longmin = Lire.i();
+                
+                System.out.println ("Saisissez la resistance maximale de la barre à la tension");
+                double resmaxt = Lire.i();
+                System.out.println("Saisissez la resistance maximale à la compression");
+                double resmaxc = Lire.i();
+               this.ajouterTypeBarre(id, cam, longmin, longmax, resmaxt, resmaxc);
+            }else if(rep == 8){
+                System.out.println("choisissez un type de barre du catalogue");
+                TypeBarre tb = this.choisiType();
+                this.supprimerTypeBarre(tb);
             }
         }
     }
