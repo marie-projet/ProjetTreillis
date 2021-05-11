@@ -89,9 +89,10 @@ public class Treillis {
     }
     
     /**
-     * crée un NoeudSimple à partir d'un point
+     * crée un NoeudSimple à partir d'un point`
+     * @param j int (identifiant du Noeud)
      * @param p Point (position du Noeud)
-     * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
+     * @return String message d'erreur
      */
     public String ajouterNoeudSimple ( int j,Point p){
         String mes="";
@@ -115,11 +116,13 @@ public class Treillis {
         }
         return mes;
     }
+
+    
      /**
      * créee un AppuiSimple à partir d'un point et d'un TriangleTerrain
+     * @param id int (identifiant)
      * @param p Point (position du noeud)
-     * @param t TraingleTerrain
-     * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
+     * @return String avec message d'erreur
      */
     public String ajouterAppuiSimple(int id,Point p){
         String mes="";
@@ -147,9 +150,9 @@ public class Treillis {
     }
     /**
      * créee un AppuiDouble à partir d'un point et d'un TriangleTerrain
+     * @param id int (identifiant du Noeud)
      * @param p Point (position du noeud)
-     * @param t TraingleTerrain
-     * reste a faire: vérifier qu'aucun noeud ne possède cet identifiant
+     * @retrun message d'erreur
      */
     public String ajouterAppuiDouble(int id,Point p){
         String mes="";
@@ -178,9 +181,11 @@ public class Treillis {
     
     /**
     * crée une nouvelle barre à partir de deux noeuds
+    * @param id int (identifiant du Noeud)
+    * @param type TypeBarre
     * @param n1 Noeud 1
     * @param n2 Noeud 2
-    * reste a faire: vérifier qu'aucune barre ne possède cet identifiant
+    * @return message d'erreur
     */
     public String ajouterBarre (int id,TypeBarre type,Noeud n1,Noeud n2 ){
         String mes="";
@@ -295,10 +300,20 @@ public class Treillis {
          }
          for (int i =0 ; i<this.listeBarres.size() ; i++){
              this.getListeBarres().remove(i);
-         }
-             
+         }       
      }
-
+    /*
+    public String ajouterTypeBarre(1 int, 5 doubles){
+        mettre un message d'erreur:
+     s'il existe deja un type avec ce détermiant, 
+     si un des doubles est négatif
+    }
+    
+    public String supprimerTypeBarre(1 int){
+     mettre un message d'erreur :
+     s'il existe une barre qui possède ce type
+     
+*/
     public static Treillis treillisTest() {
         Treillis test=new Treillis();
         Point p0= new Point(0,-3);
