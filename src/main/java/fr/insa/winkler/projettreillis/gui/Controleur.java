@@ -5,9 +5,11 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Treillis;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -22,25 +24,11 @@ public class Controleur {
         this.vue=vue;
     }
     public void changeEtat(int nouvelEtat) {
-        if (nouvelEtat == 20) {
-        } else if (nouvelEtat == 30) {
-            // creation de points
-
-            this.vue.redrawAll();
-        } else if (nouvelEtat == 40) {
-            // creation de segments étape 1
-            this.vue.redrawAll();
-        } else if (nouvelEtat == 41) {
-            // creation de segments étape 2
-        }
         this.etat = nouvelEtat;
     }
     
     public void valider(){
         if (this.etat==0){
-            String abs = vue.getLeft().getx.getText();
-            NoeudSimple n=ne
-            vue.getModel().getListeNoeuds().add
         }
     }
     public void clicDansZoneDessin(MouseEvent t) {
@@ -51,7 +39,17 @@ public class Controleur {
         //model.add(new Point (px, py));
         this.vue.redrawAll();
     }
-
+    
+    public void calculer (){
+            Matrice res=vue.getModel().calculForces();
+            for(int i=0; i<vue.getModel().getListeBarres().size(); i++){
+                if ((res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction())
+                    ||(-1*res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression())){
+                        vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
+                        System.out.println(vue.getModel().getListeBarres().get(i));
+                }
+            }
+    }
     public void setEtat(int etat) {
         this.etat = etat;
     }
