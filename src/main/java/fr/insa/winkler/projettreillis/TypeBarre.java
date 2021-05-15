@@ -5,6 +5,8 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import recup.Lire;
+
 /**
  *
  * @author elodieherrmann
@@ -40,7 +42,7 @@ public  class TypeBarre {
         return "TypeBarre;"+this.getIdentificateur()+";"+this.getCoutAuMetre()+";"+this.getLongueurMin()+";"+this.getLongueurMax()+";"
               +this.getResistanceMaxTraction()+";"+this.getResistanceMaxCompression();
     }
-
+    
     public double getCoutAuMetre() {
         return coutAuMetre;
     }
