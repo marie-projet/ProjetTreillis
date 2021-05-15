@@ -41,4 +41,8 @@ public abstract class Noeud {
     public String name(){
         return "Noeud"+this.getIdentifiant();
     }
+    public double distance(Noeud n2){
+        return Math.sqrt(Math.pow(2,this.getPos().getX()-n2.getPos().getX())+
+                Math.pow(2,this.getPos().getY()-n2.getPos().getY()));
+    }
 }

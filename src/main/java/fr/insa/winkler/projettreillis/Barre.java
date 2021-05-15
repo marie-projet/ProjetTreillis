@@ -75,4 +75,9 @@ public class Barre {
         context.strokeLine(this.getNoeudDebut().getPos().getX(), -1*this.getNoeudDebut().getPos().getY(), 
                 this.getNoeudFin().getPos().getX(), -1*this.getNoeudFin().getPos().getY());
     }
+    
+    public double longueur(){
+        return Math.sqrt(Math.pow(2,this.noeudFin.getPos().getX()-this.noeudDebut.getPos().getX())+
+                Math.pow(2,this.noeudFin.getPos().getY()-this.noeudDebut.getPos().getY()));
+    }
 } 

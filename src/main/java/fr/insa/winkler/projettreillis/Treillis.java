@@ -243,30 +243,34 @@ public class Treillis {
     * @param n2 Noeud 2
     * @return message d'erreur
     */
+
     public String ajouterBarre (int id, int type, int deb, int fin ){
         String mes="";
         for (int i=0; i<this.getListeBarres().size(); i++){
             if(this.getListeBarres().get(i).getIdentifiant()==id){
-                mes=mes+"Il existe déjà une barre avec cet identifiant";
+                mes=mes+"Il existe déjà une barre avec cet identifiant"+"\n";
             }
         }
+        TypeBarre typeB=new TypeBarre();
+        Noeud n1=this.getListeNoeuds().get(0);
+        Noeud n2=this.getListeNoeuds().get(0);
+        for (int i=0; i<this.getCatalogue().getListe().size(); i++){
+            if(this.getCatalogue().getListe().get(i).getIdentificateur()==type){
+                typeB=this.getCatalogue().getListe().get(i);
+            }
+        }
+        for (int i=0; i<this.getListeNoeuds().size(); i++){
+            if(this.getListeNoeuds().get(i).getIdentifiant()==deb){
+                n1=this.getListeNoeuds().get(i);
+            }
+            if(this.getListeNoeuds().get(i).getIdentifiant()==fin){
+                n2=this.getListeNoeuds().get(i);
+            }
+        }
+        if((n1.distance(n2)<typeB.getLongueurMin())|| n1.distance(n2)>typeB.getLongueurMax()){
+            mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n";
+        }
         if(mes==""){
-            TypeBarre typeB=new TypeBarre();
-            Noeud n1=this.getListeNoeuds().get(0);
-            Noeud n2=this.getListeNoeuds().get(0);
-            for (int i=0; i<this.getCatalogue().getListe().size(); i++){
-                if(this.getCatalogue().getListe().get(i).getIdentificateur()==type){
-                    typeB=this.getCatalogue().getListe().get(i);
-                }
-            }
-            for (int i=0; i<this.getListeNoeuds().size(); i++){
-                if(this.getListeNoeuds().get(i).getIdentifiant()==deb){
-                    n1=this.getListeNoeuds().get(i);
-                }
-                if(this.getListeNoeuds().get(i).getIdentifiant()==fin){
-                    n2=this.getListeNoeuds().get(i);
-                }
-            }
             Barre b = new Barre(id,n1,n2,typeB);
             this.getListeBarres().add(b);
             mes="Barre ajoutée !";
