@@ -148,6 +148,7 @@ public class MainPane extends BorderPane{
         
         menuItemMT.setOnAction ((t) -> {
             controleur.changeEtat(24);
+            message.clear();
             vbGauche.getChildren().clear();
             Label triangle=new Label("Triangle à modifier");
             ComboBox<String> triangles=new ComboBox<String>();
@@ -168,7 +169,12 @@ public class MainPane extends BorderPane{
             TextField y3 = new TextField();
             vbGauche.getChildren().addAll(triangle,triangles, abscisse1, x1, 
                     ordonnee1, y1, abscisse2, x2, ordonnee2, y2, abscisse3, x3, ordonnee3, y3,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(triangles.getSelectionModel().getSelectedItem(),x1.getText(),y1.getText(),x2.getText(), y2.getText(),x3.getText(),y3.getText());
+            });
         });
+        
         menuItemST.setOnAction ((t) -> {
             controleur.changeEtat(28);
             vbGauche.getChildren().clear();
@@ -178,67 +184,69 @@ public class MainPane extends BorderPane{
                 triangles.getItems().addAll(tr.toString());
             }
             vbGauche.getChildren().addAll(triangle,triangles,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(triangles.getSelectionModel().getSelectedItem());
+                triangles.getItems().clear();
+                for (TriangleTerrain tr: model.getTerrain().getTriangles()){
+                    triangles.getItems().addAll(tr.toString());
+                }
+            });
         });
-
-        Label abscisse = new Label ("Abscisse ");
-        Label ordonnee = new Label ("Ordonnée");
-        TextField x = new TextField(); 
-        TextField y = new TextField();
-        HBox abs = new HBox (abscisse, x);
-        HBox ord = new HBox (ordonnee, y);
         
+            Label abscisse = new Label ("Abscisse");
+            Label ordonnee = new Label ("Ordonnée");
+            TextField x = new TextField(); 
+            TextField y = new TextField();
+            HBox abs = new HBox (abscisse, x);
+            HBox ord = new HBox (ordonnee, y);
         noeudSimple.setOnAction ((t) -> {
             controleur.changeEtat(30);
             message.clear();
             vbGauche.getChildren().clear();
-            vbGauche.getChildren().add(ident);
-            vbGauche.getChildren().add(abs);
-            vbGauche.getChildren().add(ord);
-            vbGauche.getChildren().add(valider);
+            vbGauche.getChildren().addAll(ident,abs,ord,valider);
             valider.setOnAction ((i) -> {
                 message.clear();
                 controleur.valider(id.getText(),x.getText(),y.getText());
             });
         });
                 
-// à modifier
         noeudAppui.setOnAction ((t) -> {
+            message.clear();
             vbGauche.getChildren().clear();
             RadioButton appuiDouble = new RadioButton("AppuiDouble");
             RadioButton appuiSimple = new RadioButton("AppuiSimple");
             ToggleGroup appui = new ToggleGroup();
             appuiDouble.setToggleGroup(appui);
             appuiSimple.setToggleGroup(appui);
-            //appuiDouble.setSelected(true);
             VBox choixAppui = new VBox(appuiDouble, appuiSimple);
-            vbGauche.getChildren().add(choixAppui);
-            if(appuiDouble.isPressed()){
-                controleur.changeEtat(31);
-                System.out.println("test");
+            Label triangle=new Label("Triangle");
+            ComboBox<String> triangles=new ComboBox<String>();
+            for (TriangleTerrain tr: model.getTerrain().getTriangles()){
+                triangles.getItems().addAll(tr.toString());
             }
-            if (appuiSimple.isPressed()){
-                controleur.changeEtat(32);
-                System.out.println("test 2");
-            }
-            vbGauche.getChildren().add(ident);
-            vbGauche.getChildren().add(abs);
-            vbGauche.getChildren().add(ord);
-            vbGauche.getChildren().add(valider);
+            Label noeud1=new Label("Extermité du segment surlequel placé l'appui");
+            TextField n1= new TextField();
+            Label position =new Label("Position sur le segment");
+            TextField pos=new TextField();
+            vbGauche.getChildren().addAll(choixAppui,ident,triangle,triangles,noeud1,n1,position,pos,valider);
             valider.setOnAction ((i) -> {
                 if(appuiDouble.isSelected()){
                 controleur.changeEtat(31);
                 message.clear();
-                controleur.valider(id.getText(),x.getText(),y.getText());
+                controleur.valider(id.getText(),triangles.getSelectionModel().getSelectedItem(),n1.getText(),pos.getText());
             }
             if (appuiSimple.isSelected()){
                 controleur.changeEtat(32);
                 message.clear();
-                controleur.valider(id.getText(),x.getText(),y.getText());
+                controleur.valider(id.getText(),triangles.getSelectionModel().getSelectedItem(),n1.getText(),pos.getText());
             }
             });
         });
+        
         menuItemMN.setOnAction((t) -> {
             controleur.changeEtat(34);
+            message.clear();
             vbGauche.getChildren().clear();
             Label noeud = new Label ("Noeud à modifier :");
             ComboBox<String> noeuds=new ComboBox<String>();
@@ -246,9 +254,15 @@ public class MainPane extends BorderPane{
                 noeuds.getItems().addAll(n.toString());
             }
             vbGauche.getChildren().addAll(noeud,noeuds,abs,ord,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(noeuds.getSelectionModel().getSelectedItem(),x.getText(),y.getText());
+            });
         });
+        
         menuItemSN.setOnAction((t) -> {
             controleur.changeEtat(38);
+            message.clear();
             vbGauche.getChildren().clear();
             Label noeud = new Label ("Noeud à supprimer :");
             ComboBox<String> noeuds=new ComboBox<String>();
@@ -256,10 +270,19 @@ public class MainPane extends BorderPane{
                 noeuds.getItems().addAll(n.toString());
             }
             vbGauche.getChildren().addAll(noeud,noeuds,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(noeuds.getSelectionModel().getSelectedItem());
+                noeuds.getItems().clear();
+                for(Noeud n:model.getListeNoeuds()){
+                noeuds.getItems().addAll(n.toString());
+            }
+            });
         });
   
         menuItemCB.setOnAction ((t) -> {
             controleur.changeEtat(40);
+            message.clear();
             vbGauche.getChildren().clear();
             Label type=new Label ("Type de barre:");
             ComboBox<String> types=new ComboBox<String>();
@@ -278,12 +301,16 @@ public class MainPane extends BorderPane{
             }
             vbGauche.getChildren().addAll(ident,type,types,noeudDebut,noeudDeb,noeudFin,noeudF,valider);
             valider.setOnAction ((i) -> {
-            //   controleur.boutonValider();
-            });
+                message.clear();
+                controleur.valider(id.getText(),types.getSelectionModel().getSelectedItem(),noeudDeb.getSelectionModel().getSelectedItem(),
+                        noeudF.getSelectionModel().getSelectedItem());
+                
+            });        
         });
         
         menuItemMB.setOnAction ((t) -> {
             controleur.changeEtat(44);
+            message.clear();
             vbGauche.getChildren().clear();
             Label barre=new Label("Barre à modifier");
             ComboBox<String> barres=new ComboBox<String>();
@@ -295,29 +322,15 @@ public class MainPane extends BorderPane{
             for(TypeBarre b:model.getCatalogue().getListe()){
                 types.getItems().addAll(b.toString());
             }
-            Label noeudDebut = new Label ("Noeud de début :");
-            ComboBox<String> noeudDeb=new ComboBox<String>();
-            for(Noeud n:model.getListeNoeuds()){
-                noeudDeb.getItems().addAll(n.toString());
-            }
-            Label noeudFin = new Label ("Noeud de fin:  ");
-            ComboBox<String> noeudF=new ComboBox<String>();
-            for(Noeud n:model.getListeNoeuds()){
-                noeudF.getItems().addAll(n.toString());
-            }
-            vbGauche.getChildren().addAll(barre,barres,type,types,noeudDebut,noeudDeb,noeudFin,noeudF,valider);
+            vbGauche.getChildren().addAll(barre,barres,type,types,valider);
             valider.setOnAction ((i) -> {
-                controleur.changeEtat(0);
-            //   controleur.boutonValider();
-            });
-            
+                message.clear();
+                controleur.valider(barres.getSelectionModel().getSelectedItem(),types.getSelectionModel().getSelectedItem());
+            });            
         });
         
-        
-        
-        
-        
         menuItemSB.setOnAction ((t) -> {
+            message.clear();
             controleur.changeEtat(48);
             vbGauche.getChildren().clear();
             Label barre=new Label("Barre à supprimer");
@@ -326,6 +339,14 @@ public class MainPane extends BorderPane{
                 barres.getItems().addAll(b.toString());
             }
             vbGauche.getChildren().addAll(barre,barres,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(barres.getSelectionModel().getSelectedItem());
+                barres.getItems().clear();
+                for(Barre b:model.getListeBarres()){
+                    barres.getItems().addAll(b.toString());
+                }
+            });
         });
 
             
@@ -346,10 +367,16 @@ public class MainPane extends BorderPane{
             TextField resComp = new TextField();
             vbGauche.getChildren().addAll(identifiantType, idType, coutAuMetre, cAm,
                     longueurMin, lMin, longueurMax, lMax, resistanceTension, resTen, resistanceCompression, resComp,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(idType.getText(),cAm.getText(),lMin.getText(),lMax.getText(),resTen.getText(),
+                        resComp.getText());
+            });
         });
         
         menuItemSC.setOnAction((t) -> {
             controleur.changeEtat(58);
+            message.clear();
             vbGauche.getChildren().clear();
             Label type=new Label ("Type de barre à supprimer:");
             ComboBox<String> types=new ComboBox<String>();
@@ -357,6 +384,14 @@ public class MainPane extends BorderPane{
                 types.getItems().addAll(b.toString());
             }
             vbGauche.getChildren().addAll(type,types,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(types.getSelectionModel().getSelectedItem());
+                types.getItems().clear();
+                for(TypeBarre b:model.getCatalogue().getListe()){
+                    types.getItems().addAll(b.toString());
+                }
+            });
         });
                    
         this.bForce.setOnAction((t) -> {
