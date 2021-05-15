@@ -303,7 +303,7 @@ public class Treillis {
     
      public String ajouterTypeBarre(int id, double cam, double longmin, double longmax, double resmaxt, double resmaxc ){
     String mes="";
-     for(int i=0; i<this.getCatalogue().getListe().size(); i++){
+    for(int i=0; i<this.getCatalogue().getListe().size(); i++){
             if(this.getCatalogue().getListe().get(i).getIdentificateur()==id){
                 mes=mes+"Il existe déjà un type de barre avec cet identifiant"+"\n";
             }
@@ -326,7 +326,7 @@ public class Treillis {
            if(longmax<longmin){
                mes=mes+"La longueur maximale doit être inférieure à la longueur minimale"+"\n";
            }
-     }
+    }
             if(mes==""){
                 TypeBarre n = new TypeBarre(id, cam, longmin, longmax, resmaxt, resmaxc );
                 this.getCatalogue().getListe().add(n);
@@ -730,7 +730,7 @@ public class Treillis {
      * reste a faire: tester si les forces sont supérieures aux valeurs des types de barres
      *               afficher T1, T2,...
      */
-    public Matrice calculForces(){
+    public Matrice calculForces(Matrice forces){
         int ns=this.getListeNoeuds().size();
         int nb=this.getListeBarres().size();
         int nas=0;
@@ -746,17 +746,14 @@ public class Treillis {
                   nap=nap+1;
             }
         }
-        if((2*ns)!=(nb+nas+2*nap)){
-            throw new Error("le treillis n'est pas isostatique");
-        }           
-        Matrice m= new Matrice (2*ns, (2*ns)+1);
+       
+        Matrice m= new Matrice (2*ns, 2*ns);
+        m=m.concatCol(forces);
+        System.out.println(m);
         int n=nb;
             while(n<m.getNbrCol()-2){
+                
             for(int i=0; i<this.getListeNoeuds().size(); i++){
-                System.out.println("Quelle force Px s'exerce sur le noeud "+ i+" ?");
-                m.setCoeffs(i*2,2*ns,-1*Lire.d());
-                System.out.println("Quelle force Py s'exerce sur le noeud "+ i+" ?");
-                m.setCoeffs(i*2+1,2*ns,-1*Lire.d());
                 for(int j=0; j<nb; j++){
                     if((this.getListeNoeuds().get(i)==this.getListeBarres().get(j).getNoeudDebut())){
                         m.setCoeffs(i*2, j, Math.cos(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),

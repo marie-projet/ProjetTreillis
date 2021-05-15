@@ -5,10 +5,12 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import fr.insa.winkler.projettreillis.AppuiDouble;
+import fr.insa.winkler.projettreillis.AppuiSimple;
 import fr.insa.winkler.projettreillis.Barre;
 import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Noeud;
-import fr.insa.winkler.projettreillis.Point;
+import fr.insa.winkler.projettreillis.NoeudSimple;
 import fr.insa.winkler.projettreillis.Treillis;
 import fr.insa.winkler.projettreillis.TriangleTerrain;
 import fr.insa.winkler.projettreillis.TypeBarre;
@@ -26,7 +28,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 /**
  *
@@ -45,6 +46,7 @@ public class MainPane extends BorderPane{
     private MenuButton mbNoeud;   
     private DessinCanvas cDessin; 
     private TextArea message;
+    private Matrice forces;
 
     public MainPane(Treillis model){
         this.model=model;
@@ -62,20 +64,22 @@ public class MainPane extends BorderPane{
         this.message.setMaxHeight(60);
       
         MenuItem menuItemCT = new MenuItem("Créer");
-        MenuItem menuItemMT = new MenuItem("Modifier");
         MenuItem menuItemST = new MenuItem("Supprimer");
-        mbTriangle.getItems().addAll(menuItemCT,menuItemMT,menuItemST);
+        mbTriangle.getItems().addAll(menuItemCT,menuItemST);
         MenuItem menuItemCB = new MenuItem("Créer");
         MenuItem menuItemMB = new MenuItem("Modifier");
         MenuItem menuItemSB = new MenuItem("Supprimer");
         mbBarre.getItems().addAll(menuItemCB, menuItemMB, menuItemSB);  
         Menu menuCN = new Menu ("Créer");
-        MenuItem menuItemMN = new MenuItem("Modifier");
+        Menu menuMN = new Menu("Modifier");
         MenuItem menuItemSN = new MenuItem("Supprimer");
-        mbNoeud.getItems().addAll(menuCN, menuItemMN, menuItemSN);
+        mbNoeud.getItems().addAll(menuCN,menuMN, menuItemSN);
         MenuItem noeudSimple = new MenuItem("Noeud Simple");
         MenuItem noeudAppui = new MenuItem ("Noeud Appui");
         menuCN.getItems().addAll(noeudSimple, noeudAppui);
+        MenuItem noeudSimple2 = new MenuItem("Noeud Simple");
+        MenuItem noeudAppui2 = new MenuItem ("Noeud Appui");
+        menuMN.getItems().addAll(noeudSimple2, noeudAppui2);
         MenuItem menuItemCC = new MenuItem("Créer un type");
         MenuItem menuItemSC = new MenuItem("Supprimer un type");
         mbCatalogue.getItems().addAll(menuItemCC, menuItemSC); 
@@ -146,35 +150,6 @@ public class MainPane extends BorderPane{
             });
         });
         
-        menuItemMT.setOnAction ((t) -> {
-            controleur.changeEtat(24);
-            message.clear();
-            vbGauche.getChildren().clear();
-            Label triangle=new Label("Triangle à modifier");
-            ComboBox<String> triangles=new ComboBox<String>();
-            for (TriangleTerrain tr: model.getTerrain().getTriangles()){
-                triangles.getItems().addAll(tr.toString());
-            }
-            Label abscisse1 = new Label ("Abscisse point 1");
-            Label ordonnee1 = new Label ("Ordonnée point 1");
-            Label abscisse2 = new Label ("Abscisse point 2");
-            Label ordonnee2 = new Label ("Ordonnée point 2");
-            Label abscisse3 = new Label ("Abscisse point 3");
-            Label ordonnee3 = new Label ("Ordonnée point 3");
-            TextField x1 = new TextField();
-            TextField y1 = new TextField();
-            TextField x2 = new TextField();
-            TextField y2 = new TextField();
-            TextField x3 = new TextField();
-            TextField y3 = new TextField();
-            vbGauche.getChildren().addAll(triangle,triangles, abscisse1, x1, 
-                    ordonnee1, y1, abscisse2, x2, ordonnee2, y2, abscisse3, x3, ordonnee3, y3,valider);
-            valider.setOnAction ((i) -> {
-                message.clear();
-                controleur.valider(triangles.getSelectionModel().getSelectedItem(),x1.getText(),y1.getText(),x2.getText(), y2.getText(),x3.getText(),y3.getText());
-            });
-        });
-        
         menuItemST.setOnAction ((t) -> {
             controleur.changeEtat(28);
             vbGauche.getChildren().clear();
@@ -200,6 +175,7 @@ public class MainPane extends BorderPane{
             TextField y = new TextField();
             HBox abs = new HBox (abscisse, x);
             HBox ord = new HBox (ordonnee, y);
+            
         noeudSimple.setOnAction ((t) -> {
             controleur.changeEtat(30);
             message.clear();
@@ -244,16 +220,38 @@ public class MainPane extends BorderPane{
             });
         });
         
-        menuItemMN.setOnAction((t) -> {
+        noeudSimple2.setOnAction ((t) -> {
             controleur.changeEtat(34);
             message.clear();
             vbGauche.getChildren().clear();
             Label noeud = new Label ("Noeud à modifier :");
             ComboBox<String> noeuds=new ComboBox<String>();
             for(Noeud n:model.getListeNoeuds()){
+                if(n instanceof NoeudSimple){
                 noeuds.getItems().addAll(n.toString());
+                }
             }
             vbGauche.getChildren().addAll(noeud,noeuds,abs,ord,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(noeuds.getSelectionModel().getSelectedItem(),x.getText(),y.getText());
+            });
+        });
+        
+        noeudAppui2.setOnAction((t) -> {
+            controleur.changeEtat(35);
+            message.clear();
+            vbGauche.getChildren().clear();
+            Label noeud = new Label ("Noeud à modifier :");
+            ComboBox<String> noeuds=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                if((n instanceof AppuiSimple)||(n instanceof AppuiDouble)){
+                    noeuds.getItems().addAll(n.toString());
+                }
+            }
+            Label position =new Label("Position sur le segment");
+            TextField pos=new TextField();
+            vbGauche.getChildren().addAll(noeud,noeuds,position,pos);
             valider.setOnAction ((i) -> {
                 message.clear();
                 controleur.valider(noeuds.getSelectionModel().getSelectedItem(),x.getText(),y.getText());
@@ -393,9 +391,15 @@ public class MainPane extends BorderPane{
                 }
             });
         });
-                   
+        
+        this.forces=new Matrice(this.getModel().getListeNoeuds().size()*2,1);
         this.bForce.setOnAction((t) -> {
             vbGauche.getChildren().clear();
+            this.message.clear();
+            this.message.appendText("Les forces sont à ajouter après avoir terminé le treillis.");
+            if(forces.getNbrLig()!=this.getModel().getListeNoeuds().size()*2){
+                this.forces=new Matrice(this.getModel().getListeNoeuds().size()*2,1);
+            }
             Label noeudsEx = new Label ("Noeuds :");
             ComboBox<String> noeuds=new ComboBox<String>();
             for(Noeud n:model.getListeNoeuds()){
@@ -403,18 +407,21 @@ public class MainPane extends BorderPane{
             }
             Label forcex = new Label ("force Px");
             Label forcey = new Label ("force Py");
-            TextField Px = new TextField();
-            TextField Py = new TextField();
-            HBox forcePx=new HBox(forcex,Px);
-            HBox forcePy=new HBox(forcey,Py);
+            TextField px = new TextField();
+            TextField py = new TextField();
+            HBox forcePx=new HBox(forcex,px);
+            HBox forcePy=new HBox(forcey,py);
             vbGauche.getChildren().addAll(noeudsEx,noeuds,forcePx,forcePy,valider);
             valider.setOnAction ((i) -> {
+                message.clear();
                 controleur.changeEtat(60);
-              //  controleur.boutonValider();
+                System.out.println(forces.getCoeffs(6, 0));
+                controleur.valider(noeuds.getSelectionModel().getSelectedItem(), px.getText(),py.getText());
             });
         });
         
         this.bCalcul.setOnAction((t) -> {
+            message.clear();
             controleur.changeEtat(100);
             controleur.calculer();
         }); 
@@ -477,6 +484,10 @@ public class MainPane extends BorderPane{
 
     public TextArea getMessage() {
         return message;
+    }
+
+    public Matrice getForces() {
+        return forces;
     }
      
 }

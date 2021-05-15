@@ -5,11 +5,14 @@
  */
 package fr.insa.winkler.projettreillis.gui;
 
+import fr.insa.winkler.projettreillis.AppuiDouble;
+import fr.insa.winkler.projettreillis.AppuiSimple;
 import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.paint.Color;
+import recup.Lire;
 
 /**
  *
@@ -77,8 +80,22 @@ public class Controleur {
             for (String s: s1.split(";")) {
                 a.add(s);
             }
-            vue.getMessage().appendText(vue.getModel().modifierNoeud(Integer.parseInt(a.get(1)),Double.parseDouble(s2),Double.parseDouble(s3)));
+            vue.getMessage().appendText(vue.getModel().modifierNoeudSimple(Integer.parseInt(a.get(1)),Double.parseDouble(s2),Double.parseDouble(s3)));
             vue.getcDessin().redrawAll();
+        }
+        if(this.etat==60){
+            List<String> a = new ArrayList<>();
+            for (String s: s1.split(";")) {
+                a.add(s);
+            }
+            System.out.println(vue.getForces().getNbrLig());
+            for (int i=0; i<vue.getModel().getListeNoeuds().size(); i++){
+                if(vue.getModel().getListeNoeuds().get(i).getIdentifiant()==Integer.parseInt(a.get(1))){
+                    vue.getForces().setCoeffs(i*2,0,-1*Double.parseDouble(s2));
+                    vue.getForces().setCoeffs(i*2+1,0,-1*Double.parseDouble(s3));
+                }
+            } 
+        vue.getMessage().appendText("Force ajoutée !");
         }
     }
 
@@ -138,26 +155,45 @@ public class Controleur {
                     Double.parseDouble(s3),Double.parseDouble(s4),Double.parseDouble(s5),Double.parseDouble(s6)));
             vue.getcDessin().redrawAll();
         }
-        if(this.etat==24){
-            List<String> a = new ArrayList<>();
-            for (String s: s1.split(";")) {
-                a.add(s);
-            }
-            vue.getMessage().appendText(vue.getModel().modifierTriangle(Integer.parseInt(a.get(1)),Double.parseDouble(s2),Double.parseDouble(s3),
-                Double.parseDouble(s4),Double.parseDouble(s5),Double.parseDouble(s6),Double.parseDouble(s7)));
-        }
+       
     }
     
     public void calculer (){
-            Matrice res=vue.getModel().calculForces();
+        int ns=vue.getModel().getListeNoeuds().size();
+        int nb=vue.getModel().getListeBarres().size();
+        int nas=0;
+        int nap=0;
+        double epsilon=Math.pow(10, -8);
+        for(int i=0; i<ns; i++){
+            if(vue.getModel().getListeNoeuds().get(i) instanceof AppuiSimple){
+                nas=nas+1;
+            }
+        }
+        for(int i=0; i<ns; i++){
+            if(vue.getModel().getListeNoeuds().get(i) instanceof AppuiDouble){
+                  nap=nap+1;
+            }
+        }
+        if((2*ns)!=(nb+nas+2*nap)){
+            vue.getMessage().appendText("le treillis n'est pas isostatique"+"\n");
+        }           
+        else{
+            Matrice res=vue.getModel().calculForces(vue.getForces());
             for(int i=0; i<vue.getModel().getListeBarres().size(); i++){
-                if ((res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction())
-                    ||(-1*res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression())){
-                        vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
-                        System.out.println(vue.getModel().getListeBarres().get(i));
+                if (res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction()){
+                    vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
+                    vue.getMessage().appendText("La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
+                        " est soumise à une traction trop importante"+"\n");
+                }
+                if(-1*res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression()){
+                    vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
+                    vue.getMessage().appendText("La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
+                        " est soumise à une compression trop importante"+"\n");
                 }
             }
+        }
     }
+    
     public void setEtat(int etat) {
         this.etat = etat;
     }
