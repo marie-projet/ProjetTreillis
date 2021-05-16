@@ -91,8 +91,10 @@ public class Treillis {
     public String modifierZC(double xmin, double xmax, double ymin, double ymax){
         String mes="";
         for (Noeud n:this.getListeNoeuds()){
-            if((n.getPos().getX()<xmin)||(n.getPos().getX()>xmax)||(n.getPos().getY()<ymin)||(n.getPos().getY()>ymax)){
-                mes=mes+"Le noeud "+n.getIdentifiant()+" n'est plus dans la zone constrcutible"+"\n";
+            if(n instanceof NoeudSimple){
+                if((n.getPos().getX()<xmin)||(n.getPos().getX()>xmax)||(n.getPos().getY()<ymin)||(n.getPos().getY()>ymax)){
+                    mes=mes+"Le noeud "+n.getIdentifiant()+" n'est plus dans la zone constrcutible"+"\n";
+                }
             }
         }
         if(mes==""){
@@ -267,6 +269,7 @@ public class Treillis {
                 n2=this.getListeNoeuds().get(i);
             }
         }
+        System.out.println(n1.distance(n2));
         if((n1.distance(n2)<typeB.getLongueurMin())|| n1.distance(n2)>typeB.getLongueurMax()){
             mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n";
         }
@@ -751,8 +754,7 @@ public class Treillis {
         m=m.concatCol(forces);
         System.out.println(m);
         int n=nb;
-            while(n<m.getNbrCol()-2){
-                
+            while(n<m.getNbrCol()-2){                
             for(int i=0; i<this.getListeNoeuds().size(); i++){
                 for(int j=0; j<nb; j++){
                     if((this.getListeNoeuds().get(i)==this.getListeBarres().get(j).getNoeudDebut())){
@@ -771,7 +773,8 @@ public class Treillis {
                     if(this.getListeNoeuds().get(i) instanceof AppuiSimple){
                         AppuiSimple ap= (AppuiSimple)this.getListeNoeuds().get(i);
                         m.setCoeffs(i*2, n, Math.cos(ap.getAngleBeta()));
-                        m.setCoeffs(i*2, n+1, Math.sin(ap.getAngleBeta()));
+                        m.setCoeffs(i*2+1, n, Math.sin(ap.getAngleBeta()));
+                        n=n+1;
                         }
                     
                     if(this.getListeNoeuds().get(i) instanceof AppuiDouble){

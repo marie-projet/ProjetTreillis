@@ -415,7 +415,6 @@ public class MainPane extends BorderPane{
             valider.setOnAction ((i) -> {
                 message.clear();
                 controleur.changeEtat(60);
-                System.out.println(forces.getCoeffs(6, 0));
                 controleur.valider(noeuds.getSelectionModel().getSelectedItem(), px.getText(),py.getText());
             });
         });
