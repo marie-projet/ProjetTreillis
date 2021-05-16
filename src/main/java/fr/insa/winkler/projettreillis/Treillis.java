@@ -9,6 +9,7 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import recup.Lire;
+import java.io.* ;
 
 /**
  *
@@ -845,6 +846,25 @@ public class Treillis {
     }
     return angle;
     }
+    
+    public void Enregistrer(String nom ){
+        
+        try{
+            
+            BufferedWriter out = new BufferedWriter(new FileWriter(nom+".txt"));
+            out.write(this.toString());
+            out.close();
+            
+            
+        }
+        catch(IOException err){
+            System.out.println("Erreur: /n"+err);
+            
+        }
+        
+    }
+    
+    
 }
    
 
