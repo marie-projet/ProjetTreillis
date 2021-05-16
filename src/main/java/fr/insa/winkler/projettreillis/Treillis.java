@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package fr.insa.winkler.projettreillis;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
@@ -848,7 +851,27 @@ public class Treillis {
     }
     return angle;
     }
-}
+    
+    public void Enregistrer(String nom ){
+
+         try{
+
+             BufferedWriter out = new BufferedWriter(new FileWriter(nom+".txt"));
+             out.write(this.toString());
+             out.close();
+
+
+         }
+         catch(IOException err){
+             System.out.println("Erreur: /n"+err);
+
+         }
+
+     }
+
+
+ }
+
    
 
  

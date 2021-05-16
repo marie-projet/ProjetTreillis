@@ -17,9 +17,7 @@ import javafx.scene.paint.Color;
  */
 public class DessinCanvas extends Pane {
     
-    
     private MainPane PanneauPrincipal;
- 
     private Canvas vraiCanvas;
     
     public DessinCanvas (MainPane PanneauPrincipal){
@@ -46,8 +44,7 @@ public class DessinCanvas extends Pane {
         GraphicsContext context = this.vraiCanvas.getGraphicsContext2D();
         Treillis model = this.PanneauPrincipal.getModel();
         context.clearRect(-100, -100, this.getWidth(), this.getHeight());
-        model.dessine(context);
-         
+        model.dessine(context);     
     }
 
     public MainPane getPanneauPrincipal() {
@@ -56,6 +53,5 @@ public class DessinCanvas extends Pane {
 
     public Canvas getVraiCanvas() {
         return vraiCanvas;
-    }
-    
+    }    
 }

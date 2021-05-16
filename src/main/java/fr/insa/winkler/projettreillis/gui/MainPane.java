@@ -105,6 +105,7 @@ public class MainPane extends BorderPane{
         
         bZoneConstructible.setOnAction ((t) -> {
             controleur.changeEtat(10);
+            message.clear();
             vbGauche.getChildren().clear();
             Label abscisseMin = new Label("Abscisse minimale");
             Label abscisseMax = new Label("Abscisse maximale");
@@ -127,6 +128,7 @@ public class MainPane extends BorderPane{
         
         menuItemCT.setOnAction ((t) -> {
             controleur.changeEtat(20);
+            message.clear();
             vbGauche.getChildren().clear();
             Label identifiantTriangle=new Label ("Identifiant du triangle de terrain :");
             TextField idTriangle= new TextField();
@@ -152,6 +154,7 @@ public class MainPane extends BorderPane{
         
         menuItemST.setOnAction ((t) -> {
             controleur.changeEtat(28);
+            message.clear();
             vbGauche.getChildren().clear();
             Label triangle=new Label("Triangle à supprimer");
             ComboBox<String> triangles=new ComboBox<String>();
@@ -350,6 +353,7 @@ public class MainPane extends BorderPane{
             
         menuItemCC.setOnAction((t) -> {
             controleur.changeEtat(50);
+            message.clear();
             vbGauche.getChildren().clear();
             Label identifiantType = new Label("Identifiant du type :");
             TextField idType = new TextField();
@@ -426,6 +430,7 @@ public class MainPane extends BorderPane{
         }); 
     
         this.bEnregistrer.setOnAction((t) -> {
+            message.clear();
         }); 
     }
 
@@ -487,6 +492,5 @@ public class MainPane extends BorderPane{
 
     public Matrice getForces() {
         return forces;
-    }
-     
+    }   
 }

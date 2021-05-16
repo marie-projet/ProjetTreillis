@@ -22,7 +22,7 @@ public class ClassePrincipale {
        //System.out.println(t.toString());
        //t.menuTexte();
        t.menuTexte();
-    
+       t.Enregistrer("test");
 }
 
 }
