@@ -62,6 +62,9 @@ public class Controleur {
             vue.getMessage().appendText(vue.getModel().supprimerTypeBarre(Integer.parseInt(a.get(1))));
             vue.getcDessin().redrawAll();
         }
+        if(this.etat==70){
+            vue.getModel().Enregistrer(s1);
+        }
     }
     public void valider(String s1, String s2){
         if(this.etat==44){
@@ -192,6 +195,10 @@ public class Controleur {
                 }
             }
         }
+    }
+    
+    public void enregistrer(String nom){
+        vue.getModel().Enregistrer(nom);
     }
     
     public void setEtat(int etat) {

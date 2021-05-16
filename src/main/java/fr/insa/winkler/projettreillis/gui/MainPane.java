@@ -430,7 +430,16 @@ public class MainPane extends BorderPane{
         }); 
     
         this.bEnregistrer.setOnAction((t) -> {
+            controleur.changeEtat(70);
             message.clear();
+            vbGauche.getChildren().clear();
+            Label nomFich=new Label("Entrez le nom du fichier");
+            TextField nom=new TextField();
+            vbGauche.getChildren().addAll(nomFich,nom,valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.valider(nom.getText());
+            });
         }); 
     }
 

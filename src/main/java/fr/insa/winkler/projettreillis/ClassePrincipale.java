@@ -5,6 +5,8 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import recup.Lire;
+
 
 /**
  *
@@ -20,7 +22,15 @@ public class ClassePrincipale {
        //t.choisiType();
        AppuiDouble ap=(AppuiDouble) t.getListeNoeuds().get(0);
        //System.out.println(t.toString());
-       //t.menuTexte();
+      
+       
+       //test enregistrement fichier
+       String nom= new String();
+       System.out.println("Nommez votre fichier:");
+       nom = Lire.S();
+       t.Enregistrer(nom);
+       
+     //t.menuTexte();
        t.menuTexte();
        t.Enregistrer("test");
 }
