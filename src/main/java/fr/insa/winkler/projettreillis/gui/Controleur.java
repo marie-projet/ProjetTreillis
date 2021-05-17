@@ -35,7 +35,7 @@ public class Controleur {
             for (String s: s1.split(";")) {
                 a.add(s);
             }
-            //vue.getMessage().appendText(vue.getModel().supprimerTriangle(Integer.parseInt(a.get(1))));
+            vue.getMessage().appendText(vue.getModel().supprimerTriangle(Integer.parseInt(a.get(1))));
             vue.getcDessin().redrawAll();
         }
         if (this.etat==38){

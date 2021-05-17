@@ -128,7 +128,7 @@ public class Treillis {
         return mes;
     }
     
-    public String supprimerTriangleTerrain(int id){
+    public String supprimerTriangle(int id){
         String mes="";
       for(int i=0; i<this.getListeNoeuds().size(); i++){
         if (this.getListeNoeuds().get(i)instanceof AppuiSimple){
@@ -148,6 +148,7 @@ public class Treillis {
           for (int i=0; i<this.getTerrain().getTriangles().size(); i++){
               if(this.getTerrain().getTriangles().get(i).getIdentificateur()==id){
                   this.getTerrain().getTriangles().remove(this.getTerrain().getTriangles().get(i));
+                  mes="Triangle de terrain supprimé";
               }
           }
       }
@@ -678,7 +679,7 @@ public class Treillis {
             } else if (rep==4){
                 System.out.println("Choisissez un triangle terrain");
                 TriangleTerrain tt= this.choisiTriangle();
-                this.supprimerTriangleTerrain(tt.getIdentificateur());
+                this.supprimerTriangle(tt.getIdentificateur());
             }else if (rep == 5) {
                 System.out.println("1)NoeudSimple"+"\n"+"2)AppuiSimple"+"\n"+"3)AppuiDouble");
                 int type=Lire.i();
