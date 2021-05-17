@@ -200,7 +200,40 @@ public class Controleur {
     public void enregistrer(String nom){
         vue.getModel().Enregistrer(nom);
     }
-    
+    public void zoomDouble() {
+        this.vue.setZoneModelVue(this.vue.getZoneModelVue().scale(0.5));
+        this.vue.redrawAll();
+    }
+
+    public void zoomDemi() {
+        this.vue.setZoneModelVue(this.vue.getZoneModelVue().scale(2));
+        this.vue.redrawAll();
+    }
+
+    public void zoomFitAll() {
+        this.vue.fitAll();
+        this.vue.redrawAll();
+    }
+
+    public void translateGauche() {
+         this.vue.setZoneModelVue(this.vue.getZoneModelVue().translateGauche(0.8));
+        this.vue.redrawAll();
+   }
+
+    public void translateDroite() {
+         this.vue.setZoneModelVue(this.vue.getZoneModelVue().translateDroite(0.8));
+        this.vue.redrawAll();
+   }
+
+    public void translateHaut() {
+         this.vue.setZoneModelVue(this.vue.getZoneModelVue().translateHaut(0.8));
+        this.vue.redrawAll();
+   }
+
+    public void translateBas() {
+         this.vue.setZoneModelVue(this.vue.getZoneModelVue().translateBas(0.8));
+        this.vue.redrawAll();
+   }
     public void setEtat(int etat) {
         this.etat = etat;
     }

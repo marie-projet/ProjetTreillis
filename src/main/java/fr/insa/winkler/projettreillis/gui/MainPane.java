@@ -26,8 +26,15 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -47,8 +54,18 @@ public class MainPane extends BorderPane{
     private DessinCanvas cDessin; 
     private TextArea message;
     private Matrice forces;
+    private BoutonIcone bZoomDouble;
+    private BoutonIcone bZoomDemi;
+    private BoutonIcone bZoomFitAll;
+    private BoutonIcone bTranslateGauche;
+    private BoutonIcone bTranslateDroite;
+    private BoutonIcone bTranslateHaut;
+    private BoutonIcone bTranslateBas;
+    private RectangleHV zoneModelVue;
+    private static double MULT_POUR_FIT_ALL = 2.7;
 
     public MainPane(Treillis model){
+
         this.model=model;
         this.controleur= new Controleur(this);
         this.bCalcul= new Button("Calculer");
@@ -62,6 +79,7 @@ public class MainPane extends BorderPane{
         this.message=new TextArea();
         this.message.setMinHeight(60);
         this.message.setMaxHeight(60);
+        this.fitAll();
       
         MenuItem menuItemCT = new MenuItem("Créer");
         MenuItem menuItemST = new MenuItem("Supprimer");
@@ -83,13 +101,54 @@ public class MainPane extends BorderPane{
         MenuItem menuItemCC = new MenuItem("Créer un type");
         MenuItem menuItemSC = new MenuItem("Supprimer un type");
         mbCatalogue.getItems().addAll(menuItemCC, menuItemSC); 
-        
         Button valider=new Button("Valider");
+        this.bZoomDouble = new BoutonIcone("icones/zoomPlus.png",32,32);
+        this.bZoomDouble.setOnAction((t) -> {
+            this.controleur.zoomDouble();
+        });
+        this.bZoomDemi = new BoutonIcone("icones/zoomMoins.png",32,32);
+        this.bZoomDemi.setOnAction((t) -> {
+            this.controleur.zoomDemi();
+        });
+        this.bZoomFitAll = new BoutonIcone("icones/zoomTout.png",32,32);
+        this.bZoomFitAll.setOnAction((t) -> {
+            this.controleur.zoomFitAll();
+        });
+        
+        this.bTranslateGauche = new BoutonIcone("icones/gauche.png",32,32);
+        this.bTranslateGauche.setOnAction((t) -> {
+            this.controleur.translateGauche();
+        });
+        this.bTranslateDroite = new BoutonIcone("icones/droite.png",32,32);
+       this.bTranslateDroite.setOnAction((t) -> {
+            this.controleur.translateDroite();
+        });
+         this.bTranslateHaut = new BoutonIcone("icones/haut.png",32,32);
+        this.bTranslateHaut.setOnAction((t) -> {
+            this.controleur.translateHaut();
+        });
+        this.bTranslateBas = new BoutonIcone("icones/bas.png",32,32);
+       this.bTranslateBas.setOnAction((t) -> {
+            this.controleur.translateBas();
+        });
+         
+        HBox hbZoom = new HBox(this.bZoomDouble, this.bZoomDemi, this.bZoomFitAll);
+        
+        GridPane gpTrans = new GridPane();
+        // add(compo, column , row , columnSpan , rowSpan
+        gpTrans.add(this.bTranslateGauche, 0, 1,1,1);
+        gpTrans.add(this.bTranslateDroite, 2, 1,1,1);
+        gpTrans.add(this.bTranslateHaut, 1, 0,1,1);
+        gpTrans.add(this.bTranslateBas, 1, 2,1,1);
+        
+        VBox vbZoom = new VBox(hbZoom,gpTrans);
+        vbZoom.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
           
         VBox vbGauche = new VBox();
         vbGauche.setSpacing(10);
         this.setLeft(vbGauche);
-        VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer);
+        VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer,vbZoom);
         vbDroite.setSpacing(10);
         this.setRight(vbDroite);
         HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.bForce);
@@ -100,8 +159,8 @@ public class MainPane extends BorderPane{
         this.setBottom(this.message);
                 
         GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
-        context.translate(300, 250);
-        context.scale(50, 50);
+        context.translate(300, 120);
+        //context.scale(10, 10);
         
         bZoneConstructible.setOnAction ((t) -> {
             controleur.changeEtat(10);
@@ -442,6 +501,12 @@ public class MainPane extends BorderPane{
             });
         }); 
     }
+    
+    public void fitAll() {
+        this.zoneModelVue = new RectangleHV(this.model.minX(),
+                this.model.maxX(), this.model.minY(), this.model.maxY());
+        this.zoneModelVue = this.zoneModelVue.scale(MULT_POUR_FIT_ALL);
+    }
 
     public void redrawAll(){
         this.cDessin.redrawAll();
@@ -502,4 +567,121 @@ public class MainPane extends BorderPane{
     public Matrice getForces() {
         return forces;
     }   
+
+    public BoutonIcone getbZoomDouble() {
+        return bZoomDouble;
+    }
+
+    public BoutonIcone getbZoomDemi() {
+        return bZoomDemi;
+    }
+
+    public BoutonIcone getbZoomFitAll() {
+        return bZoomFitAll;
+    }
+
+    public BoutonIcone getbTranslateGauche() {
+        return bTranslateGauche;
+    }
+
+    public BoutonIcone getbTranslateDroite() {
+        return bTranslateDroite;
+    }
+
+    public BoutonIcone getbTranslateHaut() {
+        return bTranslateHaut;
+    }
+
+    public BoutonIcone getbTranslateBas() {
+        return bTranslateBas;
+    }
+
+    public RectangleHV getZoneModelVue() {
+        return zoneModelVue;
+    }
+
+    public void setModel(Treillis model) {
+        this.model = model;
+    }
+
+    public void setControleur(Controleur controleur) {
+        this.controleur = controleur;
+    }
+
+    public void setbCalcul(Button bCalcul) {
+        this.bCalcul = bCalcul;
+    }
+
+    public void setbEnregistrer(Button bEnregistrer) {
+        this.bEnregistrer = bEnregistrer;
+    }
+
+    public void setbZoneConstructible(Button bZoneConstructible) {
+        this.bZoneConstructible = bZoneConstructible;
+    }
+
+    public void setMbTriangle(MenuButton mbTriangle) {
+        this.mbTriangle = mbTriangle;
+    }
+
+    public void setMbBarre(MenuButton mbBarre) {
+        this.mbBarre = mbBarre;
+    }
+
+    public void setbForce(Button bForce) {
+        this.bForce = bForce;
+    }
+
+    public void setMbCatalogue(MenuButton mbCatalogue) {
+        this.mbCatalogue = mbCatalogue;
+    }
+
+    public void setMbNoeud(MenuButton mbNoeud) {
+        this.mbNoeud = mbNoeud;
+    }
+
+    public void setcDessin(DessinCanvas cDessin) {
+        this.cDessin = cDessin;
+    }
+
+    public void setMessage(TextArea message) {
+        this.message = message;
+    }
+
+    public void setForces(Matrice forces) {
+        this.forces = forces;
+    }
+
+    public void setbZoomDouble(BoutonIcone bZoomDouble) {
+        this.bZoomDouble = bZoomDouble;
+    }
+
+    public void setbZoomDemi(BoutonIcone bZoomDemi) {
+        this.bZoomDemi = bZoomDemi;
+    }
+
+    public void setbZoomFitAll(BoutonIcone bZoomFitAll) {
+        this.bZoomFitAll = bZoomFitAll;
+    }
+
+    public void setbTranslateGauche(BoutonIcone bTranslateGauche) {
+        this.bTranslateGauche = bTranslateGauche;
+    }
+
+    public void setbTranslateDroite(BoutonIcone bTranslateDroite) {
+        this.bTranslateDroite = bTranslateDroite;
+    }
+
+    public void setbTranslateHaut(BoutonIcone bTranslateHaut) {
+        this.bTranslateHaut = bTranslateHaut;
+    }
+
+    public void setbTranslateBas(BoutonIcone bTranslateBas) {
+        this.bTranslateBas = bTranslateBas;
+    }
+
+    public void setZoneModelVue(RectangleHV zoneModelVue) {
+        this.zoneModelVue = zoneModelVue;
+    }
+    
 }
