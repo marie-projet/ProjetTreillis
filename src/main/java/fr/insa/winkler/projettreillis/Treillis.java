@@ -128,6 +128,33 @@ public class Treillis {
         return mes;
     }
     
+    public String supprimerTriangleTerrain(int id){
+        String mes="";
+      for(int i=0; i<this.getListeNoeuds().size(); i++){
+        if (this.getListeNoeuds().get(i)instanceof AppuiSimple){
+            AppuiSimple app = (AppuiSimple) this.getListeNoeuds().get(i); 
+            if (app.getTriangle().getIdentificateur() == id){
+                mes=mes+"Le triangle ne peut être supprimé car il existe un appui sur ce triangle"+"\n";
+            }
+        }
+        if (this.getListeNoeuds().get(i) instanceof AppuiDouble){
+            AppuiDouble appd = (AppuiDouble) this.getListeNoeuds().get(i);
+            if (appd.getTriangle().getIdentificateur() == id){
+                mes = mes+"Le triangle ne peut être supprimé car il existe un appui sur le tringle"+"\n";
+            }
+        }
+      }
+      if (mes==""){
+          for (int i=0; i<this.getTerrain().getTriangles().size(); i++){
+              if(this.getTerrain().getTriangles().get(i).getIdentificateur()==id){
+                  this.getTerrain().getTriangles().remove(this.getTerrain().getTriangles().get(i));
+              }
+          }
+      }
+      System.out.println(mes);
+      return mes;
+    }
+    
     /**
      * crée un NoeudSimple à partir d'un point`
      * @param j int (identifiant du Noeud)
@@ -648,6 +675,10 @@ public class Treillis {
                 System.out.println("Entrez l'ordonnée du point 3");
                 double y3=Lire.d();
                 this.ajouterTriangle(id, x1, y1, x2, y2, x3, y3);
+            } else if (rep==4){
+                System.out.println("Choisissez un triangle terrain");
+                TriangleTerrain tt= this.choisiTriangle();
+                this.supprimerTriangleTerrain(tt.getIdentificateur());
             }else if (rep == 5) {
                 System.out.println("1)NoeudSimple"+"\n"+"2)AppuiSimple"+"\n"+"3)AppuiDouble");
                 int type=Lire.i();
