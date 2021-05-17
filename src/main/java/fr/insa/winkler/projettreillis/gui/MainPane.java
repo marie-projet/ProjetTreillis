@@ -102,15 +102,15 @@ public class MainPane extends BorderPane{
         MenuItem menuItemSC = new MenuItem("Supprimer un type");
         mbCatalogue.getItems().addAll(menuItemCC, menuItemSC); 
         Button valider=new Button("Valider");
-        this.bZoomDouble = new BoutonIcone("icones/zoomPlus.png",32,32);
+        this.bZoomDouble = new BoutonIcone("icones/zoomer.png",32,32);
         this.bZoomDouble.setOnAction((t) -> {
             this.controleur.zoomDouble();
         });
-        this.bZoomDemi = new BoutonIcone("icones/zoomMoins.png",32,32);
+        this.bZoomDemi = new BoutonIcone("icones/dezoomer.png",32,32);
         this.bZoomDemi.setOnAction((t) -> {
             this.controleur.zoomDemi();
         });
-        this.bZoomFitAll = new BoutonIcone("icones/zoomTout.png",32,32);
+        this.bZoomFitAll = new BoutonIcone("icones/agrandir.png",32,32);
         this.bZoomFitAll.setOnAction((t) -> {
             this.controleur.zoomFitAll();
         });
