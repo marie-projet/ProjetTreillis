@@ -162,11 +162,11 @@ public class Controleur {
     }
     
     public void calculer (){
+        String mes="";
         int ns=vue.getModel().getListeNoeuds().size();
         int nb=vue.getModel().getListeBarres().size();
         int nas=0;
         int nap=0;
-        double epsilon=Math.pow(10, -8);
         for(int i=0; i<ns; i++){
             if(vue.getModel().getListeNoeuds().get(i) instanceof AppuiSimple){
                 nas=nas+1;
@@ -178,9 +178,23 @@ public class Controleur {
             }
         }
         if((2*ns)!=(nb+nas+2*nap)){
-            vue.getMessage().appendText("le treillis n'est pas isostatique"+"\n");
-        }           
-        else{
+            mes=mes+"Le treillis n'est pas isostatique"+"\n";
+        }
+        for(int i=0; i<ns; i++){
+            if(vue.getModel().getListeNoeuds().get(i) instanceof AppuiSimple){
+                int compt=0;
+                AppuiSimple ap=(AppuiSimple) vue.getModel().getListeNoeuds().get(i);
+                for (int j=0; j<nb; j++){
+                    if(vue.getModel().getListeBarres().get(j).getNoeudDebut()==ap){
+                        compt=compt+1;
+                    } 
+                }
+                if(compt<2){
+                    mes=mes+"L'appui simple peut roulerr"+"÷n";
+                }
+            }
+        }
+        if (mes==""){
             Matrice res=vue.getModel().calculForces(vue.getForces());
             for(int i=0; i<vue.getModel().getListeBarres().size(); i++){
                 if (res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction()){
@@ -195,6 +209,7 @@ public class Controleur {
                 }
             }
         }
+        vue.getMessage().appendText(mes);
     }
     
     public void enregistrer(String nom){

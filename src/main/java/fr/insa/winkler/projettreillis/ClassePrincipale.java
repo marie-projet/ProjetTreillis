@@ -25,14 +25,8 @@ public class ClassePrincipale {
       
        
        //test enregistrement fichier
-       String nom= new String();
-       System.out.println("Nommez votre fichier:");
-       nom = Lire.S();
-       t.Enregistrer(nom);
-       
-     //t.menuTexte();
+
        t.menuTexte();
-       t.Enregistrer("test");
 }
 
 }

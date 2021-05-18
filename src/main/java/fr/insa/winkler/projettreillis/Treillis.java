@@ -207,11 +207,16 @@ public class Treillis {
         if((segment!=0)&&(segment!=1)&&(segment!=2)){
             mes=mes+"Le numéro du premier point du segment sur lequel réside l'appui doit être un entier entre 1 et 3"+"\n";
         }
-        if(mes==""){
-            for(int i=0;i<this.getTerrain().getTriangles().size(); i++){
-                if(this.getTerrain().getTriangles().get(i).getIdentificateur()==triangle){
-                    AppuiSimple a = new AppuiSimple(id,this.getTerrain().getTriangles().get(i), segment,pos);
+        for(int i=0;i<this.getTerrain().getTriangles().size(); i++){
+            if(this.getTerrain().getTriangles().get(i).getIdentificateur()==triangle){
+                AppuiSimple a = new AppuiSimple(id,this.getTerrain().getTriangles().get(i), segment,pos);
+                if((a.getPos().getX()<this.getTerrain().getXmin())||(a.getPos().getX()>this.getTerrain().getXmax())
+                    ||(a.getPos().getY()<this.getTerrain().getYmin())||(a.getPos().getY()>this.getTerrain().getYmax())){
+                    mes=mes+"Le point n'est pas dans la zone constructible"+"\n";
+                }
+                if(mes==""){
                     this.getListeNoeuds().add(a);
+                    mes="Appui simple ajouté!";
                 }
             }
         }
@@ -237,11 +242,16 @@ public class Treillis {
         if((segment!=0)&&(segment!=1)&&(segment!=2)){
             mes=mes+"Le numéro du premier point du segment sur lequel réside l'appui doit être un entier entre 1 et 3"+"\n";
         }
-        if(mes==""){
-            for(int i=0;i<this.getTerrain().getTriangles().size(); i++){
-                if(this.getTerrain().getTriangles().get(i).getIdentificateur()==triangle){
-                    AppuiDouble a = new AppuiDouble(id,this.getTerrain().getTriangles().get(i), segment,pos);
+        for(int i=0;i<this.getTerrain().getTriangles().size(); i++){
+            if(this.getTerrain().getTriangles().get(i).getIdentificateur()==triangle){
+                AppuiDouble a = new AppuiDouble(id,this.getTerrain().getTriangles().get(i), segment,pos);
+                if((a.getPos().getX()<this.getTerrain().getXmin())||(a.getPos().getX()>this.getTerrain().getXmax())
+                    ||(a.getPos().getY()<this.getTerrain().getYmin())||(a.getPos().getY()>this.getTerrain().getYmax())){
+                    mes=mes+"Le point n'est pas dans la zone constructible"+"\n";
+                }
+                if(mes==""){
                     this.getListeNoeuds().add(a);
+                    mes="Appui double ajouté";
                 }
             }
         }

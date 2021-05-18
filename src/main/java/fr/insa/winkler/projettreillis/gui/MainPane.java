@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -53,7 +54,7 @@ public class MainPane extends BorderPane{
     private MenuButton mbNoeud;   
     private DessinCanvas cDessin; 
     private TextArea message;
-    private Matrice forces;
+    private Matrice forces; 
     private BoutonIcone bZoomDouble;
     private BoutonIcone bZoomDemi;
     private BoutonIcone bZoomFitAll;
@@ -151,16 +152,16 @@ public class MainPane extends BorderPane{
         VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer,vbZoom);
         vbDroite.setSpacing(10);
         this.setRight(vbDroite);
+        MenuButton fichier=new MenuButton("Fichier");
         HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.bForce);
+        VBox haut=new VBox(fichier,entete);
         entete.setSpacing(10);
-        this.setTop(entete);
+        this.setTop(haut);
         this.cDessin=new DessinCanvas (this);
         this.setCenter(this.cDessin);
         this.setBottom(this.message);
                 
         GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
-        context.translate(300, 120);
-        //context.scale(10, 10);
         
         bZoneConstructible.setOnAction ((t) -> {
             controleur.changeEtat(10);

@@ -104,5 +104,6 @@ public class Point {
     public void draw(GraphicsContext gc) {
         gc.fillOval(this.px-RAYON_IN_DRAW, this.py-RAYON_IN_DRAW, 2*RAYON_IN_DRAW, 2*RAYON_IN_DRAW);
     }
+    
 
 }
