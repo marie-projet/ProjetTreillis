@@ -95,10 +95,8 @@ public class Treillis {
     public String modifierZC(double xmin, double xmax, double ymin, double ymax){
         String mes="";
         for (Noeud n:this.getListeNoeuds()){
-            if(n instanceof NoeudSimple){
-                if((n.getPos().getX()<xmin)||(n.getPos().getX()>xmax)||(n.getPos().getY()<ymin)||(n.getPos().getY()>ymax)){
-                    mes=mes+"Le noeud "+n.getIdentifiant()+" n'est plus dans la zone constrcutible"+"\n";
-                }
+            if((n.getPos().getX()<xmin)||(n.getPos().getX()>xmax)||(n.getPos().getY()<ymin)||(n.getPos().getY()>ymax)){
+                mes=mes+"Le noeud "+n.getIdentifiant()+" n'est plus dans la zone constrcutible"+"\n";
             }
         }
         if(mes==""){
