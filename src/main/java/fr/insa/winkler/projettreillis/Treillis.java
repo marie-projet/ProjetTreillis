@@ -251,7 +251,7 @@ public class Treillis {
     
     public String modifierAppui (int id, double pos){
         String mes="";
-        if ((pos<0 )|| (pos >1)){
+        if ((pos<0 )||(pos >1)){
             mes = mes+"la position doit être un entier entre 0 et 1"+"\n";
             for (int i =0 ; i< this.getListeNoeuds().size(); i++){
                 if (this.getListeNoeuds().get(i).getIdentifiant() ==id){
@@ -260,17 +260,21 @@ public class Treillis {
                         if (this.getListeBarres().get(j).getNoeudDebut()== this.getListeNoeuds().get(i)){
                             AppuiSimple ap = new AppuiSimple (1, a.getTriangle(), a.getPoint1(), pos);
                                 if (this.getListeBarres().get(j).getNoeudDebut()==this.getListeNoeuds().get(i)){
-                                    if((this.getListeBarres().get(j).getNoeudFin().distance(a)< this.getListeBarres().get(j).getType().getLongueurMin())||
-                                        this.getListeBarres().get(j).getNoeudFin().distance(a)>this.getListeBarres().get(j).getType().getLongueurMax()){
+                                    if((this.getListeBarres().get(j).getNoeudFin().distance(ap)< this.getListeBarres().get(j).getType().getLongueurMin())||
+                                        this.getListeBarres().get(j).getNoeudFin().distance(ap)>this.getListeBarres().get(j).getType().getLongueurMax()){
                                         mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n";
                                     }
                                 }
                                 if (this.getListeBarres().get(j).getNoeudFin()==this.getListeNoeuds().get(i)){
-                                    if((this.getListeBarres().get(j).getNoeudDebut().distance(a)< this.getListeBarres().get(j).getType().getLongueurMin())||
-                                        this.getListeBarres().get(j).getNoeudDebut().distance(a)>this.getListeBarres().get(j).getType().getLongueurMax()){
+                                    if((this.getListeBarres().get(j).getNoeudDebut().distance(ap)< this.getListeBarres().get(j).getType().getLongueurMin())||
+                                        this.getListeBarres().get(j).getNoeudDebut().distance(ap)>this.getListeBarres().get(j).getType().getLongueurMax()){
                                         mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n"; 
                                     }
                                 }
+                                if((ap.getPos().getX()<this.getTerrain().getXmin())||(ap.getPos().getX()>this.getTerrain().getXmax())
+                                    ||(ap.getPos().getY()<this.getTerrain().getYmin())|| (ap.getPos().getY()>this.getTerrain().getYmax())){
+                                    mes=mes+"Le point n'est plus dans la zone constructible";
+                                }   
                         }
                     }
                     if(mes==""){
@@ -283,6 +287,37 @@ public class Treillis {
             System.out.println(mes);
             return mes;
         }
+    
+    public String modifierNoeud(int id, Point pos){
+        String mes="";
+             for (int i =0 ; i< this.getListeNoeuds().size(); i++){
+                if (this.getListeNoeuds().get(i).getIdentifiant() ==id){
+                    NoeudSimple a = (NoeudSimple) this.getListeNoeuds().get(i);
+                    for (int j =0; j<this.getListeBarres().size(); j++){
+                        if (this.getListeBarres().get(j).getNoeudDebut()== this.getListeNoeuds().get(i)){
+                                if (this.getListeBarres().get(j).getNoeudDebut()==this.getListeNoeuds().get(i)){
+                                    if((this.getListeBarres().get(j).getNoeudFin().distance(a)< this.getListeBarres().get(j).getType().getLongueurMin())||
+                                        this.getListeBarres().get(j).getNoeudFin().distance(a)>this.getListeBarres().get(j).getType().getLongueurMax()){
+                                        mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n";
+                                    }
+                                }
+                                if (this.getListeBarres().get(j).getNoeudFin()==this.getListeNoeuds().get(i)){
+                                    if((this.getListeBarres().get(j).getNoeudDebut().distance(a)< this.getListeBarres().get(j).getType().getLongueurMin())||
+                                        this.getListeBarres().get(j).getNoeudDebut().distance(a)>this.getListeBarres().get(j).getType().getLongueurMax()){
+                                        mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n"; 
+                                    }           
+                                }
+                        }
+                    }
+                    if (mes==""){
+                        a.setPosition(pos);
+                        mes="Noeud modfifié";
+                    }
+                }       
+            }   
+             System.out.println(mes);
+             return mes;
+    }
     
     public String supprimerNoeud (int i){
         String mes="";
@@ -406,6 +441,17 @@ public class Treillis {
     return mes;
     }
     
+     public String modifierTypeBarre (int id, int idT){
+         String mes="";
+         for(int i=0; i<this.getListeBarres().size(); i++){
+             if (this.getListeBarres().get(i).getIdentifiant()==i){
+                 TypeBarre tb= new TypeBarre();
+                 
+         }
+     }
+         return mes;
+     }
+     
     public String supprimerTypeBarre(int i){
         String mes="";
         for(int j=0; j<this.getCatalogue().getListe().size(); j++){
@@ -663,7 +709,7 @@ public class Treillis {
         return test;
     }
     
-    //il manque les points 6 et 9
+    //il manque les points 9
     public void menuTexte() {
         int rep = -1;
         while (rep != 0) {
@@ -742,14 +788,18 @@ public class Treillis {
                 }
             } else if (rep==6){
                 Noeud n = this.choisiNoeud();
-                TriangleTerrain t= this.choisiTriangle();
-                 System.out.println("Saisissez l'identifiant de la barre");
-                int id=Lire.i();
-                System.out.println ("Entrez le numéro du premier point du segment de terrain sur lequel placer l'appui");
-                int point = Lire.i();
-                System.out.println("rentrer la nouvelle position de l'appui");
-                double pos = Lire.d();
-                this.modifierAppui(id,  pos);
+                if (n instanceof NoeudSimple){
+                System.out.println("rentrer l'identifiant du noeud");
+                int id = Lire.i();
+                Point p =Point.demandePoint();
+                this.modifierNoeud(id,p );
+            }else{
+                    System.out.println("rentrer l'identifiant de l'appui");
+                    int id = Lire.i();
+                    System.out.println("rentrer la nouvelle position de l'appui");
+                    double pos = Lire.d();
+                this.modifierAppui(id, pos);
+                }
             } else if (rep == 7) {
                 System.out.println("Choisissez un Noeud :");
                 Noeud n= this.choisiNoeud();
@@ -766,7 +816,10 @@ public class Treillis {
                     Noeud fin = this.choisiNoeud();
                     this.ajouterBarre(id,type.getIdentificateur(),deb.getIdentifiant(),fin.getIdentifiant());
                 }
-            } else if (rep == 10) {
+            } else if (rep ==9) {
+                System.out.println("Choisissez une barre");
+                Barre b = this.choisiBarre();
+        }else if (rep == 10) {
                 System.out.println("Choisissez une Barre :");
                 Barre b= this.choisiBarre();
                 this.supprimerBarre(b.getIdentifiant());
