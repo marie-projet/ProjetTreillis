@@ -802,7 +802,7 @@ public class Treillis {
                 System.out.println("rentrer l'identifiant du noeud");
                 int id = Lire.i();
                 Point p =Point.demandePoint();
-                this.modifierNoeud(id,p );
+                this.modifierNoeud(id,p.getX(),p.getY() );
             }else{
                     System.out.println("rentrer l'identifiant de l'appui");
                     int id = Lire.i();
@@ -1004,6 +1004,7 @@ public class Treillis {
          }
      }
     
+    
     public Treillis charger(String nom){
         
         try{
@@ -1131,6 +1132,7 @@ public class Treillis {
     }
     
  }
+
 }
 
    
