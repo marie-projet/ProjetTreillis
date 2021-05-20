@@ -1090,8 +1090,8 @@ public class Treillis {
                
                if (info.get(0)== "AppuiDouble"){
                    
-                  
-                   if (Integer.parseInt(info.get(1))= TriangleTerrain.getIdentificateur){
+                for (int i=0; i<t.getTerrain().getTriangles().size(); i++){
+                    if (Integer.parseInt(info.get(1))== t.getTerrain().getTriangles().get(i).getIdentificateur()){
                        
                    }
                    
@@ -1117,14 +1117,7 @@ public class Treillis {
                }
                    
                }
-               
-               
-                
-            
-            
-            
-            
-        
+
         catch(FileNotFoundException err){
             System.out.println("Erreur : Le fichier n'existe pas!\n "+err);
         }
@@ -1136,6 +1129,7 @@ public class Treillis {
     }
     
  }
+}
 
    
 
