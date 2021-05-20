@@ -394,6 +394,29 @@ public class Treillis {
         return mes;
     }
     
+    
+    public String modifierBarre (int id, int idT){
+         String mes=""; 
+         for(int i=0; i<this.getListeBarres().size(); i++){
+             if (this.getListeBarres().get(i).getIdentifiant()==id){
+                 for (int j =0; j<this.getCatalogue().getListe().size(); j++){
+                    if (this.getCatalogue().getListe().get(j).getIdentificateur() == idT){
+                        Barre b = new Barre(id, this.getListeBarres().get(i).getNoeudDebut(), this.getListeBarres().get(i).getNoeudFin(), this.getCatalogue().getListe().get(j));
+                        if((b.getNoeudDebut().distance(b.getNoeudFin()))< (this.getCatalogue().getListe().get(j).getLongueurMin())||
+                            (b.getNoeudFin().distance(b.getNoeudDebut()))>(this.getCatalogue().getListe().get(j).getLongueurMax())){
+                            mes="La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n"; 
+                        }
+                        if (mes==""){
+                            b.setType(this.getCatalogue().getListe().get(j));
+                            mes="Le type de la barre a été modifié"+"\n";
+                        }
+                    }
+                 }
+             }
+         }     
+         System.out.println(mes);
+         return mes;
+     }
          
     public String supprimerBarre (int i){
         String mes="";
@@ -451,16 +474,6 @@ public class Treillis {
     return mes;
     }
     
-     public String modifierTypeBarre (int id, int idT){
-         String mes="";
-         for(int i=0; i<this.getListeBarres().size(); i++){
-             if (this.getListeBarres().get(i).getIdentifiant()==i){
-                 TypeBarre tb= new TypeBarre();
-                 
-         }
-     }
-         return mes;
-     }
      
     public String supprimerTypeBarre(int i){
         String mes="";
@@ -826,9 +839,12 @@ public class Treillis {
                     Noeud fin = this.choisiNoeud();
                     this.ajouterBarre(id,type.getIdentificateur(),deb.getIdentifiant(),fin.getIdentifiant());
                 }
-            } else if (rep ==9) {
-                System.out.println("Choisissez une barre");
-                Barre b = this.choisiBarre();
+             } else if (rep ==9) {
+                System.out.println("Saissisez l'identifiant du type de barre à modifier");
+                Barre b=this.choisiBarre();
+                System.out.println("Saissiez l'identifiant du type de barre modifié");
+                TypeBarre t=this.choisiType();
+                this.modifierTypeBarre(b.getIdentifiant(),t.getIdentificateur());
         }else if (rep == 10) {
                 System.out.println("Choisissez une Barre :");
                 Barre b= this.choisiBarre();
