@@ -67,6 +67,15 @@ public class Controleur {
         }
     }
     public void valider(String s1, String s2){
+        if(this.etat==35){
+            System.out.println("test");
+            List<String> a = new ArrayList<>();
+            for (String s: s1.split(";")) {
+                a.add(s);
+            }
+            vue.getMessage().appendText(vue.getModel().modifierAppui(Integer.parseInt(a.get(1)),Double.parseDouble(s2)));
+            vue.getcDessin().redrawAll();
+        }
         if(this.etat==44){
             //modifier le type de la barre
         }
@@ -83,7 +92,7 @@ public class Controleur {
             for (String s: s1.split(";")) {
                 a.add(s);
             }
-            //vue.getMessage().appendText(vue.getModel().modifierNoeudSimple(Integer.parseInt(a.get(1)),Double.parseDouble(s2),Double.parseDouble(s3)));
+            vue.getMessage().appendText(vue.getModel().modifierNoeud(Integer.parseInt(a.get(1)),Double.parseDouble(s2),Double.parseDouble(s3)));
             vue.getcDessin().redrawAll();
         }
         if(this.etat==60){
@@ -188,9 +197,12 @@ public class Controleur {
                     if(vue.getModel().getListeBarres().get(j).getNoeudDebut()==ap){
                         compt=compt+1;
                     } 
+                    if(vue.getModel().getListeBarres().get(j).getNoeudFin()==ap){
+                        compt=compt+1;
+                    } 
                 }
                 if(compt<2){
-                    mes=mes+"L'appui simple peut roulerr"+"÷n";
+                    mes=mes+"L'appui simple peut roulerr"+"÷\n";
                 }
             }
         }
@@ -205,7 +217,7 @@ public class Controleur {
                 if(-1*res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
                     vue.getMessage().appendText("La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
-                        " est soumise à une compression trop importante ("+res.getCoeffs(i,0)+"N)"+"\n");
+                        " est soumise à une compression trop importante ("+-res.getCoeffs(i,0)+"N)"+"\n");
                 }
             }
         }

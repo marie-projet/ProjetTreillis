@@ -19,6 +19,12 @@ public class NoeudSimple extends Noeud{
         super(identifiant);
         this.position=pos;
     }
+    
+    public NoeudSimple(int id, double x, double y){
+        super(id);
+        Point pos=new Point(x,y);
+        this.position=pos;
+    }
 
     public Point getPos() {
         return position;

@@ -314,10 +314,10 @@ public class MainPane extends BorderPane{
             }
             Label position =new Label("Position sur le segment");
             TextField pos=new TextField();
-            vbGauche.getChildren().addAll(noeud,noeuds,position,pos);
+            vbGauche.getChildren().addAll(noeud,noeuds,position,pos,valider);
             valider.setOnAction ((i) -> {
                 message.clear();
-                controleur.valider(noeuds.getSelectionModel().getSelectedItem(),x.getText(),y.getText());
+                controleur.valider(noeuds.getSelectionModel().getSelectedItem(),pos.getText());
             });
         });
         

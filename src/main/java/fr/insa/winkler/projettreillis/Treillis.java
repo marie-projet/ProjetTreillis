@@ -261,63 +261,65 @@ public class Treillis {
         String mes="";
         if ((pos<0 )||(pos >1)){
             mes = mes+"la position doit être un entier entre 0 et 1"+"\n";
-            for (int i =0 ; i< this.getListeNoeuds().size(); i++){
-                if (this.getListeNoeuds().get(i).getIdentifiant() ==id){
-                    Appui a = (Appui) this.getListeNoeuds().get(i);
-                    for (int j =0; j<this.getListeBarres().size(); j++){
-                        if (this.getListeBarres().get(j).getNoeudDebut()== this.getListeNoeuds().get(i)){
-                            AppuiSimple ap = new AppuiSimple (1, a.getTriangle(), a.getPoint1(), pos);
-                                if (this.getListeBarres().get(j).getNoeudDebut()==this.getListeNoeuds().get(i)){
-                                    if((this.getListeBarres().get(j).getNoeudFin().distance(ap)< this.getListeBarres().get(j).getType().getLongueurMin())||
-                                        this.getListeBarres().get(j).getNoeudFin().distance(ap)>this.getListeBarres().get(j).getType().getLongueurMax()){
-                                        mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n";
-                                    }
-                                }
-                                if (this.getListeBarres().get(j).getNoeudFin()==this.getListeNoeuds().get(i)){
-                                    if((this.getListeBarres().get(j).getNoeudDebut().distance(ap)< this.getListeBarres().get(j).getType().getLongueurMin())||
-                                        this.getListeBarres().get(j).getNoeudDebut().distance(ap)>this.getListeBarres().get(j).getType().getLongueurMax()){
-                                        mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n"; 
-                                    }
-                                }
-                                if((ap.getPos().getX()<this.getTerrain().getXmin())||(ap.getPos().getX()>this.getTerrain().getXmax())
-                                    ||(ap.getPos().getY()<this.getTerrain().getYmin())|| (ap.getPos().getY()>this.getTerrain().getYmax())){
-                                    mes=mes+"Le point n'est plus dans la zone constructible";
-                                }   
-                        }
-                    }
-                    if(mes==""){
-                        a.setPosition(pos);
-                        mes="Appui modifié";
-                    }
-                }   
-            }   
         }
-            System.out.println(mes);
-            return mes;
+        for (int i =0 ; i< this.getListeNoeuds().size(); i++){
+            if (this.getListeNoeuds().get(i).getIdentifiant() ==id){
+                Appui a = (Appui) this.getListeNoeuds().get(i);
+                for (int j =0; j<this.getListeBarres().size(); j++){
+                    if ((this.getListeBarres().get(j).getNoeudDebut()==this.getListeNoeuds().get(i))||(this.getListeBarres().get(j).getNoeudFin()==this.getListeNoeuds().get(i))){
+                        AppuiSimple ap = new AppuiSimple (1, a.getTriangle(), a.getPoint1(), pos);
+                        if (this.getListeBarres().get(j).getNoeudDebut()==this.getListeNoeuds().get(i)){
+                            if((this.getListeBarres().get(j).getNoeudFin().distance(ap)< this.getListeBarres().get(j).getType().getLongueurMin())||
+                                this.getListeBarres().get(j).getNoeudFin().distance(ap)>this.getListeBarres().get(j).getType().getLongueurMax()){
+                                mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n";
+                            }
+                        }
+                        if (this.getListeBarres().get(j).getNoeudFin()==this.getListeNoeuds().get(i)){
+                            if((this.getListeBarres().get(j).getNoeudDebut().distance(ap)< this.getListeBarres().get(j).getType().getLongueurMin())||
+                                this.getListeBarres().get(j).getNoeudDebut().distance(ap)>this.getListeBarres().get(j).getType().getLongueurMax()){
+                                mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n"; 
+                            }
+                        }
+                        if((ap.getPos().getX()<this.getTerrain().getXmin())||(ap.getPos().getX()>this.getTerrain().getXmax())
+                            ||(ap.getPos().getY()<this.getTerrain().getYmin())|| (ap.getPos().getY()>this.getTerrain().getYmax())){
+                            mes=mes+"Le point n'est plus dans la zone constructible"+"\n";
+                        }   
+                    }
+                }
+                if(mes==""){
+                    a.setPosition(pos);
+                    mes="Appui modifié";
+                }
+            }   
+        }   
+        System.out.println(mes);
+        return mes;
         }
     
-    public String modifierNoeud(int id, Point pos){
+    public String modifierNoeud(int id, double x, double y){
         String mes="";
-             for (int i =0 ; i< this.getListeNoeuds().size(); i++){
-                if (this.getListeNoeuds().get(i).getIdentifiant() ==id){
-                    NoeudSimple a = (NoeudSimple) this.getListeNoeuds().get(i);
+        for (int i =0 ; i< this.getListeNoeuds().size(); i++){
+            if (this.getListeNoeuds().get(i).getIdentifiant() ==id){
+                NoeudSimple a = (NoeudSimple) this.getListeNoeuds().get(i);
                     for (int j =0; j<this.getListeBarres().size(); j++){
-                        if (this.getListeBarres().get(j).getNoeudDebut()== this.getListeNoeuds().get(i)){
-                                if (this.getListeBarres().get(j).getNoeudDebut()==this.getListeNoeuds().get(i)){
-                                    if((this.getListeBarres().get(j).getNoeudFin().distance(a)< this.getListeBarres().get(j).getType().getLongueurMin())||
-                                        this.getListeBarres().get(j).getNoeudFin().distance(a)>this.getListeBarres().get(j).getType().getLongueurMax()){
-                                        mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n";
-                                    }
+                        if ((this.getListeBarres().get(j).getNoeudDebut()==this.getListeNoeuds().get(i))||(this.getListeBarres().get(j).getNoeudFin()==this.getListeNoeuds().get(i))){
+                            NoeudSimple n=new NoeudSimple(id,x,y);
+                            if (this.getListeBarres().get(j).getNoeudDebut()==this.getListeNoeuds().get(i)){
+                                if((this.getListeBarres().get(j).getNoeudFin().distance(n)< this.getListeBarres().get(j).getType().getLongueurMin())||
+                                    this.getListeBarres().get(j).getNoeudFin().distance(n)>this.getListeBarres().get(j).getType().getLongueurMax()){
+                                    mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n";
                                 }
-                                if (this.getListeBarres().get(j).getNoeudFin()==this.getListeNoeuds().get(i)){
-                                    if((this.getListeBarres().get(j).getNoeudDebut().distance(a)< this.getListeBarres().get(j).getType().getLongueurMin())||
-                                        this.getListeBarres().get(j).getNoeudDebut().distance(a)>this.getListeBarres().get(j).getType().getLongueurMax()){
-                                        mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n"; 
-                                    }           
-                                }
+                            }
+                            if (this.getListeBarres().get(j).getNoeudFin()==this.getListeNoeuds().get(i)){
+                                if((this.getListeBarres().get(j).getNoeudDebut().distance(n)< this.getListeBarres().get(j).getType().getLongueurMin())||
+                                    this.getListeBarres().get(j).getNoeudDebut().distance(n)>this.getListeBarres().get(j).getType().getLongueurMax()){
+                                    mes=mes+"La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n"; 
+                                }           
+                            }
                         }
                     }
                     if (mes==""){
+                        Point pos=new Point(x,y);
                         a.setPosition(pos);
                         mes="Noeud modfifié";
                     }
