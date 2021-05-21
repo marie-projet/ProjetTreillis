@@ -49,12 +49,11 @@ public class MainPane extends BorderPane{
     private Button bZoneConstructible;
     private MenuButton mbTriangle;
     private MenuButton mbBarre;
-    private Button bForce; 
+    private Button bCharge; 
     private MenuButton mbCatalogue;
     private MenuButton mbNoeud;   
     private DessinCanvas cDessin; 
-    private TextArea message;
-    private Matrice forces; 
+    private TextArea message; 
     private BoutonIcone bZoomDouble;
     private BoutonIcone bZoomDemi;
     private BoutonIcone bZoomFitAll;
@@ -72,7 +71,7 @@ public class MainPane extends BorderPane{
         this.bCalcul= new Button("Calculer");
         this.mbBarre=new MenuButton ("Barre");
         this.mbCatalogue=new MenuButton("Catalogue de barres");
-        this.bForce = new Button ("Forces");
+        this.bCharge = new Button ("Charges");
         this.bZoneConstructible=new Button ("Zone Constructible");
         this.mbTriangle=new MenuButton("Triangles");
         this.bEnregistrer = new Button ("Enregistrer");
@@ -153,7 +152,7 @@ public class MainPane extends BorderPane{
         vbDroite.setSpacing(10);
         this.setRight(vbDroite);
         MenuButton fichier=new MenuButton("Fichier");
-        HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.bForce);
+        HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.bCharge);
         VBox haut=new VBox(fichier,entete);
         entete.setSpacing(10);
         this.setTop(haut);
@@ -456,30 +455,23 @@ public class MainPane extends BorderPane{
             });
         });
         
-        this.forces=new Matrice(this.getModel().getListeNoeuds().size()*2,1);
-        this.bForce.setOnAction((t) -> {
+        this.bCharge.setOnAction((t) -> {
             vbGauche.getChildren().clear();
             this.message.clear();
-            this.message.appendText("Les forces sont à ajouter après avoir terminé le treillis.");
-            if(forces.getNbrLig()!=this.getModel().getListeNoeuds().size()*2){
-                this.forces=new Matrice(this.getModel().getListeNoeuds().size()*2,1);
-            }
             Label noeudsEx = new Label ("Noeuds :");
             ComboBox<String> noeuds=new ComboBox<String>();
             for(Noeud n:model.getListeNoeuds()){
                 noeuds.getItems().addAll(n.toString());
             }
-            Label forcex = new Label ("force Px");
-            Label forcey = new Label ("force Py");
-            TextField px = new TextField();
-            TextField py = new TextField();
-            HBox forcePx=new HBox(forcex,px);
-            HBox forcePy=new HBox(forcey,py);
-            vbGauche.getChildren().addAll(noeudsEx,noeuds,forcePx,forcePy,valider);
+            Label norme = new Label ("Norme de la charge:");
+            Label angle = new Label ("Angle que fait la charge avce l'horizontale:");
+            TextField n = new TextField();
+            TextField a = new TextField();
+            vbGauche.getChildren().addAll(noeudsEx,noeuds,norme, n,angle,a,valider);
             valider.setOnAction ((i) -> {
                 message.clear();
                 controleur.changeEtat(60);
-                controleur.valider(noeuds.getSelectionModel().getSelectedItem(), px.getText(),py.getText());
+                controleur.valider(noeuds.getSelectionModel().getSelectedItem(), n.getText(),a.getText());
             });
         });
         
@@ -529,8 +521,8 @@ public class MainPane extends BorderPane{
         return mbBarre;
     }
 
-    public Button getbForce() {
-        return bForce;
+    public Button getbCharge() {
+        return bCharge;
     }
 
     public MenuButton getMbCatalogue() {
@@ -565,9 +557,6 @@ public class MainPane extends BorderPane{
         return message;
     }
 
-    public Matrice getForces() {
-        return forces;
-    }   
 
     public BoutonIcone getbZoomDouble() {
         return bZoomDouble;
@@ -630,7 +619,7 @@ public class MainPane extends BorderPane{
     }
 
     public void setbForce(Button bForce) {
-        this.bForce = bForce;
+        this.bCharge = bCharge;
     }
 
     public void setMbCatalogue(MenuButton mbCatalogue) {
@@ -649,9 +638,6 @@ public class MainPane extends BorderPane{
         this.message = message;
     }
 
-    public void setForces(Matrice forces) {
-        this.forces = forces;
-    }
 
     public void setbZoomDouble(BoutonIcone bZoomDouble) {
         this.bZoomDouble = bZoomDouble;

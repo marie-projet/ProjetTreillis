@@ -7,12 +7,12 @@ package fr.insa.winkler.projettreillis.gui;
 
 import fr.insa.winkler.projettreillis.AppuiDouble;
 import fr.insa.winkler.projettreillis.AppuiSimple;
+import fr.insa.winkler.projettreillis.Charge;
 import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.paint.Color;
-import recup.Lire;
 
 /**
  *
@@ -100,14 +100,13 @@ public class Controleur {
             for (String s: s1.split(";")) {
                 a.add(s);
             }
-            System.out.println(vue.getForces().getNbrLig());
             for (int i=0; i<vue.getModel().getListeNoeuds().size(); i++){
                 if(vue.getModel().getListeNoeuds().get(i).getIdentifiant()==Integer.parseInt(a.get(1))){
-                    vue.getForces().setCoeffs(i*2,0,-1*Double.parseDouble(s2));
-                    vue.getForces().setCoeffs(i*2+1,0,-1*Double.parseDouble(s3));
+                    vue.getModel().getCharge().add(new Charge(Math.cos(Double.parseDouble(s3)*Math.PI/180)*Double.parseDouble(s2),
+                            Math.sin(Double.parseDouble(s3)*Math.PI/180)*Double.parseDouble(s2),vue.getModel().getListeNoeuds().get(i)));
                 }
             } 
-        vue.getMessage().appendText("Force ajoutée !");
+        vue.getMessage().appendText("Charge ajoutée !");
         }
     }
 
@@ -207,7 +206,7 @@ public class Controleur {
             }
         }
         if (mes==""){
-            Matrice res=vue.getModel().calculForces(vue.getForces());
+            Matrice res=vue.getModel().calculForces();
             for(int i=0; i<vue.getModel().getListeBarres().size(); i++){
                 if (res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);

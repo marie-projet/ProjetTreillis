@@ -25,8 +25,9 @@ public class ClassePrincipale {
       
        
        //test enregistrement fichier
+       Treillis t1=new Treillis();
 
-       t.menuTexte();
+       t1.menuTexte();
 }
 
 }

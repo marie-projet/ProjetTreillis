@@ -85,7 +85,6 @@ public class TriangleTerrain {
             }
         }
     }
-    //System.out.println(angle);
     if(Math.abs(angle % Math.PI)<epsilon){
         return 0;
     }

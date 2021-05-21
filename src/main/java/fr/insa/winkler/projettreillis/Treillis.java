@@ -24,6 +24,7 @@ public class Treillis {
     private List<Barre> listeBarres;
     private Terrain terrain;
     private CatalogueBarres catalogue;
+    private List<Charge> charge;
     
     public Treillis(){
         this.identifiant=1;
@@ -31,6 +32,7 @@ public class Treillis {
         this.listeBarres = new ArrayList<Barre>();
         this.terrain = new Terrain(); 
         this.catalogue=new CatalogueBarres();
+        this.charge=new ArrayList<Charge>();
     }    
 
     public Treillis (int identifiant, Terrain terrain,CatalogueBarres catalogue){
@@ -39,6 +41,7 @@ public class Treillis {
         this.listeBarres = new ArrayList<Barre>();
         this.terrain = terrain; 
         this.catalogue=catalogue;
+        this.charge=new ArrayList<Charge>();
     }
 
     public int getIdentifiant() {
@@ -72,6 +75,10 @@ public class Treillis {
 
     public void setCatalogue(CatalogueBarres catalogue) {
         this.catalogue = catalogue;
+    }
+
+    public List<Charge> getCharge() {
+        return charge;
     }
     
     public String toString(){
@@ -844,7 +851,7 @@ public class Treillis {
                 Barre b=this.choisiBarre();
                 System.out.println("Saissiez l'identifiant du type de barre modifié");
                 TypeBarre t=this.choisiType();
-                this.modifierTypeBarre(b.getIdentifiant(),t.getIdentificateur());
+                this.modifierBarre(b.getIdentifiant(),t.getIdentificateur());
         }else if (rep == 10) {
                 System.out.println("Choisissez une Barre :");
                 Barre b= this.choisiBarre();
@@ -893,7 +900,7 @@ public class Treillis {
      * reste a faire: tester si les forces sont supérieures aux valeurs des types de barres
      *               afficher T1, T2,...
      */
-    public Matrice calculForces(Matrice forces){
+    public Matrice calculForces(){
         int ns=this.getListeNoeuds().size();
         int nb=this.getListeBarres().size();
         int nas=0;
@@ -910,12 +917,17 @@ public class Treillis {
             }
         }
        
-        Matrice m= new Matrice (2*ns, 2*ns);
-        m=m.concatCol(forces);
+        Matrice m= new Matrice (2*ns, (2*ns)+1);
         System.out.println(m);
         int n=nb;
             while(n<m.getNbrCol()-2){                
             for(int i=0; i<this.getListeNoeuds().size(); i++){
+                for(int j=0; j<this.getCharge().size(); j++){
+                if(this.getCharge().get(j).getN()==this.getListeNoeuds().get(i)){
+                    m.setCoeffs(i*2,2*ns,-1*this.getCharge().get(j).getPx());
+                    m.setCoeffs(i*2+1,2*ns,-1*-1*this.getCharge().get(j).getPy());
+                }
+            }
                 for(int j=0; j<nb; j++){
                     if((this.getListeNoeuds().get(i)==this.getListeBarres().get(j).getNoeudDebut())){
                         m.setCoeffs(i*2, j, Math.cos(getAngleAlpha(this.getListeNoeuds().get(i).getPos(),
@@ -1020,41 +1032,29 @@ public class Treillis {
          }
      }
     
-    
+    /*
     public Treillis charger(String nom){
-        
-        try{
-            
+        try{ 
             BufferedReader treillis = new BufferedReader(new FileReader(nom+".txt"));
             Treillis t = new Treillis();
             String ligne = new String();
-            while ((ligne=treillis.readLine())!= null){
-                
+            while ((ligne=treillis.readLine())!= null){ 
                List<String> info = new ArrayList<>();
                for ( String i: ligne.split(";")){
                     info.add(i);
-                
                }
-               
                if (info.get(0)== "ZoneConstructible"){
                    Terrain terrain = new Terrain();
                    terrain.setXmin(Double.parseDouble(info.get(1)));
                    terrain.setXmax(Double.parseDouble(info.get(2)));
                    terrain.setYmin(Double.parseDouble(info.get(3)));
                    terrain.setYmax(Double.parseDouble(info.get(4)));
-                   t.setTerrain(terrain);
-                   
+                   t.setTerrain(terrain);   
                }
-               
                if (info.get(0)== "Triangle"){
-                 
-               
                    Point pt0 = new Point();
                    Point pt1 = new Point();
                    Point pt2 = new Point();
-                   
-                
-                   
                    String coord1 = new String();
                    coord1 = (info.get(2)).replaceFirst("(", "");
                    coord1 = (coord1.replaceFirst(")", ""));
@@ -1062,7 +1062,6 @@ public class Treillis {
                    for(String j:coord1.split(",")){
                        coordo1.add(j);
                    }
-                   
                    pt0.setPx(Double.parseDouble(coordo1.get(0)));
                    pt0.setPy(Double.parseDouble(coordo1.get(1)));
                    
@@ -1073,11 +1072,8 @@ public class Treillis {
                    for(String j:coord2.split(",")){
                        coordo2.add(j);
                    }
-                   
                    pt0.setPx(Double.parseDouble(coordo2.get(0)));
                    pt0.setPy(Double.parseDouble(coordo2.get(1)));
-                   
-                  
                    String coord3 = new String();
                    coord3 = (info.get(2)).replaceFirst("(", "");
                    coord3 = (coord3.replaceFirst(")", ""));
@@ -1085,19 +1081,12 @@ public class Treillis {
                    for(String j:coord3.split(",")){
                        coordo3.add(j);
                    }
-                   
-                   pt0.setPx(Double.parseDouble(coordo3.get(0)));
-                   pt0.setPy(Double.parseDouble(coordo3.get(1)));
-                   
-                   String id = new String(info.get(1));
-                  
-                
-                TriangleTerrain triangle = new TriangleTerrain(Integer.parseInt(id),pt0,pt1,pt2);
-               t.getTerrain().getTriangles().add(triangle);
-                   
-                   
-                   
-               }
+                    pt0.setPx(Double.parseDouble(coordo3.get(0)));
+                    pt0.setPy(Double.parseDouble(coordo3.get(1)));
+                    String id = new String(info.get(1));
+                    TriangleTerrain triangle = new TriangleTerrain(Integer.parseInt(id),pt0,pt1,pt2);
+                     t.getTerrain().getTriangles().add(triangle); 
+                    }
                
                if (info.get(0)== "TypeBarre"){
                    
@@ -1148,6 +1137,7 @@ public class Treillis {
     }
     
  }
+*/
 
 }
 
