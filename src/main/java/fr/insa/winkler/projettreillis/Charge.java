@@ -32,5 +32,18 @@ public class Charge {
     public Noeud getN() {
         return n;
     }
+
+    public void setPx(double px) {
+        this.px = px;
+    }
+
+    public void setPy(double py) {
+        this.py = py;
+    }
+
+    public void setN(Noeud n) {
+        this.n = n;
+    }
+    
     
 }

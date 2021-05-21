@@ -49,7 +49,7 @@ public class MainPane extends BorderPane{
     private Button bZoneConstructible;
     private MenuButton mbTriangle;
     private MenuButton mbBarre;
-    private Button bCharge; 
+    private MenuButton mbCharge; 
     private MenuButton mbCatalogue;
     private MenuButton mbNoeud;   
     private DessinCanvas cDessin; 
@@ -71,7 +71,7 @@ public class MainPane extends BorderPane{
         this.bCalcul= new Button("Calculer");
         this.mbBarre=new MenuButton ("Barre");
         this.mbCatalogue=new MenuButton("Catalogue de barres");
-        this.bCharge = new Button ("Charges");
+        this.mbCharge = new MenuButton ("Charges");
         this.bZoneConstructible=new Button ("Zone Constructible");
         this.mbTriangle=new MenuButton("Triangles");
         this.bEnregistrer = new Button ("Enregistrer");
@@ -101,6 +101,9 @@ public class MainPane extends BorderPane{
         MenuItem menuItemCC = new MenuItem("Créer un type");
         MenuItem menuItemSC = new MenuItem("Supprimer un type");
         mbCatalogue.getItems().addAll(menuItemCC, menuItemSC); 
+        MenuItem menuItemCCh=new MenuItem("Ajouter charge");
+        MenuItem menuItemSCh=new MenuItem("Supprimer charge");
+        mbCharge.getItems().addAll(menuItemCCh,menuItemSCh);
         Button valider=new Button("Valider");
         this.bZoomDouble = new BoutonIcone("icones/zoomer.png",32,32);
         this.bZoomDouble.setOnAction((t) -> {
@@ -152,7 +155,7 @@ public class MainPane extends BorderPane{
         vbDroite.setSpacing(10);
         this.setRight(vbDroite);
         MenuButton fichier=new MenuButton("Fichier");
-        HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.bCharge);
+        HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.mbCharge);
         VBox haut=new VBox(fichier,entete);
         entete.setSpacing(10);
         this.setTop(haut);
@@ -384,7 +387,9 @@ public class MainPane extends BorderPane{
             }
             vbGauche.getChildren().addAll(barre,barres,type,types,valider);
             valider.setOnAction ((i) -> {
+                controleur.changeEtat(44);
                 message.clear();
+                System.out.println("test");
                 controleur.valider(barres.getSelectionModel().getSelectedItem(),types.getSelectionModel().getSelectedItem());
             });            
         });
@@ -455,7 +460,7 @@ public class MainPane extends BorderPane{
             });
         });
         
-        this.bCharge.setOnAction((t) -> {
+        menuItemCCh.setOnAction((t) -> {
             vbGauche.getChildren().clear();
             this.message.clear();
             Label noeudsEx = new Label ("Noeuds :");
@@ -472,6 +477,22 @@ public class MainPane extends BorderPane{
                 message.clear();
                 controleur.changeEtat(60);
                 controleur.valider(noeuds.getSelectionModel().getSelectedItem(), n.getText(),a.getText());
+            });
+        });
+        
+        menuItemSCh.setOnAction((t)-> {
+            vbGauche.getChildren().clear();
+            this.message.clear();
+            Label noeudsEx = new Label ("Noeuds :");
+            ComboBox<String> noeuds=new ComboBox<String>();
+            for(Noeud n:model.getListeNoeuds()){
+                noeuds.getItems().addAll(n.toString());
+            }
+            vbGauche.getChildren().addAll(noeudsEx, noeuds, valider);
+            valider.setOnAction ((i) -> {
+                message.clear();
+                controleur.changeEtat(62);
+                controleur.valider(noeuds.getSelectionModel().getSelectedItem());
             });
         });
         
@@ -521,9 +542,6 @@ public class MainPane extends BorderPane{
         return mbBarre;
     }
 
-    public Button getbCharge() {
-        return bCharge;
-    }
 
     public MenuButton getMbCatalogue() {
         return mbCatalogue;
@@ -618,9 +636,6 @@ public class MainPane extends BorderPane{
         this.mbBarre = mbBarre;
     }
 
-    public void setbForce(Button bForce) {
-        this.bCharge = bCharge;
-    }
 
     public void setMbCatalogue(MenuButton mbCatalogue) {
         this.mbCatalogue = mbCatalogue;

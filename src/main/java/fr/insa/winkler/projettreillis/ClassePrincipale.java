@@ -22,12 +22,11 @@ public class ClassePrincipale {
        //t.choisiType();
        AppuiDouble ap=(AppuiDouble) t.getListeNoeuds().get(0);
        //System.out.println(t.toString());
-      
-       
+
        //test enregistrement fichier
        Treillis t1=new Treillis();
 
-       t1.menuTexte();
+       t.menuTexte();
 }
 
 }

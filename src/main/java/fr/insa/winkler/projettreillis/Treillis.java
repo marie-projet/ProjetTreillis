@@ -347,6 +347,11 @@ public class Treillis {
                     }
                 }
                 if (mes==""){
+                    for (int m=0; m<this.getCharge().size(); m++){
+                        if(this.getCharge().get(m).getN()==this.getListeNoeuds().get(j)){
+                            this.getCharge().remove(this.getCharge().get(m).getN());
+                        }
+                    }
                     this.getListeNoeuds().remove(this.getListeNoeuds().get(j));
                     mes="Noeud supprimé !";
                 }
@@ -414,7 +419,7 @@ public class Treillis {
                             mes="La barre ne respecte pas les dimensions maximales ou minimales de son type"+"\n"; 
                         }
                         if (mes==""){
-                            b.setType(this.getCatalogue().getListe().get(j));
+                            this.getListeBarres().get(i).setType(this.getCatalogue().getListe().get(j));
                             mes="Le type de la barre a été modifié"+"\n";
                         }
                     }
@@ -446,7 +451,7 @@ public class Treillis {
          }       
      }
     
-     public String ajouterTypeBarre(int id, double cam, double longmin, double longmax, double resmaxt, double resmaxc ){
+    public String ajouterTypeBarre(int id, double cam, double longmin, double longmax, double resmaxt, double resmaxc ){
     String mes="";
     for(int i=0; i<this.getCatalogue().getListe().size(); i++){
             if(this.getCatalogue().getListe().get(i).getIdentificateur()==id){
@@ -605,7 +610,49 @@ public class Treillis {
             return min;
         }
     }
-        /**
+    
+    public String ajouterCharge(double norme, double angle, int id){
+        String mes="";
+        int compt=0;
+        for (int i=0;i<this.getCharge().size(); i++){
+            if(this.getCharge().get(i).getN().getIdentifiant()==id){
+                this.getCharge().get(i).setPx(Math.cos(angle*Math.PI/180)*norme);
+                this.getCharge().get(i).setPy(Math.sin(angle*Math.PI/180)*norme);
+                 compt=compt+1;
+                 mes="Charge modifiée";
+            }
+        }
+        if(compt==0){
+            for (int i=0; i<this.getListeNoeuds().size(); i++){
+                if(this.getListeNoeuds().get(i).getIdentifiant()==id){
+                    this.getCharge().add(new Charge(Math.cos(angle*Math.PI/180)*norme,
+                    Math.sin(angle*Math.PI/180)*norme,this.getListeNoeuds().get(i)));
+                    mes="Charge ajoutée";
+                }
+            }
+        }
+    this.calculForces();
+    System.out.println(mes);
+    return mes;
+    }
+    
+    public String supprimerCharge(int id){
+        String mes="";
+        for (int i=0; i<this.getListeNoeuds().size(); i++){
+            if(this.getListeNoeuds().get(i).getIdentifiant()==id){
+                for (int j=0; j<this.getCharge().size(); j++){
+                    if(this.getCharge().get(j).getN()==this.getListeNoeuds().get(i)){
+                        this.getCharge().remove(this.getCharge().get(j));
+                        mes="Charge supprimée";
+                    }
+                }
+            }
+        }
+    System.out.println(mes);
+    return mes;
+    }
+        
+    /**
      * premet de choisir le type de la barre qu'on veut créer dans le catalogue
      * @param Treillis
      * @return TypeBarre
@@ -733,13 +780,13 @@ public class Treillis {
         Barre b3=new Barre(3,ap2,ap);
         test.getCatalogue().add(b1.getType());
         test.getCatalogue().add(new TypeBarre(2,50,60,70,80,78));
+        test.getCatalogue().add(new TypeBarre(3,50,1,100,1000,1000));
         test.getListeBarres().add(b1);
         test.getListeBarres().add(b2);
         test.getListeBarres().add(b3);
         return test;
     }
     
-    //il manque les points 9
     public void menuTexte() {
         int rep = -1;
         while (rep != 0) {
@@ -755,7 +802,9 @@ public class Treillis {
             System.out.println("10) supprimer une barre");
             System.out.println("11) ajouter un type de barre dans le catalogue");
             System.out.println("12) supprimer un type de barre dans le catalogue");
-            System.out.println("13) afficher le rectangle englobant");
+            System.out.println("13) ajouter une charge sur un noeud");
+            System.out.println("14) supprimer une charge");
+            System.out.println("14) afficher le rectangle englobant");
             System.out.println("0) quitter");
             System.out.println("votre choix : ");
             rep = Lire.i();
@@ -875,6 +924,16 @@ public class Treillis {
                 TypeBarre tb = this.choisiType();
                 this.supprimerTypeBarre(tb.getIdentificateur());
             }else if (rep == 13) {
+                Noeud n=this.choisiNoeud();
+                System.out.println("Entrez la norme de la charge");
+                double norme=Lire.d();
+                System.out.println("Entrez l'angle que fait la charge avec l'horizontale");
+                double angle=Lire.d();
+                this.ajouterCharge(norme, angle,n.getIdentifiant());
+            }else if (rep == 14) {
+                Noeud n=this.choisiNoeud();
+                this.supprimerCharge(n.getIdentifiant());
+            }else if (rep == 15) {
                 System.out.println("maxX = " + this.maxX() + " ; "
                        + "minX = " + this.minX() + "\n"
                        + "maxY = " + this.maxY() + " ; "
@@ -925,7 +984,7 @@ public class Treillis {
                 for(int j=0; j<this.getCharge().size(); j++){
                 if(this.getCharge().get(j).getN()==this.getListeNoeuds().get(i)){
                     m.setCoeffs(i*2,2*ns,-1*this.getCharge().get(j).getPx());
-                    m.setCoeffs(i*2+1,2*ns,-1*-1*this.getCharge().get(j).getPy());
+                    m.setCoeffs(i*2+1,2*ns,-1*this.getCharge().get(j).getPy());
                 }
             }
                 for(int j=0; j<nb; j++){

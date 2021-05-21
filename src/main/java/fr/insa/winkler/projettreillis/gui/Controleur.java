@@ -62,13 +62,19 @@ public class Controleur {
             vue.getMessage().appendText(vue.getModel().supprimerTypeBarre(Integer.parseInt(a.get(1))));
             vue.getcDessin().redrawAll();
         }
+        if(this.etat==62){
+            List<String> a = new ArrayList<>();
+            for (String s: s1.split(";")) {
+                a.add(s);
+            }
+            vue.getMessage().appendText(vue.getModel().supprimerCharge(Integer.parseInt(a.get(1))));
+        }
         if(this.etat==70){
             vue.getModel().Enregistrer(s1);
         }
     }
     public void valider(String s1, String s2){
         if(this.etat==35){
-            System.out.println("test");
             List<String> a = new ArrayList<>();
             for (String s: s1.split(";")) {
                 a.add(s);
@@ -77,7 +83,16 @@ public class Controleur {
             vue.getcDessin().redrawAll();
         }
         if(this.etat==44){
-            //modifier le type de la barre
+            System.out.println("tes 2");
+            List<String> a = new ArrayList<>();
+            for (String s: s1.split(";")) {
+                a.add(s);
+            }
+            List<String> b = new ArrayList<>();
+            for (String s: s2.split(";")) {
+                b.add(s);
+            }
+            vue.getMessage().appendText(vue.getModel().modifierBarre(Integer.parseInt(a.get(1)), Integer.parseInt(b.get(1))));
         }
     }
     public void valider (String s1, String s2, String s3){
@@ -100,13 +115,7 @@ public class Controleur {
             for (String s: s1.split(";")) {
                 a.add(s);
             }
-            for (int i=0; i<vue.getModel().getListeNoeuds().size(); i++){
-                if(vue.getModel().getListeNoeuds().get(i).getIdentifiant()==Integer.parseInt(a.get(1))){
-                    vue.getModel().getCharge().add(new Charge(Math.cos(Double.parseDouble(s3)*Math.PI/180)*Double.parseDouble(s2),
-                            Math.sin(Double.parseDouble(s3)*Math.PI/180)*Double.parseDouble(s2),vue.getModel().getListeNoeuds().get(i)));
-                }
-            } 
-        vue.getMessage().appendText("Charge ajoutée !");
+            vue.getMessage().appendText(vue.getModel().ajouterCharge(Double.parseDouble(s2),Double.parseDouble(s3),Integer.parseInt(a.get(1))));
         }
     }
 
@@ -210,14 +219,17 @@ public class Controleur {
             for(int i=0; i<vue.getModel().getListeBarres().size(); i++){
                 if (res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
-                    vue.getMessage().appendText("La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
-                        " est soumise à une traction trop importante ("+res.getCoeffs(i,0)+"N)"+"\n");
+                    mes=mes+"La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
+                        " est soumise à une traction trop importante ("+res.getCoeffs(i,0)+"N)"+"\n";
                 }
                 if(-1*res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
-                    vue.getMessage().appendText("La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
-                        " est soumise à une compression trop importante ("+-res.getCoeffs(i,0)+"N)"+"\n");
+                    mes=mes+"La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
+                        " est soumise à une compression trop importante ("+-res.getCoeffs(i,0)+"N)"+"\n";
                 }
+            }
+            if(mes==""){
+                mes=mes+"Le treillis est constructible !";
             }
         }
         vue.getMessage().appendText(mes);
