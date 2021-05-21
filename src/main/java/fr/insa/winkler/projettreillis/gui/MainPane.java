@@ -8,12 +8,12 @@ package fr.insa.winkler.projettreillis.gui;
 import fr.insa.winkler.projettreillis.AppuiDouble;
 import fr.insa.winkler.projettreillis.AppuiSimple;
 import fr.insa.winkler.projettreillis.Barre;
-import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Noeud;
 import fr.insa.winkler.projettreillis.NoeudSimple;
 import fr.insa.winkler.projettreillis.Treillis;
 import fr.insa.winkler.projettreillis.TriangleTerrain;
 import fr.insa.winkler.projettreillis.TypeBarre;
+import java.io.File;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.BorderPane;
@@ -21,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -36,6 +35,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 /**
  *
@@ -43,10 +43,11 @@ import javafx.scene.paint.Color;
  */
 public class MainPane extends BorderPane{
     private Treillis model;
+    private File file;
     private Controleur controleur;  
-    private Button bCalcul;
-    private Button bEnregistrer;   
+    private Button bCalcul;  
     private Button bZoneConstructible;
+    private MenuButton mbFichier;
     private MenuButton mbTriangle;
     private MenuButton mbBarre;
     private MenuButton mbCharge; 
@@ -63,9 +64,18 @@ public class MainPane extends BorderPane{
     private BoutonIcone bTranslateBas;
     private RectangleHV zoneModelVue;
     private static double MULT_POUR_FIT_ALL = 2.7;
+    private Stage stage;
+    
+    public MainPane(Stage inStage) {
+        this(inStage, new Treillis());
+    }
 
-    public MainPane(Treillis model){
-
+    public MainPane(Stage st,Treillis model){
+        this(st,null,model);
+    }
+    public MainPane(Stage st,File f,Treillis model){
+        this.stage=st;
+        this.file=f;
         this.model=model;
         this.controleur= new Controleur(this);
         this.bCalcul= new Button("Calculer");
@@ -74,11 +84,11 @@ public class MainPane extends BorderPane{
         this.mbCharge = new MenuButton ("Charges");
         this.bZoneConstructible=new Button ("Zone Constructible");
         this.mbTriangle=new MenuButton("Triangles");
-        this.bEnregistrer = new Button ("Enregistrer");
         this.mbNoeud=new MenuButton("Noeud");
         this.message=new TextArea();
         this.message.setMinHeight(60);
         this.message.setMaxHeight(60);
+        this.mbFichier=new MenuButton("Fichier");
         this.fitAll();
       
         MenuItem menuItemCT = new MenuItem("Créer");
@@ -105,6 +115,11 @@ public class MainPane extends BorderPane{
         MenuItem menuItemSCh=new MenuItem("Supprimer charge");
         mbCharge.getItems().addAll(menuItemCCh,menuItemSCh);
         Button valider=new Button("Valider");
+        MenuItem menuItemN=new MenuItem("Nouveau...");
+        MenuItem menuItemO=new MenuItem("Ouvrir...");
+        MenuItem menuItemS=new MenuItem("Sauvergarder...");
+        MenuItem menuItemSS=new MenuItem("Sauvergarder sous...");
+        mbFichier.getItems().addAll(menuItemN, menuItemO,menuItemS,menuItemSS);
         this.bZoomDouble = new BoutonIcone("icones/zoomer.png",32,32);
         this.bZoomDouble.setOnAction((t) -> {
             this.controleur.zoomDouble();
@@ -151,12 +166,11 @@ public class MainPane extends BorderPane{
         VBox vbGauche = new VBox();
         vbGauche.setSpacing(10);
         this.setLeft(vbGauche);
-        VBox vbDroite= new VBox(this.bCalcul, this.bEnregistrer,vbZoom);
+        VBox vbDroite= new VBox(this.bCalcul,vbZoom);
         vbDroite.setSpacing(10);
         this.setRight(vbDroite);
-        MenuButton fichier=new MenuButton("Fichier");
         HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.mbCharge);
-        VBox haut=new VBox(fichier,entete);
+        VBox haut=new VBox(mbFichier,entete);
         entete.setSpacing(10);
         this.setTop(haut);
         this.cDessin=new DessinCanvas (this);
@@ -164,6 +178,8 @@ public class MainPane extends BorderPane{
         this.setBottom(this.message);
                 
         GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
+        context.translate(300, 250);
+        context.scale(50, 50);
         
         bZoneConstructible.setOnAction ((t) -> {
             controleur.changeEtat(10);
@@ -389,7 +405,6 @@ public class MainPane extends BorderPane{
             valider.setOnAction ((i) -> {
                 controleur.changeEtat(44);
                 message.clear();
-                System.out.println("test");
                 controleur.valider(barres.getSelectionModel().getSelectedItem(),types.getSelectionModel().getSelectedItem());
             });            
         });
@@ -502,18 +517,22 @@ public class MainPane extends BorderPane{
             controleur.calculer();
         }); 
     
-        this.bEnregistrer.setOnAction((t) -> {
-            controleur.changeEtat(70);
+        menuItemS.setOnAction((t) -> {
             message.clear();
-            vbGauche.getChildren().clear();
-            Label nomFich=new Label("Entrez le nom du fichier");
-            TextField nom=new TextField();
-            vbGauche.getChildren().addAll(nomFich,nom,valider);
-            valider.setOnAction ((i) -> {
-                message.clear();
-                controleur.valider(nom.getText());
-            });
-        }); 
+            controleur.menuSave(t);
+        });
+        menuItemSS.setOnAction((t) -> {
+            message.clear();
+            controleur.menuSaveAs(t);
+        });
+        menuItemO.setOnAction((t)->{
+            message.clear();
+            controleur.menuOpen(t);
+        });
+        menuItemN.setOnAction((t)->{
+            message.clear();
+            controleur.menuNouveau(t);
+        });
     }
     
     public void fitAll() {
@@ -528,10 +547,6 @@ public class MainPane extends BorderPane{
 
     public Button getbCalcul() {
         return bCalcul;
-    }
-
-    public Button getbEnregistrer() {
-        return bEnregistrer;
     }
 
     public MenuButton getMbTriangle() {
@@ -620,9 +635,6 @@ public class MainPane extends BorderPane{
         this.bCalcul = bCalcul;
     }
 
-    public void setbEnregistrer(Button bEnregistrer) {
-        this.bEnregistrer = bEnregistrer;
-    }
 
     public void setbZoneConstructible(Button bZoneConstructible) {
         this.bZoneConstructible = bZoneConstructible;
@@ -685,5 +697,26 @@ public class MainPane extends BorderPane{
     public void setZoneModelVue(RectangleHV zoneModelVue) {
         this.zoneModelVue = zoneModelVue;
     }
+
+    public MenuButton getMbCharge() {
+        return mbCharge;
+    }
+
+    public static double getMULT_POUR_FIT_ALL() {
+        return MULT_POUR_FIT_ALL;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+    
     
 }

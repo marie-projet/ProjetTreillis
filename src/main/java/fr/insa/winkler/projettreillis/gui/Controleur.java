@@ -7,12 +7,18 @@ package fr.insa.winkler.projettreillis.gui;
 
 import fr.insa.winkler.projettreillis.AppuiDouble;
 import fr.insa.winkler.projettreillis.AppuiSimple;
-import fr.insa.winkler.projettreillis.Charge;
 import fr.insa.winkler.projettreillis.Matrice;
 import fr.insa.winkler.projettreillis.Point;
+import fr.insa.winkler.projettreillis.Treillis;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -69,9 +75,6 @@ public class Controleur {
             }
             vue.getMessage().appendText(vue.getModel().supprimerCharge(Integer.parseInt(a.get(1))));
         }
-        if(this.etat==70){
-            vue.getModel().Enregistrer(s1);
-        }
     }
     public void valider(String s1, String s2){
         if(this.etat==35){
@@ -83,7 +86,6 @@ public class Controleur {
             vue.getcDessin().redrawAll();
         }
         if(this.etat==44){
-            System.out.println("tes 2");
             List<String> a = new ArrayList<>();
             for (String s: s1.split(";")) {
                 a.add(s);
@@ -217,7 +219,7 @@ public class Controleur {
         if (mes==""){
             Matrice res=vue.getModel().calculForces();
             for(int i=0; i<vue.getModel().getListeBarres().size(); i++){
-                if (res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction()){
+                if(res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
                     mes=mes+"La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
                         " est soumise à une traction trop importante ("+res.getCoeffs(i,0)+"N)"+"\n";
@@ -227,6 +229,10 @@ public class Controleur {
                     mes=mes+"La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
                         " est soumise à une compression trop importante ("+-res.getCoeffs(i,0)+"N)"+"\n";
                 }
+                else if((-1*res.getCoeffs(i,0)<vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression())&&
+                    (res.getCoeffs(i,0)<vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction())){
+                    vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.BLACK);
+                }
             }
             if(mes==""){
                 mes=mes+"Le treillis est constructible !";
@@ -234,10 +240,57 @@ public class Controleur {
         }
         vue.getMessage().appendText(mes);
     }
-    
-    public void enregistrer(String nom){
-        vue.getModel().Enregistrer(nom);
+     public void menuSaveAs(ActionEvent t) {
+        FileChooser chooser = new FileChooser();
+        File f = chooser.showSaveDialog(this.vue.getStage());
+        if (f != null) {
+            this.vue.getModel().enregistrer(f);
+            this.vue.setFile(f);
+            this.vue.getStage().setTitle(this.vue.getFile().getName());
+        }
+        this.vue.getMessage().appendText("Treillis enregistré");
     }
+     public void menuSave(ActionEvent t) {
+        if (this.vue.getFile() == null) {
+            this.menuSaveAs(t);
+        } else {
+            this.vue.getModel().enregistrer(this.vue.getFile());
+            this.vue.getStage().setTitle(this.vue.getFile().getName());
+        }
+        this.vue.getMessage().appendText("Treillis enregistré");
+    }
+     public void menuOpen(ActionEvent t) {
+        FileChooser chooser = new FileChooser();
+        File f = chooser.showOpenDialog(this.vue.getStage());
+        if (f != null) {
+            try {
+                Treillis lu = Treillis.charger(f);
+                Stage nouveau = new Stage();
+                nouveau.setTitle(f.getName());
+                Scene sc = new Scene(new MainPane(nouveau, f, lu), 800, 600);
+                nouveau.setScene(sc);
+                nouveau.show();
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Problème durant la sauvegarde");
+                alert.setContentText(ex.getLocalizedMessage());
+
+                alert.showAndWait();
+            } finally {
+                this.changeEtat(20);
+            }
+        }
+    }
+    
+    public void menuNouveau(ActionEvent t) {
+        Stage nouveau = new Stage();
+        nouveau.setTitle("Nouveau");
+        Scene sc = new Scene(new MainPane(nouveau,new Treillis()), 800, 600);
+        nouveau.setScene(sc);
+        nouveau.show();
+    }
+
     public void zoomDouble() {
         this.vue.setZoneModelVue(this.vue.getZoneModelVue().scale(0.5));
         this.vue.redrawAll();

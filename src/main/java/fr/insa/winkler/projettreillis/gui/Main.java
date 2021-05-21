@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        Scene sc = new Scene(new MainPane(Treillis.treillisTest()),800,600);
+        Scene sc = new Scene(new MainPane(stage,Treillis.treillisTest()),800,600);
         stage.setScene(sc);
           stage.show();
     }

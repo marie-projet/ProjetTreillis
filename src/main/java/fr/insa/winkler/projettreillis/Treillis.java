@@ -508,8 +508,8 @@ public class Treillis {
     
      
     public double maxX() {
-        if (this.getListeNoeuds().isEmpty()) {
-            return 0;
+        if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
+            return 10;
         } else {
             double max = this.getListeNoeuds().get(0).getPos().getX();
             for (int i = 1; i < this.getListeNoeuds().size(); i++) {
@@ -529,13 +529,16 @@ public class Treillis {
                     max=this.getTerrain().getTriangles().get(i).getPT2().getX();
                 }
             }
+            if(this.terrain.getXmax()>max){
+                max=this.terrain.getXmax();
+            }
             return max;
         }
     }
     
     public double minX() {
-        if (this.getListeNoeuds().isEmpty()) {
-            return 0;
+        if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
+            return -10;
         } else {
             double min = this.getListeNoeuds().get(0).getPos().getX();
             for (int i = 1; i < this.getListeNoeuds().size(); i++) {
@@ -555,13 +558,16 @@ public class Treillis {
                     min=this.getTerrain().getTriangles().get(i).getPT2().getX();
                 }
             }
+            if(this.terrain.getXmin()<min){
+                min=this.terrain.getYmax();
+            }
             return min;
         }
     }
     
     public double maxY() {
-        if (this.getListeNoeuds().isEmpty()) {
-            return 0;
+        if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
+            return 10;
         } else {
             double max = this.getListeNoeuds().get(0).getPos().getY();
             for (int i = 1; i < this.getListeNoeuds().size(); i++) {
@@ -581,13 +587,16 @@ public class Treillis {
                     max=this.getTerrain().getTriangles().get(i).getPT2().getY();
                 }
             }
+            if(this.terrain.getYmax()>max){
+                max=this.terrain.getYmax();
+            }
             return max;
         }
     }
 
     public double minY() {
-        if (this.getListeNoeuds().isEmpty()) {
-            return 0;
+        if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
+            return -10;
         } else {
             double min = this.getListeNoeuds().get(0).getPos().getY();
             for (int i = 1; i < this.getListeNoeuds().size(); i++) {
@@ -606,6 +615,9 @@ public class Treillis {
                 if(this.getTerrain().getTriangles().get(i).getPT2().getY()<min){
                     min=this.getTerrain().getTriangles().get(i).getPT2().getY();
                 }
+            }
+            if(this.terrain.getYmin()<min){
+                min=this.terrain.getYmin();
             }
             return min;
         }
@@ -1080,9 +1092,9 @@ public class Treillis {
     return angle;
     }
     
-    public void Enregistrer(String nom ){
+    public void enregistrer(File file ){
          try{
-             BufferedWriter out = new BufferedWriter(new FileWriter(nom+".txt"));
+             BufferedWriter out = new BufferedWriter(new FileWriter(file));
              out.write(this.toString());
              out.close();
          }
@@ -1091,113 +1103,124 @@ public class Treillis {
          }
      }
     
-    /*
-    public Treillis charger(String nom){
-        try{ 
-            BufferedReader treillis = new BufferedReader(new FileReader(nom+".txt"));
-            Treillis t = new Treillis();
+    public static Treillis charger(File file){
+        Treillis t = new Treillis();
+        try{
+            BufferedReader treillis = new BufferedReader(new FileReader(file));
             String ligne = new String();
-            while ((ligne=treillis.readLine())!= null){ 
-               List<String> info = new ArrayList<>();
-               for ( String i: ligne.split(";")){
+            while ((ligne=treillis.readLine())!= null){
+                List<String> info = new ArrayList<>();
+                for ( String i: ligne.split(";")){
                     info.add(i);
-               }
-               if (info.get(0)== "ZoneConstructible"){
-                   Terrain terrain = new Terrain();
-                   terrain.setXmin(Double.parseDouble(info.get(1)));
-                   terrain.setXmax(Double.parseDouble(info.get(2)));
-                   terrain.setYmin(Double.parseDouble(info.get(3)));
-                   terrain.setYmax(Double.parseDouble(info.get(4)));
-                   t.setTerrain(terrain);   
-               }
-               if (info.get(0)== "Triangle"){
-                   Point pt0 = new Point();
-                   Point pt1 = new Point();
-                   Point pt2 = new Point();
-                   String coord1 = new String();
-                   coord1 = (info.get(2)).replaceFirst("(", "");
-                   coord1 = (coord1.replaceFirst(")", ""));
-                   List <String> coordo1 = new ArrayList<>();
-                   for(String j:coord1.split(",")){
-                       coordo1.add(j);
-                   }
-                   pt0.setPx(Double.parseDouble(coordo1.get(0)));
-                   pt0.setPy(Double.parseDouble(coordo1.get(1)));
-                   
-                   String coord2 = new String();
-                   coord2 = (info.get(3)).replaceFirst("(", "");
-                   coord2 = (coord2.replaceFirst(")", ""));
-                   List <String> coordo2 = new ArrayList<>();
-                   for(String j:coord2.split(",")){
-                       coordo2.add(j);
-                   }
-                   pt0.setPx(Double.parseDouble(coordo2.get(0)));
-                   pt0.setPy(Double.parseDouble(coordo2.get(1)));
-                   String coord3 = new String();
-                   coord3 = (info.get(2)).replaceFirst("(", "");
-                   coord3 = (coord3.replaceFirst(")", ""));
-                   List <String> coordo3 = new ArrayList<>();
-                   for(String j:coord3.split(",")){
-                       coordo3.add(j);
-                   }
-                    pt0.setPx(Double.parseDouble(coordo3.get(0)));
-                    pt0.setPy(Double.parseDouble(coordo3.get(1)));
+                }
+                if (info.get(0).equals( "ZoneConstructible")){
+                    Terrain terrain = new Terrain();
+                    terrain.setXmin(Double.parseDouble(info.get(1)));
+                    terrain.setXmax(Double.parseDouble(info.get(2)));
+                    terrain.setYmin(Double.parseDouble(info.get(3)));
+                    terrain.setYmax(Double.parseDouble(info.get(4)));
+                    t.setTerrain(terrain); 
+                }
+                if (info.get(0).equals("Triangle")){
+                    Point pt0 = new Point();
+                    Point pt1 = new Point();
+                    Point pt2 = new Point();
+                    String coord1 = new String();
+                    coord1 = (info.get(2)).replaceFirst("\\(", "");
+                    coord1 = (coord1.replaceFirst("\\)", ""));
+                    List <String> coordo1 = new ArrayList<>();
+                    for(String j:coord1.split(",")){
+                        coordo1.add(j);
+                    }
+                    pt0.setPx(Double.parseDouble(coordo1.get(0)));
+                    pt0.setPy(Double.parseDouble(coordo1.get(1)));
+                    String coord2 = new String();
+                    coord2 = (info.get(3)).replaceFirst("\\(", "");
+                    coord2 = (coord2.replaceFirst("\\)", ""));
+                    List <String> coordo2 = new ArrayList<>();
+                    for(String j:coord2.split(",")){
+                        coordo2.add(j);
+                    }
+                    pt1.setPx(Double.parseDouble(coordo2.get(0)));
+                    pt1.setPy(Double.parseDouble(coordo2.get(1)));
+                    String coord3 = new String();
+                    coord3 = (info.get(4)).replaceFirst("\\(", "");
+                    coord3 = (coord3.replaceFirst("\\)", ""));
+                    List <String> coordo3 = new ArrayList<>();
+                    for(String j:coord3.split(",")){
+                        coordo3.add(j);
+                    }
+                    pt2.setPx(Double.parseDouble(coordo3.get(0)));
+                    pt2.setPy(Double.parseDouble(coordo3.get(1)));
                     String id = new String(info.get(1));
                     TriangleTerrain triangle = new TriangleTerrain(Integer.parseInt(id),pt0,pt1,pt2);
-                     t.getTerrain().getTriangles().add(triangle); 
+                    t.getTerrain().getTriangles().add(triangle);   
+                }
+                if (info.get(0).equals("TypeBarre")){
+                    TypeBarre type = new TypeBarre(Integer.parseInt(info.get(1)),Double.parseDouble(info.get(2)),Double.parseDouble(info.get(3)),Double.parseDouble(info.get(4)),Double.parseDouble(info.get(5)),Double.parseDouble(info.get(6)));
+                    t.getCatalogue().add(type);   
+                }
+                if (info.get(0).equals("AppuiDouble")){
+                    for (int i=0; i<t.getTerrain().getTriangles().size(); i++){
+                        if (Integer.parseInt(info.get(2))== t.getTerrain().getTriangles().get(i).getIdentificateur()){
+                            AppuiDouble ad = new AppuiDouble(Integer.parseInt(info.get(1)),t.getTerrain().getTriangles().get(i),Integer.parseInt(info.get(3)),Double.parseDouble(info.get(4)));
+                            t.getListeNoeuds().add(ad);
+                        }
+                    }   
+                }      
+                if (info.get(0).equals("AppuiSimple"))   {
+                    for (int i=0; i<t.getTerrain().getTriangles().size(); i++){
+                        if (Integer.parseInt(info.get(2))== t.getTerrain().getTriangles().get(i).getIdentificateur()){
+                            AppuiSimple as = new AppuiSimple(Integer.parseInt(info.get(1)),t.getTerrain().getTriangles().get(i),Integer.parseInt(info.get(3)),Double.parseDouble(info.get(4)));
+                            t.getListeNoeuds().add(as);
+                        }        
+                    }         
+                }
+                if (info.get(0).equals("NoeudSimple")){
+                    Point pos = new Point();
+                    String coord = new String();
+                    coord = (info.get(2)).replaceFirst("\\(", "");
+                    coord = (coord.replaceFirst("\\)", ""));
+                    List <String> coordo = new ArrayList<>();
+                    for(String j:coord.split(",")){
+                        coordo.add(j);
                     }
-               
-               if (info.get(0)== "TypeBarre"){
-                   
-                   TypeBarre type = new TypeBarre(Integer.parseInt(info.get(1)),Double.parseDouble(info.get(2)),Double.parseDouble(info.get(3)),Double.parseDouble(info.get(4)),Double.parseDouble(info.get(5)),Double.parseDouble(info.get(6)));
-                   t.getCatalogue().add(type);
-                   
-                   
-               }
-               
-               if (info.get(0)== "AppuiDouble"){
-                   
-                for (int i=0; i<t.getTerrain().getTriangles().size(); i++){
-                    if (Integer.parseInt(info.get(1))== t.getTerrain().getTriangles().get(i).getIdentificateur()){
-                       
-                   }
-                   
-                   
-               }
-                   
-               if (info.get(0)=="AppuiSimple")   {
-                   
-                   
-               }
-                   
-               
-               if (info.get(0)== "NoeudSimple"){
-                   
-                   
-               }
-               
-               if (info.get(0)== "Barre"){
-                   
-                   
-               }
-               
-               }
-                   
-               }
-
+                    pos.setPx(Double.parseDouble(coordo.get(0)));
+                    pos.setPy(Double.parseDouble(coordo.get(1)));
+                    NoeudSimple ns = new NoeudSimple(Integer.parseInt(info.get(1)),pos);
+                    t.getListeNoeuds().add(ns);            
+                }
+                if (info.get(0).equals("Barre")){
+                    Noeud nd = t.getListeNoeuds().get(0);
+                    Noeud nf = t.getListeNoeuds().get(1);
+                    TypeBarre tp = t.getCatalogue().getListe().get(0);
+                    for (int i=0; i<t.getListeNoeuds().size(); i++){
+                        if (Integer.parseInt(info.get(3))== t.getListeNoeuds().get(i).getIdentifiant()){
+                            nd = t.getListeNoeuds().get(i);
+                        }
+                        if (Integer.parseInt(info.get(4))== t.getListeNoeuds().get(i).getIdentifiant()){
+                            nf = t.getListeNoeuds().get(i);
+                        }
+                    }     
+                    for (int i=0;i<t.getCatalogue().getListe().size();i++){
+                        if (Integer.parseInt(info.get(2))== t.getCatalogue().getListe().get(i).getIdentificateur()){
+                            tp = t.getCatalogue().getListe().get(i);
+                        }  
+                    }
+                    Barre b = new Barre (Integer.parseInt(info.get(1)),nd,nf,tp);
+                    t.getListeBarres().add(b);  
+                }
+            }
+        }
         catch(FileNotFoundException err){
             System.out.println("Erreur : Le fichier n'existe pas!\n "+err);
         }
         catch(IOException err){
-            
-            
+            System.out.println(" Erreur :\n "+err);  
         }
-    
+        System.out.println(t.toString());
+        return t ;
     }
-    
- }
-*/
-
 }
 
    
