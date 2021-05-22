@@ -21,11 +21,11 @@ public class DessinCanvas extends Pane {
     
     private MainPane PanneauPrincipal;
     private Canvas vraiCanvas;
-    private RectangleHV asRect;
+    private Rectangle asRect;
     
     public DessinCanvas (MainPane PanneauPrincipal){
         this.PanneauPrincipal= PanneauPrincipal;
-        this.asRect = new RectangleHV(0, 0, this.getWidth(), this.getHeight());
+        this.asRect = new Rectangle(0, 0, this.getWidth(), this.getHeight());
         this.vraiCanvas= new Canvas(this.getWidth(), this.getHeight());
         this.getChildren().add(this.vraiCanvas);
         this.vraiCanvas.heightProperty().bind(this.heightProperty());

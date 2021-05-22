@@ -55,14 +55,14 @@ public class MainPane extends BorderPane{
     private MenuButton mbNoeud;   
     private DessinCanvas cDessin; 
     private TextArea message; 
-    private BoutonIcone bZoomDouble;
-    private BoutonIcone bZoomDemi;
-    private BoutonIcone bZoomFitAll;
-    private BoutonIcone bTranslateGauche;
-    private BoutonIcone bTranslateDroite;
-    private BoutonIcone bTranslateHaut;
-    private BoutonIcone bTranslateBas;
-    private RectangleHV zoneModelVue;
+    private Icone bZoomDouble;
+    private Icone bZoomDemi;
+    private Icone bZoomFitAll;
+    private Icone bTranslateGauche;
+    private Icone bTranslateDroite;
+    private Icone bTranslateHaut;
+    private Icone bTranslateBas;
+    private Rectangle zoneModelVue;
     private static double MULT_POUR_FIT_ALL = 2.7;
     private Stage stage;
     
@@ -120,32 +120,32 @@ public class MainPane extends BorderPane{
         MenuItem menuItemS=new MenuItem("Sauvergarder...");
         MenuItem menuItemSS=new MenuItem("Sauvergarder sous...");
         mbFichier.getItems().addAll(menuItemN, menuItemO,menuItemS,menuItemSS);
-        this.bZoomDouble = new BoutonIcone("icones/zoomer.png",32,32);
+        this.bZoomDouble = new Icone("icones/zoomer.png",32,32);
         this.bZoomDouble.setOnAction((t) -> {
             this.controleur.zoomDouble();
         });
-        this.bZoomDemi = new BoutonIcone("icones/dezoomer.png",32,32);
+        this.bZoomDemi = new Icone("icones/dezoomer.png",32,32);
         this.bZoomDemi.setOnAction((t) -> {
             this.controleur.zoomDemi();
         });
-        this.bZoomFitAll = new BoutonIcone("icones/agrandir.png",32,32);
+        this.bZoomFitAll = new Icone("icones/agrandir.png",32,32);
         this.bZoomFitAll.setOnAction((t) -> {
             this.controleur.zoomFitAll();
         });
         
-        this.bTranslateGauche = new BoutonIcone("icones/gauche.png",32,32);
+        this.bTranslateGauche = new Icone("icones/gauche.png",32,32);
         this.bTranslateGauche.setOnAction((t) -> {
             this.controleur.translateGauche();
         });
-        this.bTranslateDroite = new BoutonIcone("icones/droite.png",32,32);
+        this.bTranslateDroite = new Icone("icones/droite.png",32,32);
        this.bTranslateDroite.setOnAction((t) -> {
             this.controleur.translateDroite();
         });
-         this.bTranslateHaut = new BoutonIcone("icones/haut.png",32,32);
+         this.bTranslateHaut = new Icone("icones/haut.png",32,32);
         this.bTranslateHaut.setOnAction((t) -> {
             this.controleur.translateHaut();
         });
-        this.bTranslateBas = new BoutonIcone("icones/bas.png",32,32);
+        this.bTranslateBas = new Icone("icones/bas.png",32,32);
        this.bTranslateBas.setOnAction((t) -> {
             this.controleur.translateBas();
         });
@@ -153,7 +153,6 @@ public class MainPane extends BorderPane{
         HBox hbZoom = new HBox(this.bZoomDouble, this.bZoomDemi, this.bZoomFitAll);
         
         GridPane gpTrans = new GridPane();
-        // add(compo, column , row , columnSpan , rowSpan
         gpTrans.add(this.bTranslateGauche, 0, 1,1,1);
         gpTrans.add(this.bTranslateDroite, 2, 1,1,1);
         gpTrans.add(this.bTranslateHaut, 1, 0,1,1);
@@ -161,13 +160,12 @@ public class MainPane extends BorderPane{
         
         VBox vbZoom = new VBox(hbZoom,gpTrans);
         vbZoom.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-
           
         VBox vbGauche = new VBox();
         vbGauche.setSpacing(10);
         this.setLeft(vbGauche);
         VBox vbDroite= new VBox(this.bCalcul,vbZoom);
-        vbDroite.setSpacing(10);
+        vbDroite.setSpacing(100);
         this.setRight(vbDroite);
         HBox entete=new HBox(this.bZoneConstructible,this.mbTriangle, this.mbNoeud, this.mbBarre, this.mbCatalogue, this.mbCharge);
         VBox haut=new VBox(mbFichier,entete);
@@ -178,8 +176,7 @@ public class MainPane extends BorderPane{
         this.setBottom(this.message);
                 
         GraphicsContext context = this.cDessin.getVraiCanvas().getGraphicsContext2D();
-        context.translate(300, 250);
-        context.scale(50, 50);
+
         
         bZoneConstructible.setOnAction ((t) -> {
             controleur.changeEtat(10);
@@ -484,7 +481,7 @@ public class MainPane extends BorderPane{
                 noeuds.getItems().addAll(n.toString());
             }
             Label norme = new Label ("Norme de la charge:");
-            Label angle = new Label ("Angle que fait la charge avce l'horizontale:");
+            Label angle = new Label ("Angle en degrés que fait la charge avce l'horizontale:");
             TextField n = new TextField();
             TextField a = new TextField();
             vbGauche.getChildren().addAll(noeudsEx,noeuds,norme, n,angle,a,valider);
@@ -519,25 +516,25 @@ public class MainPane extends BorderPane{
     
         menuItemS.setOnAction((t) -> {
             message.clear();
-            controleur.menuSave(t);
+            controleur.sauvegarder(t);
         });
         menuItemSS.setOnAction((t) -> {
             message.clear();
-            controleur.menuSaveAs(t);
+            controleur.sauvegarderSous(t);
         });
         menuItemO.setOnAction((t)->{
             message.clear();
-            controleur.menuOpen(t);
+            controleur.ouvrir(t);
         });
         menuItemN.setOnAction((t)->{
             message.clear();
-            controleur.menuNouveau(t);
+            controleur.nouveau(t);
         });
     }
     
     public void fitAll() {
-        this.zoneModelVue = new RectangleHV(this.model.minX(),
-                this.model.maxX(), this.model.minY(), this.model.maxY());
+        this.zoneModelVue = new Rectangle(this.model.minX(),
+                this.model.maxX(), this.model.minY()+3, this.model.maxY()+3);
         this.zoneModelVue = this.zoneModelVue.scale(MULT_POUR_FIT_ALL);
     }
 
@@ -591,35 +588,35 @@ public class MainPane extends BorderPane{
     }
 
 
-    public BoutonIcone getbZoomDouble() {
+    public Icone getbZoomDouble() {
         return bZoomDouble;
     }
 
-    public BoutonIcone getbZoomDemi() {
+    public Icone getbZoomDemi() {
         return bZoomDemi;
     }
 
-    public BoutonIcone getbZoomFitAll() {
+    public Icone getbZoomFitAll() {
         return bZoomFitAll;
     }
 
-    public BoutonIcone getbTranslateGauche() {
+    public Icone getbTranslateGauche() {
         return bTranslateGauche;
     }
 
-    public BoutonIcone getbTranslateDroite() {
+    public Icone getbTranslateDroite() {
         return bTranslateDroite;
     }
 
-    public BoutonIcone getbTranslateHaut() {
+    public Icone getbTranslateHaut() {
         return bTranslateHaut;
     }
 
-    public BoutonIcone getbTranslateBas() {
+    public Icone getbTranslateBas() {
         return bTranslateBas;
     }
 
-    public RectangleHV getZoneModelVue() {
+    public Rectangle getZoneModelVue() {
         return zoneModelVue;
     }
 
@@ -666,35 +663,35 @@ public class MainPane extends BorderPane{
     }
 
 
-    public void setbZoomDouble(BoutonIcone bZoomDouble) {
+    public void setbZoomDouble(Icone bZoomDouble) {
         this.bZoomDouble = bZoomDouble;
     }
 
-    public void setbZoomDemi(BoutonIcone bZoomDemi) {
+    public void setbZoomDemi(Icone bZoomDemi) {
         this.bZoomDemi = bZoomDemi;
     }
 
-    public void setbZoomFitAll(BoutonIcone bZoomFitAll) {
+    public void setbZoomFitAll(Icone bZoomFitAll) {
         this.bZoomFitAll = bZoomFitAll;
     }
 
-    public void setbTranslateGauche(BoutonIcone bTranslateGauche) {
+    public void setbTranslateGauche(Icone bTranslateGauche) {
         this.bTranslateGauche = bTranslateGauche;
     }
 
-    public void setbTranslateDroite(BoutonIcone bTranslateDroite) {
+    public void setbTranslateDroite(Icone bTranslateDroite) {
         this.bTranslateDroite = bTranslateDroite;
     }
 
-    public void setbTranslateHaut(BoutonIcone bTranslateHaut) {
+    public void setbTranslateHaut(Icone bTranslateHaut) {
         this.bTranslateHaut = bTranslateHaut;
     }
 
-    public void setbTranslateBas(BoutonIcone bTranslateBas) {
+    public void setbTranslateBas(Icone bTranslateBas) {
         this.bTranslateBas = bTranslateBas;
     }
 
-    public void setZoneModelVue(RectangleHV zoneModelVue) {
+    public void setZoneModelVue(Rectangle zoneModelVue) {
         this.zoneModelVue = zoneModelVue;
     }
 
@@ -717,6 +714,5 @@ public class MainPane extends BorderPane{
     public void setFile(File file) {
         this.file = file;
     }
-    
-    
+  
 }

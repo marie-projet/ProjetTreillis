@@ -240,7 +240,7 @@ public class Controleur {
         }
         vue.getMessage().appendText(mes);
     }
-     public void menuSaveAs(ActionEvent t) {
+     public void sauvegarderSous(ActionEvent t) {
         FileChooser chooser = new FileChooser();
         File f = chooser.showSaveDialog(this.vue.getStage());
         if (f != null) {
@@ -248,18 +248,18 @@ public class Controleur {
             this.vue.setFile(f);
             this.vue.getStage().setTitle(this.vue.getFile().getName());
         }
-        this.vue.getMessage().appendText("Treillis enregistré");
+        this.vue.getMessage().appendText("Treillis sauvegardé sous");
     }
-     public void menuSave(ActionEvent t) {
+     public void sauvegarder(ActionEvent t) {
         if (this.vue.getFile() == null) {
-            this.menuSaveAs(t);
+            this.sauvegarderSous(t);
         } else {
             this.vue.getModel().enregistrer(this.vue.getFile());
             this.vue.getStage().setTitle(this.vue.getFile().getName());
         }
-        this.vue.getMessage().appendText("Treillis enregistré");
+        this.vue.getMessage().appendText("Treillis sauvegardé");
     }
-     public void menuOpen(ActionEvent t) {
+     public void ouvrir(ActionEvent t) {
         FileChooser chooser = new FileChooser();
         File f = chooser.showOpenDialog(this.vue.getStage());
         if (f != null) {
@@ -275,15 +275,12 @@ public class Controleur {
                 alert.setTitle("Erreur");
                 alert.setHeaderText("Problème durant la sauvegarde");
                 alert.setContentText(ex.getLocalizedMessage());
-
                 alert.showAndWait();
-            } finally {
-                this.changeEtat(20);
-            }
+            } 
         }
     }
     
-    public void menuNouveau(ActionEvent t) {
+    public void nouveau(ActionEvent t) {
         Stage nouveau = new Stage();
         nouveau.setTitle("Nouveau");
         Scene sc = new Scene(new MainPane(nouveau,new Treillis()), 800, 600);

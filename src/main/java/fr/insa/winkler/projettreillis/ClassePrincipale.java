@@ -15,18 +15,6 @@ import recup.Lire;
 public class ClassePrincipale {
     public static void main (String args[]){
        Treillis t= Treillis.treillisTest();
-       //t.calculForces();
-       Point p1= new Point (-0.5,0);
-       Point p2=new Point(0,0);
-       Point p= new Point (-3,4);
-       //t.choisiType();
-       AppuiDouble ap=(AppuiDouble) t.getListeNoeuds().get(0);
-       //System.out.println(t.toString());
-
-       //test enregistrement fichier
-       Treillis t1=new Treillis();
-
        t.menuTexte();
 }
-
 }

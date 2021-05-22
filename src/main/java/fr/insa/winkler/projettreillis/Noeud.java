@@ -7,7 +7,6 @@ package fr.insa.winkler.projettreillis;
 
 import javafx.scene.canvas.GraphicsContext;
 
-
 /**
  *
  * @author mariewinkler
@@ -21,7 +20,6 @@ public abstract class Noeud {
     //definition du constructeur 
     public Noeud (int identifiant){
         this.identifiant= identifiant;
-        
     }
 
     public int getIdentifiant() {

@@ -1,20 +1,7 @@
 /*
-Copyright 2000- Francois de Bertrand de Beuvron
-
-This file is part of CoursBeuvron.
-
-CoursBeuvron is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-CoursBeuvron is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with CoursBeuvron.  If not, see <http://www.gnu.org/licenses/>.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package fr.insa.winkler.projettreillis.gui;
 
@@ -22,27 +9,24 @@ import javafx.geometry.Point2D;
 import javafx.scene.transform.Transform;
 
 /**
- * Un rectangle dont les cotés sont parallèles aux axes Horizontaux et Verticaux.
- * Représente par exemple la portion de la scène que l'on veut afficher.
- * @author francois
+ * @author mariewinkler
  */
-public class RectangleHV{
+public class Rectangle{
     
     private double xMin;
     private double xMax;
     private double yMin;
     private double yMax;
 
-    public RectangleHV(double xMin, double xMax, double yMin, double yMax) {
+    public Rectangle(double xMin, double xMax, double yMin, double yMax) {
         this.xMin = xMin;
         this.xMax = xMax;
         this.yMin = yMin;
         this.yMax = yMax;
     }
 
-    @Override
     public String toString() {
-        return "RectangleHV{" + "xMin=" + xMin + ", xMax=" + xMax + ", yMin=" + yMin + ", yMax=" + yMax + '}';
+        return "Rectangle{" + "xMin=" + xMin + ", xMax=" + xMax + ", yMin=" + yMin + ", yMax=" + yMax + '}';
     }
     
     /**
@@ -51,7 +35,7 @@ public class RectangleHV{
      * @param facteur
      * @return le nouveau rectangle.
      */
-    public RectangleHV scale(double facteur) {
+    public Rectangle scale(double facteur) {
         double dx = this.xMax - this.xMin;
         double dy = this.yMax - this.yMin;
         double cx = (this.xMax + this.xMin) /2;
@@ -60,7 +44,7 @@ public class RectangleHV{
         double nxmax = cx + (dx / 2) * facteur;
         double nymin = cy - (dy / 2) * facteur;
         double nymax = cy + (dy / 2) * facteur;
-        return new RectangleHV(nxmin, nxmax, nymin, nymax);    
+        return new Rectangle(nxmin, nxmax, nymin, nymax);    
     }
     
     /**
@@ -73,24 +57,24 @@ public class RectangleHV{
      * @param portionDeplacee {@code 0 <= portionDeplacee <= 1)
      * @return un nouveau RectangleHV décalé à gauche par rapport à this
      */
-    public RectangleHV translateGauche(double portionConservee) {
+    public Rectangle translateGauche(double portionConservee) {
         double dx = (this.xMax - this.xMin)*(1-portionConservee);
-        return new RectangleHV(this.xMin-dx,this.xMax-dx,this.yMin,this.yMax);
+        return new Rectangle(this.xMin-dx,this.xMax-dx,this.yMin,this.yMax);
     }
     
-    public RectangleHV translateDroite(double portionConservee) {
+    public Rectangle translateDroite(double portionConservee) {
         double dx = (this.xMax - this.xMin)*(1-portionConservee);
-        return new RectangleHV(this.xMin+dx,this.xMax+dx,this.yMin,this.yMax);
+        return new Rectangle(this.xMin+dx,this.xMax+dx,this.yMin,this.yMax);
     }
     
-    public RectangleHV translateHaut(double portionConservee) {
+    public Rectangle translateHaut(double portionConservee) {
         double dy = (this.yMax - this.yMin)*(1-portionConservee);
-        return new RectangleHV(this.xMin,this.xMax,this.yMin-dy,this.yMax-dy);
+        return new Rectangle(this.xMin,this.xMax,this.yMin-dy,this.yMax-dy);
     }
     
-   public RectangleHV translateBas(double portionConservee) {
+   public Rectangle translateBas(double portionConservee) {
         double dy = (this.yMax - this.yMin)*(1-portionConservee);
-        return new RectangleHV(this.xMin,this.xMax,this.yMin+dy,this.yMax+dy);
+        return new Rectangle(this.xMin,this.xMax,this.yMin+dy,this.yMax+dy);
     }
     
     /**
@@ -100,7 +84,7 @@ public class RectangleHV{
      * En particulier le rectangle (0,0)-(largeur,hauteur) d'une fenêtre graphique
      * @return une transformation permettant de représenter entièrement this dans vue
      */
-    public Transform fitTransform(RectangleHV vue) {
+    public Transform fitTransform(Rectangle vue) {
         double minX1 = this.xMin;
         double maxX1 = this.xMax;
         double minY1 = this.yMin;
@@ -186,7 +170,4 @@ public class RectangleHV{
     public void setyMax(double yMax) {
         this.yMax = yMax;
     }
-
-
-
 }
