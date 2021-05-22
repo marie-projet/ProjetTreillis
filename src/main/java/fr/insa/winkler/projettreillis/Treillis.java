@@ -512,7 +512,7 @@ public class Treillis {
      
     public double maxX() {
         if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
-            return 10;
+            return this.terrain.getXmax();
         } else {
             double max = this.getListeNoeuds().get(0).getPos().getX();
             for (int i = 1; i < this.getListeNoeuds().size(); i++) {
@@ -541,7 +541,7 @@ public class Treillis {
     
     public double minX() {
         if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
-            return -10;
+            return this.terrain.getXmin();
         } else {
             double min = this.getListeNoeuds().get(0).getPos().getX();
             for (int i = 1; i < this.getListeNoeuds().size(); i++) {
@@ -570,7 +570,7 @@ public class Treillis {
     
     public double maxY() {
         if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
-            return 10;
+            return this.terrain.getYmax();
         } else {
             double max = this.getListeNoeuds().get(0).getPos().getY();
             for (int i = 1; i < this.getListeNoeuds().size(); i++) {
@@ -599,7 +599,7 @@ public class Treillis {
 
     public double minY() {
         if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
-            return -10;
+            return this.terrain.getYmin();
         } else {
             double min = this.getListeNoeuds().get(0).getPos().getY();
             for (int i = 1; i < this.getListeNoeuds().size(); i++) {
@@ -969,6 +969,7 @@ public class Treillis {
      * affiche la matrice des forces de traction/compression des barres et de récation des noeuds
      * @param Treillis
      */
+    // A MODIFIER POUR RENVOYER UN STRING 
     public Matrice calculForces(){
         int ns=this.getListeNoeuds().size();
         int nb=this.getListeBarres().size();
