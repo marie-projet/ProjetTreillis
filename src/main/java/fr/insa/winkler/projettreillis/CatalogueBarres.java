@@ -14,7 +14,11 @@ public class CatalogueBarres {
     private List<TypeBarre> liste;
     
     public CatalogueBarres(){
-        this.liste = new ArrayList<TypeBarre>();
+         this.liste = new ArrayList<TypeBarre>();
+         liste.add(new TypeBarre (1, 9.60, 1, 4, 340, 380));
+         liste.add(new TypeBarre (2, 8.90, 1, 2, 450, 450));
+         liste.add(new TypeBarre(3, 14.50, 0.80, 2.40, 40, 40));
+         liste.add(new TypeBarre (4, 19.02, 1, 2, 470,  175));
     }
 
     public List<TypeBarre> getListe() {
