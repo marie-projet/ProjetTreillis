@@ -634,7 +634,7 @@ public class Treillis {
                 Math.sin(angle*Math.PI/180)*norme,this.getListeNoeuds().get(i)));
                 System.out.println(new Charge(Math.cos(angle*Math.PI/180)*norme,
                 Math.sin(angle*Math.PI/180)*norme,this.getListeNoeuds().get(i)));
-                mes="Charge ajoutée"+"\n";
+                mes="Charge ajoutée !"+"\n";
                 }
             }
     System.out.println(mes);
@@ -647,7 +647,7 @@ public class Treillis {
             if((this.getCharge().get(i).getN().getIdentifiant()==id)&&(this.getCharge().get(i).getPx()==px)
                 &&(this.getCharge().get(i).getPy()==py)){  
                     this.getCharge().remove(this.getCharge().get(i));
-                    mes="Charge supprimée"+"\n";
+                    mes="Charge supprimée !"+"\n";
                     }
                 }
     System.out.println(mes);
@@ -786,6 +786,15 @@ public class Treillis {
         }
     }
     
+    public double cout(){
+        double cout=0;
+        for(int i=0; i<this.getListeBarres().size(); i++){
+            cout=cout+(Math.abs(this.getListeBarres().get(i).getNoeudDebut().distance(this.getListeBarres().get(i).getNoeudFin()))
+                    *this.getListeBarres().get(i).getType().getCoutAuMetre());
+        }
+        return cout;
+    }
+    
     public static Treillis treillisTest() {
         Treillis test=new Treillis();
         Point p0= new Point(0,-3);
@@ -831,6 +840,7 @@ public class Treillis {
             System.out.println("14) supprimer une charge");
             System.out.println("15) afficher le rectangle englobant");
             System.out.println("16) calculer les forces qui s'appliquent dans les barres");
+            System.out.println("17) calculer le prix du treillis");
             System.out.println("0) quitter");
             System.out.println("votre choix : ");
             rep = Lire.i();
@@ -961,6 +971,8 @@ public class Treillis {
                        + "minY = " + this.minY() + "\n");
             }else if(rep==16){
                 this.calculForces();
+            }else if(rep==17){
+                System.out.println("Le treillis couterait "+(double)Math.round(this.cout()*100)/100+"€");
             }
         }
     }

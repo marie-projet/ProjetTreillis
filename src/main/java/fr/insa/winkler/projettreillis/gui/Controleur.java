@@ -222,12 +222,12 @@ public class Controleur {
                 if(res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
                     mes=mes+"La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
-                        " est soumise à une traction trop importante ("+Math.round(res.getCoeffs(i,0)*1000000)/1000000+" N)"+"\n";
+                        " est soumise à une traction trop importante ("+(double)Math.round(res.getCoeffs(i,0)*1000)/1000+" N)"+"\n";
                 }
                 if(-1*res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
                     mes=mes+"La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
-                        " est soumise à une compression trop importante ("+Math.round(-res.getCoeffs(i,0)*1000000)/1000000+" N)"+"\n";
+                        " est soumise à une compression trop importante ("+(double)Math.round(-res.getCoeffs(i,0)*1000)/1000+" N)"+"\n";
                 }
                 else if((-1*res.getCoeffs(i,0)<vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression())&&
                     (res.getCoeffs(i,0)<vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction())){
@@ -235,7 +235,7 @@ public class Controleur {
                 }
             }
             if(mes==""){
-                mes=mes+"Le treillis est constructible !";
+                mes=mes+"Le treillis est constructible, il couterait " +(double)Math.round(this.vue.getModel().cout()*100)/100 +"€";
             }
         }
         vue.getMessage().appendText(mes);
