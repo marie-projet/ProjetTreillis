@@ -8,6 +8,7 @@ package fr.insa.winkler.projettreillis.gui;
 import fr.insa.winkler.projettreillis.AppuiDouble;
 import fr.insa.winkler.projettreillis.AppuiSimple;
 import fr.insa.winkler.projettreillis.Barre;
+import fr.insa.winkler.projettreillis.Charge;
 import fr.insa.winkler.projettreillis.Noeud;
 import fr.insa.winkler.projettreillis.NoeudSimple;
 import fr.insa.winkler.projettreillis.Treillis;
@@ -194,6 +195,7 @@ public class MainPane extends BorderPane{
                 controleur.changeEtat(10);
                 message.clear();
                 controleur.valider(xmin.getText(),xmax.getText(),ymin.getText(), ymax.getText());
+                this.fitAll();
             });
         });
         
@@ -522,16 +524,19 @@ public class MainPane extends BorderPane{
         menuItemSCh.setOnAction((t)-> {
             vbGauche.getChildren().clear();
             this.message.clear();
-            Label noeudsEx = new Label ("Noeuds :");
-            ComboBox<String> noeuds=new ComboBox<String>();
-            for(Noeud n:model.getListeNoeuds()){
-                noeuds.getItems().addAll(n.toString());
+            Label noeudsEx = new Label ("Charges :");
+            ComboBox<String> charges=new ComboBox<String>();
+            for(Charge c:model.getCharge()){
+                charges.getItems().addAll(c.toString());
             }
-            vbGauche.getChildren().addAll(noeudsEx, noeuds, valider);
+            vbGauche.getChildren().addAll(noeudsEx, charges, valider);
             valider.setOnAction ((i) -> {
                 message.clear();
                 controleur.changeEtat(62);
-                controleur.valider(noeuds.getSelectionModel().getSelectedItem());
+                controleur.valider(charges.getSelectionModel().getSelectedItem());
+                for(Charge c:model.getCharge()){
+                    charges.getItems().addAll(c.toString());
+                }
             });
         });
         

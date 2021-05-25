@@ -628,40 +628,28 @@ public class Treillis {
     
     public String ajouterCharge(double norme, double angle, int id){
         String mes="";
-        int compt=0;
-        for (int i=0;i<this.getCharge().size(); i++){
-            if(this.getCharge().get(i).getN().getIdentifiant()==id){
-                this.getCharge().get(i).setPx(Math.cos(angle*Math.PI/180)*norme);
-                this.getCharge().get(i).setPy(Math.sin(angle*Math.PI/180)*norme);
-                 compt=compt+1;
-                 mes="Charge modifiée"+"\n";
-            }
-        }
-        if(compt==0){
-            for (int i=0; i<this.getListeNoeuds().size(); i++){
-                if(this.getListeNoeuds().get(i).getIdentifiant()==id){
-                    this.getCharge().add(new Charge(Math.cos(angle*Math.PI/180)*norme,
-                    Math.sin(angle*Math.PI/180)*norme,this.getListeNoeuds().get(i)));
-                    mes="Charge ajoutée"+"\n";
+        for (int i=0; i<this.getListeNoeuds().size(); i++){
+            if(this.getListeNoeuds().get(i).getIdentifiant()==id){
+                this.getCharge().add(new Charge(Math.cos(angle*Math.PI/180)*norme,
+                Math.sin(angle*Math.PI/180)*norme,this.getListeNoeuds().get(i)));
+                System.out.println(new Charge(Math.cos(angle*Math.PI/180)*norme,
+                Math.sin(angle*Math.PI/180)*norme,this.getListeNoeuds().get(i)));
+                mes="Charge ajoutée"+"\n";
                 }
             }
-        }
     System.out.println(mes);
     return mes;
     }
     
-    public String supprimerCharge(int id){
+    public String supprimerCharge(int id, double px, double py){
         String mes="";
-        for (int i=0; i<this.getListeNoeuds().size(); i++){
-            if(this.getListeNoeuds().get(i).getIdentifiant()==id){
-                for (int j=0; j<this.getCharge().size(); j++){
-                    if(this.getCharge().get(j).getN()==this.getListeNoeuds().get(i)){
-                        this.getCharge().remove(this.getCharge().get(j));
-                        mes="Charge supprimée"+"\n";
+        for (int i=0; i<this.getCharge().size(); i++){
+            if((this.getCharge().get(i).getN().getIdentifiant()==id)&&(this.getCharge().get(i).getPx()==px)
+                &&(this.getCharge().get(i).getPy()==py)){  
+                    this.getCharge().remove(this.getCharge().get(i));
+                    mes="Charge supprimée"+"\n";
                     }
                 }
-            }
-        }
     System.out.println(mes);
     return mes;
     }
@@ -771,6 +759,29 @@ public class Treillis {
                 return null;
             } else {
                 return this.getTerrain().getTriangles().get(rep-1);
+            }
+        }
+    }
+    public Charge choisiCharge(){
+        System.out.println("liste des charges : ");
+        for (int i = 0; i < this.getCharge().size(); i++) {
+            TriangleTerrain t= this.getTerrain().getTriangles().get(i);
+                System.out.println(i+1 + ") " + t);
+            }
+        
+        if (this.getCharge().size() == 0) {
+            System.out.println("Aucune charge");
+            return null;
+        } else {
+            int rep = -1;
+            while (rep < 0 || rep > this.getCharge().size()) {
+                System.out.println("votre choix (0 pour annuler) : ");
+                rep = Lire.i();
+            }
+            if (rep == 0) {
+                return null;
+            } else {
+                return this.getCharge().get(rep-1);
             }
         }
     }
@@ -941,8 +952,8 @@ public class Treillis {
                 double angle=Lire.d();
                 this.ajouterCharge(norme, angle,n.getIdentifiant());
             }else if (rep == 14) {
-                Noeud n=this.choisiNoeud();
-                this.supprimerCharge(n.getIdentifiant());
+                Charge c=this.choisiCharge();
+                this.supprimerCharge(c.getN().getIdentifiant(),c.getPx(), c.getPy());
             }else if (rep == 15) {
                 System.out.println("maxX = " + this.maxX() + " ; "
                        + "minX = " + this.minX() + "\n"
@@ -993,8 +1004,8 @@ public class Treillis {
             for(int i=0; i<this.getListeNoeuds().size(); i++){
                 for(int j=0; j<this.getCharge().size(); j++){
                 if(this.getCharge().get(j).getN()==this.getListeNoeuds().get(i)){
-                    m.setCoeffs(i*2,2*ns,-1*this.getCharge().get(j).getPx());
-                    m.setCoeffs(i*2+1,2*ns,-1*this.getCharge().get(j).getPy());
+                    m.setCoeffs(i*2,2*ns,m.getCoeffs(i*2,2*ns)-1*this.getCharge().get(j).getPx());
+                    m.setCoeffs(i*2+1,2*ns,m.getCoeffs(i*2+1,2*ns)-1*this.getCharge().get(j).getPy());
                 }
             }
                 for(int j=0; j<nb; j++){

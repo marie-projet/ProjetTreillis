@@ -73,7 +73,7 @@ public class Controleur {
             for (String s: s1.split(";")) {
                 a.add(s);
             }
-            vue.getMessage().appendText(vue.getModel().supprimerCharge(Integer.parseInt(a.get(1))));
+            vue.getMessage().appendText(vue.getModel().supprimerCharge(Integer.parseInt(a.get(1)),Double.parseDouble(a.get(3)),Double.parseDouble(a.get(5))));
         }
     }
     public void valider(String s1, String s2){
@@ -222,12 +222,12 @@ public class Controleur {
                 if(res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
                     mes=mes+"La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
-                        " est soumise à une traction trop importante ("+res.getCoeffs(i,0)+" N)"+"\n";
+                        " est soumise à une traction trop importante ("+Math.round(res.getCoeffs(i,0)*1000000)/1000000+" N)"+"\n";
                 }
                 if(-1*res.getCoeffs(i,0)>vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression()){
                     vue.getModel().getListeBarres().get(i).dessine(vue.getcDessin().getVraiCanvas().getGraphicsContext2D(), Color.RED);
                     mes=mes+"La barre "+vue.getModel().getListeBarres().get(i).getIdentifiant()+
-                        " est soumise à une compression trop importante ("+-res.getCoeffs(i,0)+" N)"+"\n";
+                        " est soumise à une compression trop importante ("+Math.round(-res.getCoeffs(i,0)*1000000)/1000000+" N)"+"\n";
                 }
                 else if((-1*res.getCoeffs(i,0)<vue.getModel().getListeBarres().get(i).getType().getResistanceMaxCompression())&&
                     (res.getCoeffs(i,0)<vue.getModel().getListeBarres().get(i).getType().getResistanceMaxTraction())){

@@ -5,20 +5,25 @@
  */
 package fr.insa.winkler.projettreillis;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author mariewinkler
  */
 public class Charge {
-    
     private double px;
     private double py;
     private Noeud n;
     
     public Charge(double px, double py, Noeud n){
-        this.px=px;
-        this.py=py;
+        this.px=(double)Math.round(px * 1000) / 1000;
+        this.py=(double)Math.round(py * 1000) /1000;
         this.n=n;
+    }
+    
+    public String toString(){
+        return "Noeud;"+n.getIdentifiant()+";"+"Fx;"+px+";"+"Fy;"+py+"\n";
     }
 
     public double getPx() {

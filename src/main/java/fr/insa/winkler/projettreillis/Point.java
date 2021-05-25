@@ -15,7 +15,6 @@ import recup.Lire;
  */
 public class Point {
     
-    public static double RAYON_IN_DRAW = 5;
 
     private double px;
     private double py;
@@ -99,11 +98,4 @@ public class Point {
         return Math.sqrt(dx*dx+dy*dy);
 
     }
-
-
-    public void draw(GraphicsContext gc) {
-        gc.fillOval(this.px-RAYON_IN_DRAW, this.py-RAYON_IN_DRAW, 2*RAYON_IN_DRAW, 2*RAYON_IN_DRAW);
-    }
-    
-
 }

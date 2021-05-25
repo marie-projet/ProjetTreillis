@@ -11,14 +11,14 @@ package fr.insa.winkler.projettreillis;
 public abstract class Appui extends Noeud{
     
     
-    private TriangleTerrain triangleterrain;
+    private TriangleTerrain triangleTerrain;
     private int point1;
     private int point2;
     private double position;
     
     public Appui (int identificateur, TriangleTerrain terrain, int point1, double position) {
         super(identificateur);
-        this.triangleterrain= terrain;
+        this.triangleTerrain= terrain;
         this.point1=point1;
         this.point2=point1+1%3;
         this.position=position;
@@ -31,7 +31,7 @@ public abstract class Appui extends Noeud{
      */
     public Appui(int identificateur, TriangleTerrain terrain,Point p){
         super(identificateur);
-        this.triangleterrain=terrain;
+        this.triangleTerrain=terrain;
         if(TriangleTerrain.positivite(p,this.getTriangle().getPT0(), this.getTriangle().getPT1())==0){
             this.point1=0;
             this.point2=1;
@@ -105,7 +105,7 @@ public abstract class Appui extends Noeud{
     
 
     public TriangleTerrain getTriangle() {
-        return triangleterrain;
+        return triangleTerrain;
     }
 
     public int getPoint1() {
@@ -121,7 +121,7 @@ public abstract class Appui extends Noeud{
     }
 
     public void setTerrain(TriangleTerrain terrain) {
-        this.triangleterrain = terrain;
+        this.triangleTerrain = terrain;
     }
 
     public void setPoint1(int point1) {
