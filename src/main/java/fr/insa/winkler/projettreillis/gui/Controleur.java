@@ -176,8 +176,7 @@ public class Controleur {
             vue.getMessage().appendText(vue.getModel().ajouterTriangle(Integer.parseInt(s1),Double.parseDouble(s1),Double.parseDouble(s2),
                     Double.parseDouble(s3),Double.parseDouble(s4),Double.parseDouble(s5),Double.parseDouble(s6)));
             vue.getcDessin().redrawAll();
-        }
-       
+        } 
     }
     
     public void calculer (){

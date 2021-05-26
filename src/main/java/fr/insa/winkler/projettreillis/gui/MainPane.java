@@ -195,7 +195,6 @@ public class MainPane extends BorderPane{
                 controleur.changeEtat(10);
                 message.clear();
                 controleur.valider(xmin.getText(),xmax.getText(),ymin.getText(), ymax.getText());
-                this.fitAll();
             });
         });
         
@@ -534,6 +533,7 @@ public class MainPane extends BorderPane{
                 message.clear();
                 controleur.changeEtat(62);
                 controleur.valider(charges.getSelectionModel().getSelectedItem());
+                charges.getItems().clear();
                 for(Charge c:model.getCharge()){
                     charges.getItems().addAll(c.toString());
                 }
@@ -565,9 +565,15 @@ public class MainPane extends BorderPane{
     }
     
     public void fitAll() {
-        this.zoneModelVue = new Rectangle(this.model.minX(),
+        if((this.model.minX()==0)&&(this.model.maxX()==0)&&(this.model.minY()==0)&&(this.model.maxY())==0){
+            this.zoneModelVue = new Rectangle(-10,10,-10+3,10+3);
+            this.zoneModelVue = this.zoneModelVue.scale(MULT_POUR_FIT_ALL);
+        }
+        else{
+            this.zoneModelVue = new Rectangle(this.model.minX(),
                 this.model.maxX(), this.model.minY()+3, this.model.maxY()+3);
-        this.zoneModelVue = this.zoneModelVue.scale(MULT_POUR_FIT_ALL);
+            this.zoneModelVue = this.zoneModelVue.scale(MULT_POUR_FIT_ALL);
+        }
     }
 
     public void redrawAll(){

@@ -813,8 +813,6 @@ public class Treillis {
         Barre b2=new Barre(2,ap,n);
         Barre b3=new Barre(3,ap2,ap);
         test.getCatalogue().add(b1.getType());
-        test.getCatalogue().add(new TypeBarre(2,50,60,70,80,78));
-        test.getCatalogue().add(new TypeBarre(3,50,1,100,1000,1000));
         test.getListeBarres().add(b1);
         test.getListeBarres().add(b2);
         test.getListeBarres().add(b3);
@@ -991,8 +989,8 @@ public class Treillis {
     /**
      * affiche la matrice des forces de traction/compression des barres et de récation des noeuds
      * @param Treillis
+     * @return Matrice des forces
      */
-    // A MODIFIER POUR RENVOYER UN STRING 
     public Matrice calculForces(){
         int ns=this.getListeNoeuds().size();
         int nb=this.getListeBarres().size();
@@ -1126,6 +1124,9 @@ public class Treillis {
     
     public static Treillis charger(File file){
         Treillis t = new Treillis();
+        System.out.println(t);
+        t.getCatalogue().removeAll();
+        System.out.println(t);
         try{
             BufferedReader treillis = new BufferedReader(new FileReader(file));
             String ligne = new String();

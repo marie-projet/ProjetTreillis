@@ -19,6 +19,8 @@ public class CatalogueBarres {
          liste.add(new TypeBarre (2, 8.90, 1, 2, 450, 450));
          liste.add(new TypeBarre(3, 14.50, 0.80, 2.40, 40, 40));
          liste.add(new TypeBarre (4, 19.02, 1, 5, 470,  675));
+         liste.add(new TypeBarre(5,50,60,70,80,78));
+         liste.add(new TypeBarre(6,50,1,100,1000,1000));
     }
 
     public List<TypeBarre> getListe() {
@@ -39,9 +41,10 @@ public class CatalogueBarres {
         this.liste.remove(TB);
     }
 
+
     public void removeAll (){
         for (int i=0; i<this.liste.size(); i++){
-            this.liste.remove(liste.get(i));
+            this.liste.clear();
         }
     }
 }

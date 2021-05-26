@@ -21,10 +21,10 @@ public class Terrain {
     private List<TriangleTerrain> triangles;
     
     public Terrain(){
-        this.xmin=-2;
-        this.xmax=5;
-        this.ymin=-5;
-        this.ymax=2;
+        this.xmin=0;
+        this.xmax=0;
+        this.ymin=0;
+        this.ymax=0;
         this.triangles= new ArrayList<TriangleTerrain>();
     }
     
