@@ -211,7 +211,7 @@ public class Controleur {
                     } 
                 }
                 if(compt<2){
-                    mes=mes+"L'appui simple peut roulerr"+"÷\n";
+                    mes=mes+"L'appui simple peut rouler"+"÷\n";
                 }
             }
         }

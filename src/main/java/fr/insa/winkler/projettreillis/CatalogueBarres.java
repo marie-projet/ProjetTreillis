@@ -26,14 +26,20 @@ public class CatalogueBarres {
     public List<TypeBarre> getListe() {
         return liste;
     }
-
+/**
+ * ajouter une barre 
+ * @param TB 
+ */
     public void add(TypeBarre TB){
     if(this.liste.contains(TB)==true){
         throw new Error ("Ce type de barre existe déjà");
     }
     this.liste.add(TB);
     }
-
+/**
+ * supprimer une barre
+ * @param TB 
+ */
     public void remove(TypeBarre TB){
         if(this.liste.contains(TB)==false){
             throw new Error ("Ce type de barre n'est pas dans le catalogue");
@@ -41,7 +47,9 @@ public class CatalogueBarres {
         this.liste.remove(TB);
     }
 
-
+/**
+ * supprimer toutes les barres 
+ */
     public void removeAll (){
         for (int i=0; i<this.liste.size(); i++){
             this.liste.clear();

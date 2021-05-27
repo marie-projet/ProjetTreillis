@@ -99,6 +99,15 @@ public class Treillis {
         return res;
     }
     
+    /**
+     * modifier la zone constructible 
+     * @param xmin double (abscisse minimale de la zone constructible)
+     * @param xmax double (abscisse maximale de la zone constructible)
+     * @param ymin double (ordonnée minimale de la zone constructible)
+     * @param ymax double (ordonnée maximale de la zone constructible)
+     * @return String message d'erreur
+     */
+    
     public String modifierZC(double xmin, double xmax, double ymin, double ymax){
         String mes="";
         for (Noeud n:this.getListeNoeuds()){
@@ -117,6 +126,17 @@ public class Treillis {
         return mes;
     }
     
+    /**
+     * créer un triangle terrain
+     * @param id int (identifiant du triangle)
+     * @param x0 double (abscisse du point 0 du triangle)
+     * @param y0 double (ordonnée du point 0 du triangle)
+     * @param x1 double (abscisse du point 1 du triangle)
+     * @param y1 double (ordonnée du point 1 du triangle)
+     * @param x2 double (abscisse du point 2 du triangle)
+     * @param y2 double (ordonnée du point 2 du triangle)
+     * @return String message d'erreur
+     */
     public String ajouterTriangle(int id, double x0, double y0, double x1, double y1, double x2, double y2){
         String mes="";
         for(TriangleTerrain t:this.getTerrain().getTriangles()){
@@ -135,6 +155,11 @@ public class Treillis {
         return mes;
     }
     
+    /**
+     * Supprimer un triangle 
+     * @param id int (identifiant du Noeud)
+     * @return String message d'erreur
+     */
     public String supprimerTriangle(int id){
         String mes="";
       for(int i=0; i<this.getListeNoeuds().size(); i++){
@@ -169,7 +194,7 @@ public class Treillis {
      * @param p Point (position du Noeud)
      * @return String message d'erreur
      */
-    public String ajouterNoeudSimple ( int j,Point p){
+    public String ajouterNoeudSimple (int j,Point p){
         String mes="";
         for (int i=0; i<this.getListeNoeuds().size(); i++){
             if(this.getListeNoeuds().get(i).getIdentifiant()==j){
@@ -267,6 +292,12 @@ public class Treillis {
         return mes;
     }
     
+    /**
+     * modifier un appui sur un triangle
+     * @param id int (identifiant du noeud) 
+     * @param pos double (position de l'appui)
+     * @return String message d'erreur 
+     */
     public String modifierAppui (int id, double pos){
         String mes="";
         if ((pos<0 )||(pos >1)){
@@ -306,6 +337,13 @@ public class Treillis {
         return mes;
     }
     
+    /**
+     * modifier un noeud 
+     * @param id int (identifiant de la barre)
+     * @param x double (abscisse du noeud)
+     * @param y double (ordonnée du noeud)
+     * @return String message d'erreur
+     */
     public String modifierNoeud(int id, double x, double y){
         String mes="";
         for (int i =0 ; i< this.getListeNoeuds().size(); i++){
@@ -340,6 +378,11 @@ public class Treillis {
     return mes;
     }
     
+    /**
+     * supprimer un noeud de la liste
+     * @param i int (identifiant du noeud)
+     * @return String message d'erreur
+     */
     public String supprimerNoeud (int i){
         String mes="";
         for (int j=0; j<this.getListeNoeuds().size(); j++){
@@ -371,7 +414,7 @@ public class Treillis {
     * @param type TypeBarre
     * @param n1 Noeud 1
     * @param n2 Noeud 2
-    * @return message d'erreur
+    * @return String message d'erreur
     */
 
     public String ajouterBarre (int id, int type, int deb, int fin ){
@@ -409,7 +452,12 @@ public class Treillis {
         return mes;
     }
     
-    
+    /**
+     * modifier la type d'une barre
+     * @param id int (identifiant de la barre)
+     * @param idT int (identificateur dans le catalogue)
+     * @return String message d'erreur 
+     */
     public String modifierBarre (int id, int idT){
          String mes=""; 
          for(int i=0; i<this.getListeBarres().size(); i++){
@@ -432,7 +480,12 @@ public class Treillis {
          System.out.println(mes);
          return mes;
      }
-         
+    
+     /**
+      * supprimer une barre
+      * @param i int (identifiant de la barre)
+      * @return String
+      */    
     public String supprimerBarre (int i){
         String mes="";
         for (int j=0; j<this.getListeBarres().size(); j++){
@@ -445,6 +498,9 @@ public class Treillis {
     return mes;
     }
     
+    /**
+     * supprimer toutes les barres et tous les noeuds
+     */
     public void supprimerTout (){
          for (int i=0; i<this.listeNoeuds.size() ;i++){
              this.getListeNoeuds().remove(i);
@@ -454,6 +510,16 @@ public class Treillis {
          }       
      }
     
+    /** 
+     * ajouter un type de barre au catalogue de barres
+     * @param id int (identificateur dans le catalogue)
+     * @param cam double (coût au mètre)
+     * @param longmin double (longueur minimale de la barre)
+     * @param longmax double (longueur maximale de la barre)
+     * @param resmaxt double (resistance maximale à la tension)
+     * @param resmaxc double (resistance maximale à la compression)
+     * @return String 
+     */
     public String ajouterTypeBarre(int id, double cam, double longmin, double longmax, double resmaxt, double resmaxc ){
     String mes="";
     for(int i=0; i<this.getCatalogue().getListe().size(); i++){
@@ -489,7 +555,11 @@ public class Treillis {
     return mes;
     }
     
-     
+    /**
+     * supprimer un type de de barre
+     * @param i int (indentificateur dans la catalogue)
+     * @return String 
+     */
     public String supprimerTypeBarre(int i){
         String mes="";
         for(int j=0; j<this.getCatalogue().getListe().size(); j++){
@@ -509,7 +579,10 @@ public class Treillis {
         return mes;
     }
     
-     
+    /**
+     * definir l'abscisse maximale de la dimension du terrain
+     * @return Xmaximum
+     */
     public double maxX() {
         if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
             return this.terrain.getXmax();
@@ -539,6 +612,10 @@ public class Treillis {
         }
     }
     
+     /**
+     * definir l'abscisse minimale de la dimension du terrain
+     * @return Xminimum
+     */
     public double minX() {
         if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
             return this.terrain.getXmin();
@@ -568,6 +645,10 @@ public class Treillis {
         }
     }
     
+     /**
+     * definir l'ordonnée maximale de la dimension du terrain
+     * @return Ymaximum
+     */
     public double maxY() {
         if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
             return this.terrain.getYmax();
@@ -597,6 +678,10 @@ public class Treillis {
         }
     }
 
+     /**
+     * definir l'ordonnée minimale de la dimension du terrain
+     * @return Yminimum
+     */
     public double minY() {
         if ((this.getListeNoeuds().isEmpty())&&(this.getTerrain().getTriangles().isEmpty())) {
             return this.terrain.getYmin();
@@ -626,6 +711,13 @@ public class Treillis {
         }
     }
     
+    /**
+     * ajouter une charge à un noeud
+     * @param norme double (norme de la charge)
+     * @param angle double (orientation de la charge)
+     * @param id int (identifiant du noeud)
+     * @return String
+     */
     public String ajouterCharge(double norme, double angle, int id){
         String mes="";
         for (int i=0; i<this.getListeNoeuds().size(); i++){
@@ -655,7 +747,7 @@ public class Treillis {
     }
         
     /**
-     * premet de choisir le type de la barre qu'on veut créer dans le catalogue
+     * possibilité de choisir le type de la barre qu'on veut créer dans le catalogue
      * @param Treillis
      * @return TypeBarre
      */
@@ -714,6 +806,10 @@ public class Treillis {
         }
     }
     
+    /**
+     * choisir une barre parmi la liste de barres
+     * @return Barre
+     */
     public Barre choisiBarre(){
         System.out.println("liste des barres disponibles : ");
         int nbr = this.getListeBarres().size();
@@ -738,6 +834,11 @@ public class Treillis {
             }
         }
     }
+    
+    /**
+     * choisir un triangle parmi la liste de triangles
+     * @return Triangle
+     */
     public TriangleTerrain choisiTriangle(){
         System.out.println("liste des triangles disponibles : ");
         int nbr = this.getTerrain().getTriangles().size();
@@ -762,6 +863,11 @@ public class Treillis {
             }
         }
     }
+    
+    /**
+     * choisir une charge parmi la liste des charges
+     * @return Charge
+     */
     public Charge choisiCharge(){
         System.out.println("liste des charges : ");
         for (int i = 0; i < this.getCharge().size(); i++) {
@@ -786,6 +892,10 @@ public class Treillis {
         }
     }
     
+    /**
+     * calculer le cout du treillis
+     * @return cout du treillis
+     */
     public double cout(){
         double cout=0;
         for(int i=0; i<this.getListeBarres().size(); i++){
@@ -975,7 +1085,11 @@ public class Treillis {
         }
     }
    
-   
+    
+   /**
+    * dessiner un barre et un noeud 
+    * @param context 
+    */
     public void dessine(GraphicsContext context) {
         this.getTerrain().dessine(context);
         for (Noeud n : this.getListeNoeuds()) {
@@ -987,7 +1101,7 @@ public class Treillis {
     }
     
     /**
-     * affiche la matrice des forces de traction/compression des barres et de récation des noeuds
+     * afficher la matrice des forces de traction/compression des barres et de récation des noeuds
      * @param Treillis
      * @return Matrice des forces
      */
@@ -1073,7 +1187,6 @@ public class Treillis {
     * @param c Deuxième Point
     * @return l'angle Ox,ac
     */
- 
     public static double getAngleAlpha(Point a, Point c) {  
     double x;
     double y;
@@ -1111,6 +1224,10 @@ public class Treillis {
     return angle;
     }
     
+    /**
+     * enregistrer un treillis 
+     * @param file 
+     */
     public void enregistrer(File file ){
          try{
              BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -1122,6 +1239,11 @@ public class Treillis {
          }
      }
     
+    /**
+     * charger un treillis
+     * @param file
+     * @return treillis
+     */
     public static Treillis charger(File file){
         Treillis t = new Treillis();
         System.out.println(t);

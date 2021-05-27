@@ -41,6 +41,7 @@ public class DessinCanvas extends Pane {
        });
        this.redrawAll();
     }
+    
     public void concatenateTransform(Transform trans) {
         Transform oldTrans = this.vraiCanvas.getGraphicsContext2D().getTransform();
         Transform newTrans = oldTrans.createConcatenation(trans);
@@ -54,8 +55,10 @@ public class DessinCanvas extends Pane {
     public Transform getTransform() {
         return this.vraiCanvas.getGraphicsContext2D().getTransform();
     }
-    
-    //méthode qui permet de reessiner si on change la taille de la fenêtre 
+   
+    /**
+     * redessiner si la taille de la fenêtre est modifiée
+     */
     public void redrawAll() {
         GraphicsContext context = this.vraiCanvas.getGraphicsContext2D();
         context.setTransform(new Affine());

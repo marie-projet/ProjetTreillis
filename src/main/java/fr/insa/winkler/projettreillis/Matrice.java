@@ -214,7 +214,7 @@ public class Matrice {
     }
     
     //------------partie 1.6
-    // test la methide AleaUnOuDeux pour une matrice nl*nc de probabilité de 0 pz
+    // test la methode AleaUnOuDeux pour une matrice nl*nc de probabilité de 0 pz
     public static void test1(int nl, int nc, double pz){
         System.out.println("-------- test 1 --------");
         System.out.println("matrice alea de taille " + nl + " x " + nc

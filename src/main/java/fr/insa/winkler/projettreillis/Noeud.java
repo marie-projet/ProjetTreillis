@@ -39,6 +39,12 @@ public abstract class Noeud {
     public String name(){
         return "Noeud"+this.getIdentifiant();
     }
+    
+    /**
+     * calculer la distance entre deux noeuds
+     * @param n2
+     * @return distance entre les deux noeuds
+     */
     public double distance(Noeud n2){
         return Math.sqrt((this.getPos().getX()-n2.getPos().getX())*(this.getPos().getX()-n2.getPos().getX())+
                 (this.getPos().getY()-n2.getPos().getY())*(this.getPos().getY()-n2.getPos().getY()));

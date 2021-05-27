@@ -84,6 +84,10 @@ public class Terrain {
         this.triangles = triangles;
     } 
     
+    /**
+     * dessiner un terrain
+     * @param gc 
+     */
     public void dessine (GraphicsContext gc){
         gc.setStroke(Color.GREEN);
         gc.setLineWidth(0.1);

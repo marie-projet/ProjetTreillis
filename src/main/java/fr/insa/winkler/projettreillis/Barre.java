@@ -19,14 +19,13 @@ public class Barre {
     private Noeud noeudFin;
     private TypeBarre type;
     
-    //definition du constructeur 
     public Barre (int identifiant, Noeud noeudDeb, Noeud noeudFin, TypeBarre type){
         this.identifiant = identifiant;
         this.noeudDebut = noeudDeb;
         this.noeudFin = noeudFin;
         this.type=type;
     }
-    public Barre(int id,Noeud noeudDeb, Noeud noeudFin){
+    public Barre(int id, Noeud noeudDeb, Noeud noeudFin){
         this.identifiant=id;
         this.type=new TypeBarre();
         this.noeudDebut = noeudDeb;
@@ -69,6 +68,11 @@ public class Barre {
         this.type = type;
     }
     
+    /**
+     * tracer un segment entre noeud début et noeud fin 
+     * @param context
+     * @param couleur 
+     */
     public void dessine(GraphicsContext context, Color couleur) {
         context.setStroke(couleur);
         context.setLineWidth(0.1);
