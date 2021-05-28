@@ -580,7 +580,7 @@ public class Treillis {
     }
     
     /**
-     * definir l'abscisse maximale de la dimension du terrain
+     * renvoie l'abscisse maximale du treillis
      * @return Xmaximum
      */
     public double maxX() {
@@ -613,7 +613,7 @@ public class Treillis {
     }
     
      /**
-     * definir l'abscisse minimale de la dimension du terrain
+     * renvoie l'abscisse minimale du treillis
      * @return Xminimum
      */
     public double minX() {
@@ -646,7 +646,7 @@ public class Treillis {
     }
     
      /**
-     * definir l'ordonnée maximale de la dimension du terrain
+     * renvoie l'ordonnéee maximale du treillis
      * @return Ymaximum
      */
     public double maxY() {
@@ -679,7 +679,7 @@ public class Treillis {
     }
 
      /**
-     * definir l'ordonnée minimale de la dimension du terrain
+     * renvoie l'ordonnée minimale du treillis
      * @return Yminimum
      */
     public double minY() {
@@ -1202,7 +1202,7 @@ public class Treillis {
             angle= Math.PI-Math.atan2(y, x);
         }
     }
-    else if(c.getX()>a.getY()){
+    else if(c.getX()>a.getX()){
         x=c.getX()-a.getX();
         if (c.getY()>=a.getY()){
             y=c.getY()-a.getY();
@@ -1246,9 +1246,7 @@ public class Treillis {
      */
     public static Treillis charger(File file){
         Treillis t = new Treillis();
-        System.out.println(t);
         t.getCatalogue().removeAll();
-        System.out.println(t);
         try{
             BufferedReader treillis = new BufferedReader(new FileReader(file));
             String ligne = new String();

@@ -77,7 +77,6 @@ public abstract class Appui extends Noeud{
     }
     
     public abstract String toString();
-    
     /**
     * méthode permettant d'obtenir le point de position d'un appui
     * @return Point

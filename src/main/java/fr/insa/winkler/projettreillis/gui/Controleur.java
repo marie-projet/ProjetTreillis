@@ -173,8 +173,8 @@ public class Controleur {
     }
     public void valider(String s1, String s2, String s3, String s4, String s5, String s6, String s7){
         if(this.etat==20){
-            vue.getMessage().appendText(vue.getModel().ajouterTriangle(Integer.parseInt(s1),Double.parseDouble(s1),Double.parseDouble(s2),
-                    Double.parseDouble(s3),Double.parseDouble(s4),Double.parseDouble(s5),Double.parseDouble(s6)));
+            vue.getMessage().appendText(vue.getModel().ajouterTriangle(Integer.parseInt(s1),Double.parseDouble(s2),Double.parseDouble(s3),
+                    Double.parseDouble(s4),Double.parseDouble(s5),Double.parseDouble(s6),Double.parseDouble(s7)));
             vue.getcDessin().redrawAll();
         } 
     }
@@ -211,7 +211,7 @@ public class Controleur {
                     } 
                 }
                 if(compt<2){
-                    mes=mes+"L'appui simple peut rouler"+"÷\n";
+                    mes=mes+"L'appui simple peut rouler"+"\n";
                 }
             }
         }

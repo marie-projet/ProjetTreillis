@@ -28,7 +28,7 @@ public class AppuiSimple extends Appui{
    }
    
    /**
-    * calcul l'angle que fait le vecteur normal au segment de terrain de l'appui avec l'horizontale (beta)
+    * calcule l'angle que fait le vecteur normal au segment de terrain de l'appui avec l'horizontale (beta)
     * @return angle beta (double)
     */
     public double getAngleBeta(){
